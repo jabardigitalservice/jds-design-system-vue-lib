@@ -5,14 +5,24 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compiles and hot-reloads storybook for development 
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
 ```
 npm run build
+```
+
+### Compiles and minifies for build web component
+```
+npm run build:wc
+```
+
+### Compiles and minifies for build library
+```
+npm run build:lib
 ```
 
 ### Lints and fixes files
