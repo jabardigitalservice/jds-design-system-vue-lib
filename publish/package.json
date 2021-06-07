@@ -1,0 +1,20 @@
+{
+  "name": "@jabardigitalservice/jds-design-system-vue",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Jabar Digital Service Design System",
+  "main": "dist/jds.js",
+  "unpkg": "dist/jds.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "author": {
+    "name": "Jabar Digital Service",
+    "email": "digital.service@jabarprov.go.id",
+    "url": "https://digitalservice.jabarprov.go.id/"
+  },
+  "license": "MIT"
+}
