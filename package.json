@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vue-cli-service build",
-    "build:wc": "vue-cli-service build --target wc --name jds ./src/components/**/*.vue",
+    "build:wc": "(rm -rf publish/dist || 1) && vue-cli-service build --target wc --name jds './src/components/**/*.vue' && cp -r dist/ publish/dist",
     "build:lib": "vue-cli-service build --target lib --name jds-design-system ./src/main.js",
     "lint": "vue-cli-service lint",
     "dev": "start-storybook -p 6006",
