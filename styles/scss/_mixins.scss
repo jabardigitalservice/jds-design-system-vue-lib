@@ -1,0 +1,14 @@
+//function set text color
+@mixin text-color($color) {
+  color: $color;
+}
+
+//function set background color
+@mixin background-color($color) {
+  background: $color;
+}
+
+//function set border-color
+@mixin border-color($color) {
+  border-color: $color !important;
+}

@@ -1,0 +1,41 @@
+@use "sass:math" as math;
+@use "sass:map" as map;
+@use "sass:string" as string;
+@use "./variables" as V;
+
+// set default font size.
+// 1rem will refer to this size;
+html {
+  font-size: V.$font-size-base;
+}
+
+// generate font-weight-* classes
+@mixin define-weights($weights) {
+  @each $weight-name, $weight-value in $weights {
+    &.font-weight-#{$weight-name} {
+      font-weight: $weight-value;
+    }
+  }
+}
+
+// generate classes based on each config in $font-faces-map
+@each $font-face-name, $_ in V.$font-faces-map {
+  $config: map.get(V.$font-faces-map, $font-face-name);
+  $weights: map.get($config, 'weights');
+  
+  .font-#{$font-face-name} {
+    font-family: map.get($config, 'font-family');
+    font-weight: map.get($weights, 'normal');
+
+    @include define-weights($weights);
+  }
+
+  // use defined bold weight for <b></b> html tag
+  $weight-bold: map.get($weights, 'bold');
+  @if ($weight-bold != null) {
+    .font-#{$font-face-name} b,
+    b.font-#{$font-face-name} {
+      font-weight: $weight-bold;
+    }
+  }
+}

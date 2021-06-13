@@ -1,0 +1,20 @@
+// background color
+@each $color, $value in $arrayColors {
+  .bg-#{$color} {
+    @include background-color($value);
+  }
+}
+
+// text color
+@each $color, $value in $arrayColors {
+  .text-#{$color} {
+    @include text-color($value);
+  }
+}
+
+// border color
+@each $color, $value in $arrayColors {
+  .border-#{$color} {
+    @include border-color($value);
+  }
+}
