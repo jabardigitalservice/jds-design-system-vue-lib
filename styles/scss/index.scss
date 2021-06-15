@@ -1,10 +1,10 @@
 // Configuration
 
-@import "typography";
+@import "./typography";
 @import "variables";
 @import "function";
 @import "mixins";
 @import "colors";
 @import "width";
 
-
+@import "../../src/components/JdsButton/Button.scss";
