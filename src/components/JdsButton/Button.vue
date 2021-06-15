@@ -19,7 +19,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-@import "./Button.scss"
-</style>
