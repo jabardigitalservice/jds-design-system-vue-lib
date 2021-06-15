@@ -1,20 +1,26 @@
 {
-  "name": "@jabardigitalservice/jds-design-system-vue",
-  "version": "0.0.1",
-  "private": false,
+  "name": "@jabardigitalservice/jds-design-system",
+  "version": "1.0.0",
   "description": "Jabar Digital Service Design System",
-  "main": "dist/jds.js",
-  "unpkg": "dist/jds.min.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "files": [
-    "dist/*"
-  ],
+  "private": false,
+  "license": "MIT",
   "author": {
     "name": "Jabar Digital Service",
     "email": "digital.service@jabarprov.go.id",
     "url": "https://digitalservice.jabarprov.go.id/"
   },
-  "license": "MIT"
+  "repository": {
+    "url": "",
+    "directory": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "main": "esm/index.js",
+  "sideEffects": false,
+  "dependencies": {
+    "@vue/web-component-wrapper": "^1.3.0",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+  }
 }
