@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vue-cli-service build",
     "build-storybook": "build-storybook",
+    "build:css": "(rm publish/css/jds.css || 1) && sass styles/scss/index.scss:publish/css/jds.css --style=$OUTPUT_STYLE --no-source-map",
     "build:esm": "(rm -rf publish/esm || 1) && cross-env NODE_ENV=build_esm babel src --config-file ./babel.lib.config.js --out-dir publish/esm/ --copy-files",
     "build:app": "vue-cli-service build --mode production --target app --dest dist --report",
     "playground:vue": "./node_modules/.bin/env-cmd -x vue-cli-service serve --port=\\$PLAYGROUND_VUE_PORT",
@@ -36,6 +37,7 @@
     "node-sass": "^6.0.0",
     "sass": "^1.34.1",
     "sass-loader": "^10.1.1",
+    "shelljs": "^0.8.4",
     "vue-loader": "^15.9.7",
     "vue-template-compiler": "^2.6.11"
   },
