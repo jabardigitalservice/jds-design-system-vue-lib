@@ -1,20 +1,22 @@
 // background color
-@each $color, $value in $arrayColors {
+@use "./variables" as V;
+@use "./mixins" as M;
+@each $color, $value in V.$arrayColors {
   .bg-#{$color} {
-    @include background-color($value);
+    @include M.background-color($value);
   }
 }
 
 // text color
-@each $color, $value in $arrayColors {
+@each $color, $value in V.$arrayColors {
   .text-#{$color} {
-    @include text-color($value);
+    @include M.text-color($value);
   }
 }
 
 // border color
-@each $color, $value in $arrayColors {
+@each $color, $value in V.$arrayColors {
   .border-#{$color} {
-    @include border-color($value);
+    @include M.border-color($value);
   }
 }
