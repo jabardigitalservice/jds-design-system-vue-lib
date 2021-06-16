@@ -9,7 +9,7 @@
     "build:css:watch": "nodemon --config nodemon-css.json --exec npm run build:css",
     "build:esm": "(rm -rf publish/esm || true) && cross-env NODE_ENV=build_esm babel src --config-file ./babel.lib.config.js --out-dir publish/esm/ --copy-files",
     "build:app": "vue-cli-service build --mode production --target app --dest dist --report",
-    "playground:vue": "./node_modules/.bin/env-cmd -x vue-cli-service serve --port=\\$PLAYGROUND_VUE_PORT",
+    "playground:vue": "./node_modules/.bin/env-cmd -x vue-cli-service serve --port=$PLAYGROUND_VUE_PORT",
     "dev": "concurrently \"npm run build:css:watch\" \"npm run build:esm -- --watch\" \"npm run playground:vue --silent\"",
     "lint": "vue-cli-service lint"
   },
