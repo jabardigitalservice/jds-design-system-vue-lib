@@ -15,32 +15,10 @@ module.exports = {
     },
   },
   outputDir: 'dist',
-  configureWebpack:{
-    resolve: {
-      alias: {
-        '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
-      },
-    },
-    module: {
-      rules: [
-        {
-          test: /\.sass$/,
-          use: [
-            'vue-style-loader',
-            'css-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                indentedSyntax: true,
-                // sass-loader version >= 8
-                sassOptions: {
-                  indentedSyntax: true
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-  }
+  configureWebpack: (config) => {
+    config.resolve.alias = config.resolve.alias || {}
+    Object.assign(config.resolve.alias, {
+      '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
+    })
+  },
 }
