@@ -71,10 +71,11 @@ module.exports = {
   outputDir: 'dist',
   configureWebpack: (config) => {
     const { VUE_CLI_SERVICE_BUILD_TARGET: target } = process.env
-    if (target === 'app') {
-      mergeAppWebpackConfig(config)
-    } else if (target === 'wc') {
+    if (target === 'wc') {
       mergeWebComponentWebpackConfig(config)
+      return
     }
+
+    mergeAppWebpackConfig(config)
   },
 }
