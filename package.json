@@ -11,6 +11,7 @@
     "build:app": "vue-cli-service build --mode production --target app --dest dist --report",
     "playground:vue": "./node_modules/.bin/env-cmd -x vue-cli-service serve --port=$PLAYGROUND_VUE_PORT",
     "dev": "concurrently \"npm run build:css:watch\" \"npm run build:esm -- --watch\" \"npm run playground:vue --silent\"",
+    "storybook": "concurrently \"npm run build:css:watch\" \"start-storybook -p 6006\"",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
