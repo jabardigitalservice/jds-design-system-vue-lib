@@ -3,6 +3,7 @@ node_modules
 dist
 /publish/*
 !/publish/package.json
+storybook-static
 
 
 # local env files
