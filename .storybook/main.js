@@ -1,4 +1,5 @@
 const path = require('path');
+const { postHandler } = require('./script-handler');
 
 module.exports = {
   "stories": [
@@ -7,7 +8,17 @@ module.exports = {
   ],
   "addons": [
     "@storybook/addon-links",
-    "@storybook/addon-essentials"
+    "@storybook/addon-essentials",
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        vueDocgenOptions: {
+          addScriptHandlers: [
+            postHandler,
+          ]
+        },
+      },
+    },
   ],
   webpackFinal: async (config, { configType }) => {
     // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
