@@ -20,6 +20,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import "./Button.scss"
+<style lang="scss">
+@import "./Button.scss";
 </style>
