@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vue-cli-service build",
     "build-storybook": "build-storybook",
-    "build:css": "(rm publish/css/jds.css || true) && sass styles/scss/index.scss:publish/css/jds.css --style=expanded --no-source-map",
+    "build:css": "sass styles/scss/index.scss:publish/css/jds.css --style=expanded --no-source-map",
     "build:css:watch": "nodemon --config nodemon-css.json --exec npm run build:css",
     "build:esm": "(rm -rf publish/esm || true) && cross-env NODE_ENV=build_esm babel src --config-file ./babel.lib.config.js --out-dir publish/esm/ --copy-files",
     "build:app": "vue-cli-service build --mode production --target app --dest dist --report",
