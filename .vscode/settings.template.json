@@ -1,0 +1,5 @@
+{
+  "path-intellisense.mappings": {
+    "@jabardigitalservice/jds-design-system": "${workspaceFolder}/publish"
+  }
+}

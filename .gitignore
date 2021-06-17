@@ -1,12 +1,14 @@
 .DS_Store
 node_modules
-/dist
-/publish/dist
+dist
+/publish/*
+!/publish/package.json
+storybook-static
 
 
 # local env files
-.env.local
-.env.*.local
+.env*
+!.env.example
 
 # Log files
 npm-debug.log*
@@ -16,9 +18,14 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
-.vscode
+.vscode/*
+!.vscode/settings.template.json
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Playground files
+playgrounds/html/index.html
+playgrounds/vue/App.vue

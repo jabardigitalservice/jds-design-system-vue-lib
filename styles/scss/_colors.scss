@@ -1,0 +1,22 @@
+// background color
+@use "./variables" as V;
+@use "./mixins" as M;
+@each $color, $value in V.$arrayColors {
+  .bg-#{$color} {
+    @include M.background-color($value);
+  }
+}
+
+// text color
+@each $color, $value in V.$arrayColors {
+  .text-#{$color} {
+    @include M.text-color($value);
+  }
+}
+
+// border color
+@each $color, $value in V.$arrayColors {
+  .border-#{$color} {
+    @include M.border-color($value);
+  }
+}

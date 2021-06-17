@@ -1,0 +1,185 @@
+// Color system
+
+$black: #000 !default;
+$white: #fff !default;
+$blue-gray: #001b3d !default;
+$gray: #212121 !default;
+$blue: #009bda !default;
+$yellow: #ffa600 !default;
+$green: #399f4f !default;
+$red: #f44336 !default;
+$pink: #ff4d77 !default;
+$purple: #ab47bc !default;
+
+// fusv-disable
+$yellow-50:#FFF9E1 !default;
+$yellow-100: #FFEEB4 !default;
+$yellow-200: #FFE483 !default;
+$yellow-300: #FFDA4F !default;
+$yellow-400:#FFD026 !default;
+$yellow-500: #FFC800 !default;
+$yellow-600: #FFB900 !default;
+$yellow-700: #FFA600 !default;
+$yellow-800: #FF9500 !default;
+$yellow-900: #FF7500 !default;
+
+$green-50: #E6F6EC !default;
+$green-100: #C3E9D0 !default;
+$green-200: #9BDBB3 !default;
+$green-300: #70CD94 !default;
+$green-400: #4DC27E !default;
+$green-500: #1FB767 !default;
+$green-600: #16A75C !default;
+$green-700: #069550 !default;
+$green-800: #008444 !default;
+$green-900: #006430 !default;
+
+$blue-50: #E3F2FD !default;
+$blue-100: #BBDEFB !default;
+$blue-200: #90CAF9 !default;
+$blue-300: #64B5F6 !default;
+$blue-400: #42A5F5 !default;
+$blue-500: #2196F3 !default;
+$blue-600: #1E88E5 !default;
+$blue-700: #1976D2 !default;
+$blue-800: #1565C0 !default;
+$blue-900: #0D47A1 !default;
+
+$pink-50: #FFE6EC !default;
+$pink-100: #FFBFCF !default;
+$pink-200: #FF96AF !default;
+$pink-300: #FF6C8F !default;
+$pink-400: #FF4D77 !default;
+$pink-500: #FD355F !default;
+$pink-600: #EC305D !default;
+$pink-700: #D62A59 !default;
+$pink-800: #C12357 !default;
+$pink-900: #9D1951 !default;
+
+$red-50: #FFEBEE !default;
+$red-100: #FFCDD2 !default;
+$red-200: #EF9A9A !default;
+$red-300: #E57373 !default;
+$red-400: #EF5350 !default;
+$red-500: #F44336 !default;
+$red-600: #E53935 !default;
+$red-700: #D32F2F !default;
+$red-800: #C62828 !default;
+$red-900: #B71B1C !default;
+
+$purple-50: #F3E5F5 !default;
+$purple-100: #E1BEE7 !default;
+$purple-200: #CE93D8 !default;
+$purple-300: #BA68C8 !default;
+$purple-400: #AB47BC !default;
+$purple-500: #9B27B0 !default;
+$purple-600: #8D24AA !default;
+$purple-700: #7A1FA2 !default;
+$purple-800: #691B9A !default;
+$purple-900: #49148C !default;
+
+$gray-50: #FAFAFA !default;
+$gray-100: #F5F5F5 !default;
+$gray-200: #EEEEEE !default;
+$gray-300: #E0E0E0 !default;
+$gray-400: #9E9E9E !default;
+$gray-500: #9E9E9E !default;
+$gray-600: #757575 !default;
+$gray-700: #616161 !default;
+$gray-800: #424242 !default;
+$gray-900: #212121 !default;
+
+$blue-gray-50: #E3E7ED !default;
+$blue-gray-100: #B9C3D3 !default;
+$blue-gray-200: #8D9DB5 !default;
+$blue-gray-300: #627798 !default;
+$blue-gray-400: #415C84 !default;
+$blue-gray-500: #1A4373 !default;
+$blue-gray-600: #133C6B !default;
+$blue-gray-700: #083461 !default;
+$blue-gray-800: #022B55 !default;
+$blue-gray-900: #001B3D !default;
+// fusv-enable
+
+// 8 color
+// scss colors-map
+$arrayColors: (
+  "black": $black, "white": $white,
+  "yellow-50": $yellow-50,"yellow-100": $yellow-100,"yellow-200": $yellow-200,
+  "yellow-300": $yellow-300,"yellow-400": $yellow-400,"yellow-500": $yellow-500,
+  "yellow-600": $yellow-600,"yellow-700": $yellow-700,"yellow-800": $yellow-800,
+  "yellow-900": $yellow-900,"green-50": $green-50,"green-100": $green-100,
+  "green-200": $green-200,"green-300": $green-300,"green-400": $green-400,
+  "green-500": $green-500,"green-600": $green-600,"green-700": $green-700,
+  "green-800": $green-800,"green-900": $green-900,"blue-50": $blue-50,
+  "blue-100": $blue-100,"blue-200": $blue-200,"blue-300": $blue-300,
+  "blue-400": $blue-400,"blue-500": $blue-500,"blue-600": $blue-600,
+  "blue-700": $blue-700,"blue-800": $blue-800,"blue-900": $blue-900,
+  "pink-50": $pink-50,"pink-100": $pink-100,"pink-200": $pink-200,
+  "pink-300": $pink-300,"pink-400": $pink-400,"pink-500": $pink-500,
+  "pink-600": $pink-600,"pink-700": $pink-700,"pink-800": $pink-800,
+  "pink-900": $pink-900,"red-50": $red-50,"red-100": $red-100,
+  "red-200": $red-200,"red-300": $red-300,"red-400": $red-400,
+  "red-500": $red-500,"red-600": $red-600,"red-700": $red-700,
+  "red-800": $red-800,"red-900": $red-900,
+  "purple-50": $purple-50,"purple-100": $purple-100,"purple-200": $purple-200,
+  "purple-300": $purple-300,"purple-400": $purple-400,"purple-500": $purple-500,
+  "purple-600": $purple-600,"purple-700": $purple-700,"purple-800": $purple-800,
+  "purple-900": $purple-900,"gray-50": $gray-50,"gray-100": $gray-100,
+  "gray-200": $gray-200,"gray-300": $gray-300,"gray-400": $gray-400,
+  "gray-500": $gray-500,"gray-600": $gray-600,"gray-700": $gray-700,
+  "gray-800": $gray-800,"gray-900": $gray-900,"blue-gray-50": $blue-gray-50,
+  "blue-gray-100": $blue-gray-100,"blue-gray-200": $blue-gray-200,"blue-gray-300": $blue-gray-300,
+  "blue-gray-400": $blue-gray-400,"blue-gray-500": $blue-gray-500,"blue-gray-600": $blue-gray-600,
+  "blue-gray-700": $blue-gray-700,"blue-gray-800": $blue-gray-800,"blue-gray-900": $blue-gray-900,
+) !default;
+// scss end colors-map
+
+// Typography
+$line-height: 1.618;
+$font-size-base: 16px !default;
+
+// Typography: sans-1
+$font-face-sans-1: 'Lato' !default;
+$font-weight-sans-1-normal: 400 !default;
+$font-weight-sans-1-medium: 700 !default;
+$font-weight-sans-1-bold: 900 !default;
+
+// Typography: sans-2
+$font-face-sans-2: 'Roboto' !default;
+$font-weight-sans-2-normal: 400 !default;
+$font-weight-sans-2-medium: 700 !default;
+$font-weight-sans-2-bold: 900 !default;
+
+// Typography: serif
+$font-face-serif: 'Lora' !default;
+$font-weight-serif-normal: 400 !default;
+$font-weight-serif-medium: 700 !default;
+$font-weight-serif-bold: 900 !default;
+
+$font-faces-map: (
+  "sans-1": (
+    "font-family": $font-face-sans-1,
+    "weights": (
+      "normal": $font-weight-sans-1-normal,
+      "medium": $font-weight-sans-1-medium,
+      "bold": $font-weight-sans-1-bold,
+    ),
+  ),
+  "sans-2": (
+    "font-family": $font-face-sans-2,
+    "weights": (
+      "normal": $font-weight-sans-2-normal,
+      "medium": $font-weight-sans-2-medium,
+      "bold": $font-weight-sans-2-bold,
+    ),
+  ),
+  "serif": (
+    "font-family": $font-face-serif,
+    "weights": (
+      "normal": $font-weight-serif-normal,
+      "medium": $font-weight-serif-medium,
+      "bold": $font-weight-serif-bold,
+    ),
+  ),
+);
