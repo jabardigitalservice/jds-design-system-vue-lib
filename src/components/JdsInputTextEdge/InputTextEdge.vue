@@ -27,7 +27,7 @@
         class="jds-input-text-edge__dropdown-item"
       >
         <a @click="onClickOptionItem(opt)">
-          {{ getOptionLabel(opt) }}
+          {{ getOptionLabel(opt, labelKey) }}
         </a>
       </li>
     </ul>
@@ -82,7 +82,7 @@ export default {
         return this.mValue
       }
       const matched = findMatchedOption(this.mValue, this.options, this.valueKey)
-      return matched ? getOptionLabel(matched) : null
+      return matched ? getOptionLabel(matched, this.labelKey) : null
     }
   },
   methods: {
@@ -92,9 +92,10 @@ export default {
       this.isDropdownOpen = !this.isDropdownOpen
     },
     onClickOptionItem (option) {
+      const value = getOptionValue(option, this.valueKey)
       this.isDropdownOpen = false
-      this.mValue = getOptionValue(option, this.valueKey)
-      this.$emit('click:option', option)
+      this.mValue = value
+      this.$emit('change', value)
     }
   }
 }

@@ -22,7 +22,7 @@
         v-bind="prefixConfig"
         type="prefix"
         :value="mPrefixText"
-        @click:option="onClickPrefixOptionItem">
+        @change="onPrefixTextChanged">
       </jds-input-text-edge>
       <input
         v-bind="inputAttributes"
@@ -36,7 +36,7 @@
         v-bind="suffixConfig"
         type="suffix"
         :value="mSuffixText"
-        @click:option="onClickSuffixOptionItem">
+        @change="onSuffixTextChanged">
       </jds-input-text-edge>
     </div>
     <jds-form-control-error-message v-if="showErrorMsg">
@@ -52,7 +52,6 @@ import {
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
 import JdsInputTextEdge from '../JdsInputTextEdge'
-import { getOptionValue } from '../../utils/options-handler'
 import localCopy from '../../mixins/local-copy'
 
 function isStringDefined(val) {
@@ -187,13 +186,11 @@ export default {
       this.mValue = e.target.value
       this.emitInput(e.target.value)
     },
-    onClickPrefixOptionItem (option) {
-      const value = getOptionValue(option)
+    onPrefixTextChanged (value) {
       this.mPrefixText = value
       this.emitChangePrefixText(value)
     },
-    onClickSuffixOptionItem (option) {
-      const value = getOptionValue(option)
+    onSuffixTextChanged (value) {
       this.mSuffixText = value
       this.emitChangeSuffixText(value)
     },
