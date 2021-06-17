@@ -22,6 +22,7 @@
     >
       <div class="jds-checkbox__controls-input">
         <input
+          :name="name"
           type="checkbox"
           style="display: none;"
           :tabIndex="-1"
@@ -96,6 +97,12 @@ export default {
      */
     text: {
       type: String,
+    },
+    /**
+     * Checkbox name attribute.
+     */
+    name: {
+      type: String
     },
     /**
      * Bound model. Display check mark icon if equals true.
