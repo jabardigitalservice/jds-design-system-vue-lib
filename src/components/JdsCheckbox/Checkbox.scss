@@ -1,0 +1,234 @@
+@use "~/styles/scss/variables" as V;
+
+$checkbox-size: 20px;
+$checkbox-border-radius: 4px;
+
+@mixin set-option-checkbox-border-color($color) {
+  @if & and $color {
+    .jds-checkbox__option-checkbox {
+      border-color: $color;
+    }
+  }
+}
+
+@mixin toggle-checkbox-shadow($toggle) {
+  @if & {
+    .jds-checkbox__option-checkbox::before {
+      @if ($toggle) {
+        opacity: 1;
+      } @else {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+@mixin toggle-checkbox($checked, $is-indeterminate: false) {
+  @if & {
+    @if ($checked) {
+      @include set-option-checkbox-border-color(V.$green-700);
+      .jds-checkbox__option-checkbox {
+        &::after {
+          border-radius: $checkbox-border-radius;
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        @if ($is-indeterminate) {
+          & > .jds-checkbox__icon[alt="indeterminate"] {
+            transform: scale(1);
+            opacity: 1;
+          }
+        } @else {
+          & > .jds-checkbox__icon[alt="checked"] {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      }
+    } @else {
+      .jds-checkbox__option-checkbox {
+        &::after {
+          transform: scale(0.5);
+          border-radius: $checkbox-size;
+        }
+        &::after,
+        & > .jds-checkbox__icon {
+          opacity: 0;
+          
+          transition-timing-function: ease-out;
+          transition-duration: 0.2s;
+          transition-property: transform, border-radius;
+        }
+      }
+    }
+  }
+}
+
+.jds-checkbox {
+  position: relative;
+  display: inline-block;
+
+  &__label {
+    display: block;
+    font-size: 15px;
+    line-height: 23px;
+    margin: 0;
+    padding: 0;
+    color: V.$gray-800;
+    font-weight: bold;
+  }
+
+  &__helper-text {
+    display: block;
+    font-size: 13px;
+    line-height: 23px;
+    margin: 0;
+    padding: 0;
+    color: V.$gray-700;
+  }
+
+  &__checkbox-wrapper {
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__option-checkbox {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: $checkbox-border-radius;
+
+    user-select: none;
+    overflow: visible;
+
+    outline: none;
+
+    &::before {
+      pointer-events: none;
+      position: absolute;
+      z-index: -1;
+      content: '';
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: 0 0 2px 2px V.$yellow-500;
+      
+      transition: opacity 0.3s ease-out;
+      opacity: 0;
+    }
+
+    &::after {
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+      content: '';
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      color: white;
+      fill: white;
+      background-color: V.$green-700;
+    }
+
+    > .jds-checkbox__icon {
+      pointer-events: none;
+      position: absolute;
+      z-index: 2;
+      object-fit: contain;
+      object-position: center;
+
+      &[alt="checked"] {
+        width: 16px;
+        height: 16px;
+      }
+
+      &[alt="indeterminate"] {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+
+  &__controls-input {
+    margin-right: 8px;
+  }
+
+  &__option-label {
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    line-height: 23px;
+    font-size: 15px;
+    color: V.$gray-800;
+  }
+
+  &__error-msg {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    line-height: 23px;
+    color: V.$red-700;
+  }
+
+  // States
+  & {
+    @include set-option-checkbox-border-color(V.$gray-500);
+    @include toggle-checkbox-shadow(false);
+    @include toggle-checkbox(false);
+  }
+
+  &.is-checked {
+    @include toggle-checkbox(true, false);
+  }
+  &.is-indeterminate {
+    @include toggle-checkbox(true, true);
+  }
+  
+  &:not(.is-error) {
+    &.is-hover {
+      @include set-option-checkbox-border-color(V.$green-700);  
+    }
+    &.is-focus,
+    &.is-active {
+      @include set-option-checkbox-border-color(V.$green-700);  
+      @include toggle-checkbox-shadow(true);
+    }
+  }
+
+  &.is-error {
+    @include set-option-checkbox-border-color(V.$red-700);
+  }
+
+  &.has-error-line.is-error {
+    transform: translateX(10px);
+
+    &::before {
+      visibility: visible;
+    }
+  }
+
+  &::before {
+    content: '';
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -10px;
+    width: 0;
+    display: inline-block;
+    border-right: 2px solid V.$red-600;
+    margin-right: 8px;
+  }
+}
