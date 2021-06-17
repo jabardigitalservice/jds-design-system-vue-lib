@@ -1,10 +1,8 @@
 // Configuration
 
-@use "typography";
-@use "variables";
-@use "function";
-@use "mixins";
-@use "colors";
-@use "width";
-
-@use "../../src/components/JdsButton/Button.scss";
+@use "./typography";
+@use "./variables";
+@use "./function";
+@use "./mixins";
+@use "./colors";
+@use "./width";
