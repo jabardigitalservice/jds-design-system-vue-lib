@@ -4,6 +4,7 @@ dist
 /publish/*
 !/publish/package.json
 storybook-static
+build-storybook.log
 
 
 # local env files

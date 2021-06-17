@@ -8,7 +8,6 @@ export default {
 }
 
 const Template = (args, context) => {
-  console.log(context.argTypes)
   return {
     name: 'JdsInputTextStories',
     components: { JdsInputText },

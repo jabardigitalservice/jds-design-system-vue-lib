@@ -1,0 +1,33 @@
+@use "~/styles/scss/variables" as V;
+
+$--checkbox-gap-h: 0.75em;
+$--checkbox-gap-v: 0.75em;
+
+.jds-checkbox-group {
+  position: relative;
+  display: inline-block;
+
+  &.is-horizontal & {
+    &__checkbox-items {
+      flex-flow: row wrap;
+      gap: $--checkbox-gap-h;
+    }
+  }
+  
+  &.is-vertical & {
+    &__checkbox-items {
+      flex-flow: column nowrap;
+      gap: $--checkbox-gap-v;
+    }
+  }
+
+  &__checkbox-items {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  &__checkbox-item {
+    display: block;
+  }
+}
