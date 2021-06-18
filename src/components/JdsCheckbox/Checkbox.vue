@@ -1,13 +1,16 @@
 <template>
-  <div :class="{
-    'jds-checkbox font-sans-1': true,
-    'has-error-line': showErrorLine,
-    'is-checked': !indeterminate && mChecked,
-    'is-indeterminate': indeterminate,
-    'is-error': showErrorMsg,
-    'is-focus': isFocused,
-    'is-hover': isHovered,
-  }">
+  <component
+    :is="tag" 
+    :class="{
+      'jds-checkbox font-sans-1': true,
+      'has-error-line': showErrorLine,
+      'is-checked': !indeterminate && mChecked,
+      'is-indeterminate': indeterminate,
+      'is-error': showErrorMsg,
+      'is-focus': isFocused,
+      'is-hover': isHovered,
+    }"
+  >
     <jds-form-control-label v-if="showLabel">
       {{ label }}
     </jds-form-control-label>
@@ -52,7 +55,7 @@
     <jds-form-control-error-message v-if="showErrorMsg">
       {{ errorMessage }}
     </jds-form-control-error-message>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -86,6 +89,15 @@ export default {
     event: 'change',
   },
   props: {
+    /**
+     * Define checkbox root element tag.
+     * @private
+     * @ignore
+     */
+    tag: {
+      type: String,
+      default: 'div'
+    },
     /**
      * Input checkbox value.
      */
