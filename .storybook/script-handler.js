@@ -1,3 +1,6 @@
+/**
+ * WARN: documentation.getDescriptor is called as setter if key doesnt exist.
+ */
 
 /**
  * Prevent auto cast of "model.prop" into "v-model" prop.
@@ -5,10 +8,14 @@
  * @param {import ("vue-docgen-api").Documentation} documentation
  */
 function mutateVModelDescriptor(documentation) {
-  const descriptor = documentation.getPropDescriptor('v-model')
-  if (!descriptor) {
+  const { propsMap } = documentation
+  const hasVModel = Array.isArray(propsMap?.keyStore)
+    && propsMap.keyStore.includes('v-model')
+  
+    if (!hasVModel) {
     return
   }
+  const descriptor = documentation.getPropDescriptor('v-model')
   const { tags } = descriptor
   if (!tags || 'name' in tags === false) {
     throw new Error('@model annotation must be combined with @name annotation')
@@ -26,16 +33,25 @@ function mutateVModelDescriptor(documentation) {
  */
 function injectEventListenerSignature(descriptor) {
   const { properties } = descriptor
-  if (!Array.isArray(properties) || !properties.length) {
-    return
+
+  if (Array.isArray(properties) && properties.length) {
+    // handle event with return value(s)
+    descriptor.type.name = descriptor
+      .properties
+      .map((prop) => {
+        return `${prop.name}: ${prop.type.names[0]}`
+      })
+      .join(', ')
+    descriptor.type.name = `(${descriptor.type.name})`
+  } else if (!descriptor.type) {
+    // handle event without return value (void)
+    descriptor.type = {
+      name: 'void'
+    }
+  } else {
+    // intentionally empty
+    // will fallback to type: unknown in Storybook
   }
-  descriptor.type.name = descriptor
-    .properties
-    .map((prop) => {
-      return `${prop.name}: ${prop.type.names[0]}`
-    })
-    .join(', ')
-  descriptor.type.name = `(${descriptor.type.name})`
 }
 
 /**
