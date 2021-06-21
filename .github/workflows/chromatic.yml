@@ -4,13 +4,13 @@ on:
   pull_request:
     branches:
       - master
-      - setup/chromatic
+      - 'setup/chromatic'
 jobs:
   chromatic:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run:
-          command: npm install # install dependencies
-      - run:
-          command: npm run chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} # publish Storybook and run visual tests
+      - run: |
+          npm install # install dependencies
+      - run: |
+          npm run chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} # publish Storybook and run visual tests
