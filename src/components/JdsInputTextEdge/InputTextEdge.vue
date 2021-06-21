@@ -10,7 +10,7 @@
       class="jds-input-text-edge__dropdown-trigger"
       @click="onToggleDropdown">
       <label>
-        {{ value }}
+        {{ label }}
       </label>
       <img
         v-if="hasOptions"
@@ -26,8 +26,8 @@
         role="dropdown-item"
         class="jds-input-text-edge__dropdown-item"
       >
-        <a @click="onClickOptionItem(opt, index)">
-          { opt }
+        <a @click="onClickOptionItem(opt)">
+          {{ getOptionLabel(opt, labelKey) }}
         </a>
       </li>
     </ul>
@@ -36,8 +36,16 @@
 
 <script>
 import chevronDownIcon from '../../assets/icon/chevron-down.svg'
+import {
+  getOptionLabel,
+  getOptionValue,
+  findMatchedOption
+} from '../../utils/options-handler'
+import localCopy from '../../mixins/local-copy'
+
 export default {
   name: 'jds-input-text-edge',
+  mixins: [localCopy('value', 'mValue')],
   props: {
     type: {
       validator: (v) => {
@@ -51,34 +59,48 @@ export default {
     options: {
       type: Array,
     },
-    dataId: {
+    valueKey: {
       type: String,
     },
-    dataValue: {
+    labelKey: {
       type: String,
     },
   },
   data() {
     return {
-      chevronDownIcon
+      chevronDownIcon,
+      mValue: undefined,
+      isDropdownOpen: false,
     }
   },
   computed: {
     hasOptions () {
       return Array.isArray(this.options) && this.options.length
+    },
+    label () {
+      if (!Array.isArray(this.options)) {
+        return this.mValue
+      }
+      const matched = findMatchedOption(this.mValue, this.options, this.valueKey)
+      return matched ? getOptionLabel(matched, this.labelKey) : null
     }
   },
   methods: {
+    getOptionLabel,
+    getOptionValue,
     onToggleDropdown () {
       this.isDropdownOpen = !this.isDropdownOpen
     },
-    onClickOptionItem (option, index) {
-      this.$emit('click:option-item', option, index)
+    onClickOptionItem (option) {
+      const value = getOptionValue(option, this.valueKey)
+      this.isDropdownOpen = false
+      this.mValue = value
+      this.$emit('change', value)
     }
   }
 }
 </script>
 
 <style lang="scss">
-@import "./InputTextEdge.scss";
+@use "./InputTextEdge.scss";
 </style>

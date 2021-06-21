@@ -1,26 +1,91 @@
 // Button.stories.js
-
-import JdsInputText from './InputText.vue';
+import JdsInputText from './InputText.vue'
+import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
 export default {
   component: JdsInputText,
   title: 'Components/InputText',
-  argTypes: {
-    placeholder: { control: 'text' },
+}
+
+const Template = (args, context) => {
+  console.log(context.argTypes)
+  return {
+    name: 'JdsInputTextStories',
+    components: { JdsInputText },
+    mixins: [storybookMixin(args, context)],
+    template: `
+      <jds-input-text
+        v-bind="$props" 
+        v-on="events" 
+      />
+    `,
+  }
+}
+
+export const Default = Template.bind({})
+
+export const Prefix = Template.bind({})
+Prefix.args = {
+  prefixText: 'rp',
+  prefixConfig: {
+    valueKey: 'value',
+    labelKey: 'label',
+    options: [
+      {
+        value: 'rp',
+        label: 'Rp'
+      },
+      {
+        value: 'usd',
+        label: 'USD'
+      },
+      {
+        value: 'jpy',
+        label: 'JPY',
+      },
+    ]
   },
-};
+}
+Prefix.storyName = 'With Prefix'
+hideArgTypes(Prefix, [
+  'value',
+  'name',
+  'placeholder',
+  'label',
+  'helperText',
+  'errorMessage',
+  'suffixText',
+  'suffixConfig',
+])
+hideEvents(Prefix, [
+  'input',
+  'change:suffix-text'
+])
 
-//👇 We create a “template” of how args map to rendering
-const Template = (args, { argTypes }) => ({
-  components: { JdsInputText },
-  props: Object.keys(argTypes),
-  // Storybook provides all the args in a $props variable.
-  // Each arg is also available as their own name.
-  template: '<jds-input-text @click="onClick" v-bind="$props" v-on="$props" />',
-});
-
-//👇 Each story then reuses that template
-export const Default = Template.bind({});
-Default.args = {
-  placeholder: "Placeholder",
-};
+export const Suffix = Template.bind({})
+Suffix.args = {
+  suffixText: 'Hari',
+  suffixConfig: {
+    options: [
+      'Hari',
+      'Minggu',
+      'Bulan',
+      'Tahun'
+    ]
+  },
+}
+Suffix.storyName = 'With Suffix'
+hideArgTypes(Suffix, [
+  'value',
+  'name',
+  'placeholder',
+  'label',
+  'helperText',
+  'errorMessage',
+  'prefixText',
+  'prefixConfig',
+])
+hideEvents(Suffix, [
+  'input',
+  'change:prefix-text'
+])
