@@ -1,7 +1,6 @@
 <template>
   <button 
-  class="jds-button font-sans-1"
-  :class="[getClassVariant]">
+  :class="['jds-button font-sans-1', classVariant]">
     {{ label }}
     <!-- 
       @slot Use this slot for label or anything you want 
@@ -36,8 +35,8 @@ export default {
     }
   },
   computed:{
-    // getclass variant
-    getClassVariant(){
+    // class variant
+    classVariant(){
       return 'jds-button--'+this.variant;
     }
   },
