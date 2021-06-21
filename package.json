@@ -16,7 +16,6 @@
     "dev:esm": "node scripts/dev-esm.js",
     "dev:wc": "node scripts/dev-wc.js",
     "storybook": "concurrently \"npm run build:css:watch\" \"start-storybook -p 6006\"",
-    "chromatic": "./node_modules/.bin/env-cmd -x npx chromatic --project-token=\\$CHROMATIC_TOKEN",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
