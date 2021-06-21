@@ -1,6 +1,124 @@
+@use '~/styles/scss/variables' as V;
+
 .jds-button{
-  background-color: black;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 1rem;
+  cursor: pointer;
+  display: block;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 1em;
+  outline: none;
+  box-sizing: border-box;
+  line-height: 26px;
+
+  &__label{
+    text-align: center;
+  }
+
+  &--primary{
+    border: none;
+    background-color: V.$green-700;
+    color: white;
+
+    &:hover{
+      background-color: V.$green-800;
+    }
+  
+    &:active{
+      background-color: V.$green-700;
+      margin: 1px 0 0 1px;
+      padding: 8px 15px;
+    }
+  
+    &:focus{
+      box-shadow: inset 0px 0px 0px 1px V.$green-800, inset 0px 0px 0px 2px V.$yellow-500;          
+    }
+  }
+
+
+  &--secondary{
+    border: 1px solid V.$green-800;
+    background-color: transparent;
+    color: V.$green-800;
+
+    &:hover{
+      background-color: V.$green-50;
+    }
+
+    &:active{
+      margin: 1px 0 0 1px;
+      padding: 8px 15px;
+    }
+
+    &:focus{
+      background-color: V.$green-50;
+      box-shadow: inset 0px 0px 0px 1px V.$green-50,
+                  inset 0px 0px 0px 2px V.$yellow-500;          
+    }
+  }
+
+  &--tertiary{
+    border: none;
+    background-color: transparent;
+    color: V.$green-800;
+
+    &:hover{
+      background-color: V.$green-50;
+    }
+
+    &:active{
+      background-color: V.$green-100;
+      margin: 1px 0 0 1px;
+      padding: 8px 15px;
+    }
+
+    &:focus{
+      box-shadow: inset 0px 0px 0px 1px V.$green-50,
+                  inset 0px 0px 0px 2px V.$yellow-500;          
+    }
+  }
+
+  &--tertiary-paddingless{
+    border: none;
+    padding: 3px 4px;
+    background-color: transparent;
+    color: V.$green-800;
+
+    &:hover{
+      background-color: V.$green-50;
+    }
+
+    &:active{
+      background-color: V.$green-100;
+      margin: 1px 0 0 1px;
+      padding: 2px 3px;
+    }
+
+    &:focus{
+      box-shadow: inset 0px 0px 0px 1px V.$green-50,
+                  inset 0px 0px 0px 2px V.$yellow-500;          
+    }
+  }
+
+  &--danger{
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    background-color: V.$red-700;
+    color: white;
+
+    &:hover{
+      background-color: V.$red-900;
+    }
+
+    &:active{
+      background-color: V.$red-900;
+      margin: 1px 0 0 1px;
+      padding: 8px 15px;
+    }
+
+    &:focus{
+      box-shadow: inset 0px 0px 0px 1px V.$red-700,
+                  inset 0px 0px 0px 2px V.$yellow-500;          
+    }
+  }
 }

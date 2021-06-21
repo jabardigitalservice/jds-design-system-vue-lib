@@ -35,6 +35,36 @@ export function mixinHandleEvent (args, context) {
   }
 }
 
+export function hideArgTypes(story, propNames = []) {
+  const argTypes = propNames.reduce((obj, prop) => {
+    obj[prop] = {
+      table: {
+        disable: true
+      }
+    }
+    return obj
+  }, {})
+  story.argTypes = {
+    ...story.argTypes,
+    ...argTypes,
+  }
+}
+
+export function hideEvents(story, events = []) {
+  const argTypes = events.reduce((obj, event) => {
+    obj[event] = {
+      table: {
+        disable: true
+      }
+    }
+    return obj
+  }, {})
+  story.argTypes = {
+    ...story.argTypes,
+    ...argTypes,
+  }
+}
+
 export default function (args, context) {
   return Vue.extend({
     mixins: [
