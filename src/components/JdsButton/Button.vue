@@ -1,21 +1,46 @@
 <template>
-  <div class="jds-button" @click="onClick">
-    {{ placeholder }}
-  </div>
+  <button 
+  :class="['jds-button font-sans-1', classVariant]">
+    {{ label }}
+    <!-- 
+      @slot Use this slot for label or anything you want 
+    -->
+    <slot></slot>
+  </button>
 </template>
 <script>
 export default {
   name: 'jds-button',
   props: {
-    placeholder: {
+    /**
+     * The type for the button
+     * value is `button | submit`
+     */
+    type: {
       type: String,
-      default: 'Placeholder'
+      default: 'button'
+    },
+    /**
+     * The label for the button
+     */
+    label: {
+      type: String,
+    },
+    /**
+     * The variant for the button
+     */
+    variant:{
+      type: String,
+      default: 'primary',
+    }
+  },
+  computed:{
+    // class variant
+    classVariant(){
+      return 'jds-button--'+this.variant;
     }
   },
   methods: {
-    onClick () {
-      this.$emit('onClick')
-    }
   }
 }
 </script>
