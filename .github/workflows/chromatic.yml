@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - master
+      - setup/chromatic
 jobs:
   chromatic:
     runs-on: ubuntu-latest
