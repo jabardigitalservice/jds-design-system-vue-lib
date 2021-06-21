@@ -27,7 +27,6 @@ export default {
 
 //👇 We create a “template” of how args map to rendering
 const Template = (args, context) => {
-  console.log(args)
   return {
     name: 'JdsButtonStories',
     components: { JdsButton },
