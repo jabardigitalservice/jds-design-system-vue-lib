@@ -1,0 +1,14 @@
+name: 'Chromatic UI Test'
+
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  runs_on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - run:
+        command: npm install # install dependencies
+    - run:
+        command: npm run chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} # publish Storybook and run visual tests
