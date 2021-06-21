@@ -5,10 +5,11 @@ on:
     branches:
       - master
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - run:
-        command: npm install # install dependencies
-    - run:
-        command: npm run chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} # publish Storybook and run visual tests
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run:
+          command: npm install # install dependencies
+      - run:
+          command: npm run chromatic --project-token=${{ secrets.CHROMATIC_TOKEN }} # publish Storybook and run visual tests
