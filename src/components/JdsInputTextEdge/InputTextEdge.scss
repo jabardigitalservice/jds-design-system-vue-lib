@@ -1,0 +1,145 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-input-text-edge {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  user-select: none;
+  
+  &__dropdown-trigger {
+    cursor: default;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 8px;
+    overflow: hidden;
+    border-radius: inherit;
+
+    background-color: V.$gray-100;
+    transition-property: background-color;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+
+    &:hover {
+      background-color: V.$gray-300;
+    }
+
+    > label {
+      color: V.$gray-800;
+      pointer-events: none;
+    }
+
+    > img {
+      pointer-events: none;
+      margin-left: 8px;
+      height: 16px;
+      width: auto;
+      object-fit: contain;
+      transition-property: transform;
+      transition-timing-function: ease-out;
+      transition-duration: 0.3s;
+      transform: rotate(0deg);
+    }
+  }
+
+  &__dropdown {
+    z-index: 5;
+    pointer-events: none;
+    list-style-type: none;
+
+    position: absolute;
+    display: block;
+    top: calc(100% + 6px);
+    height: auto;
+
+    background-color: V.$white;
+    color: V.$gray-800;
+
+    margin: 0;
+    padding: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+
+    transition-property: transform, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  &__dropdown-item {
+    pointer-events: all;
+    margin: 0;
+    padding: 0;
+
+    > a {
+      cursor: pointer;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      line-height: 1;
+      margin: 0;
+      padding: 8px 16px;
+      
+      &:hover {
+        background-color: V.$gray-300;
+      }
+    }
+
+  }
+}
+
+// Types
+
+.jds-input-text-edge {
+  &.is-prefix {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-right: 1px solid V.$gray-300;
+  
+    .jds-input-text-edge__dropdown {
+      left: 0;
+    }
+  }
+
+  &.is-suffix {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-left: 1px solid V.$gray-300;
+  
+    .jds-input-text-edge__dropdown {
+      right: 0;
+    }
+  }
+}
+
+// Modifiers
+.jds-input-text-edge {
+  &.is-clickable {
+    .jds-input-text-edge__dropdown-trigger {
+      cursor: pointer;
+    }
+  }
+
+  &:not(.is-dropdown-open) {
+    .jds-input-text-edge__dropdown {
+      transform: translateY(-8px);
+      opacity: 0;
+    }
+    .jds-input-text-edge__dropdown-item {
+      pointer-events: none;
+    }
+  }
+
+  &.is-dropdown-open > {
+    .jds-input-text-edge__dropdown-trigger {
+      background-color: V.$gray-300;
+
+      > img {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
