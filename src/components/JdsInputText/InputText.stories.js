@@ -1,6 +1,6 @@
 // Button.stories.js
 import JdsInputText from './InputText.vue'
-import storybookMixin from '../../utils/storybook'
+import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
 export default {
   component: JdsInputText,
@@ -8,6 +8,7 @@ export default {
 }
 
 const Template = (args, context) => {
+  console.log(context.argTypes)
   return {
     name: 'JdsInputTextStories',
     components: { JdsInputText },
@@ -22,3 +23,69 @@ const Template = (args, context) => {
 }
 
 export const Default = Template.bind({})
+
+export const Prefix = Template.bind({})
+Prefix.args = {
+  prefixText: 'rp',
+  prefixConfig: {
+    valueKey: 'value',
+    labelKey: 'label',
+    options: [
+      {
+        value: 'rp',
+        label: 'Rp'
+      },
+      {
+        value: 'usd',
+        label: 'USD'
+      },
+      {
+        value: 'jpy',
+        label: 'JPY',
+      },
+    ]
+  },
+}
+Prefix.storyName = 'With Prefix'
+hideArgTypes(Prefix, [
+  'value',
+  'name',
+  'placeholder',
+  'label',
+  'helperText',
+  'errorMessage',
+  'suffixText',
+  'suffixConfig',
+])
+hideEvents(Prefix, [
+  'input',
+  'change:suffix-text'
+])
+
+export const Suffix = Template.bind({})
+Suffix.args = {
+  suffixText: 'Hari',
+  suffixConfig: {
+    options: [
+      'Hari',
+      'Minggu',
+      'Bulan',
+      'Tahun'
+    ]
+  },
+}
+Suffix.storyName = 'With Suffix'
+hideArgTypes(Suffix, [
+  'value',
+  'name',
+  'placeholder',
+  'label',
+  'helperText',
+  'errorMessage',
+  'prefixText',
+  'prefixConfig',
+])
+hideEvents(Suffix, [
+  'input',
+  'change:prefix-text'
+])
