@@ -1,0 +1,15 @@
+.jds-popover {
+  visibility: visible;
+  pointer-events: all;
+
+  &__activator {
+    display: inline-block;
+  }
+
+  &__content {
+    &--hidden {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+}
