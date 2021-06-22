@@ -77,6 +77,9 @@ export default {
       this.init(this.options)
     }
   },
+  beforeDestroy () {
+    this.destroy()
+  },
   methods: {
     /**
      * Construct `popper.js` instance.
