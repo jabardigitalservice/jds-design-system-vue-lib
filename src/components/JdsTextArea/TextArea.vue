@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     onInput(e) {
-      // this.mValue = e.target.value
+      this.mValue = e.target.value
       this.emitInput(e.target.value)
     },
     emitInput(value) {
@@ -137,7 +137,6 @@ export default {
       return isStringDefined(this.errorMessage)
     },
     isEmpty() {
-      // console.log(isStringDefined(this.mValue))
       return !isStringDefined(this.mValue)
     },
   },
