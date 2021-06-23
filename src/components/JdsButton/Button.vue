@@ -1,6 +1,8 @@
 <template>
   <button 
-  :class="['jds-button font-sans-1', classVariant]">
+  :class="['jds-button font-sans-1', classVariant]"
+  @click="onButtonClick"
+  >
     {{ label }}
     <!-- 
       @slot Use this slot for label or anything you want 
@@ -41,6 +43,15 @@ export default {
     }
   },
   methods: {
+    onButtonClick(e){
+      this.emitClick(e)
+    },
+    emitClick(value){
+      /**
+       * Emitted when button is click
+       */
+      this.$emit('click', value)
+    }
   }
 }
 </script>
