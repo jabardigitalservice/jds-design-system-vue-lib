@@ -23,7 +23,7 @@
         rows="7"
         :placeholder="placeholder"
         v-bind="inputAttributes"
-        :value="value"
+        :value="mValue"
         @input="onInput"
         @focus="isFocused = true"
         @blur="isFocused = false"
