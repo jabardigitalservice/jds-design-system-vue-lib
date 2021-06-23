@@ -1,0 +1,62 @@
+@use '~/styles/scss/variables' as V;
+
+.jds-toggle {
+  display: block;
+  position: relative;
+  width: 48px;
+  height: 24px;
+  
+  &__wrapper {
+    &.is-inline {
+      display: flex;
+      gap: 36px;
+    }
+  }
+
+  &.is-props {
+    margin: 4px 0;
+  }
+
+  &__circle {
+    border-radius: 34px;
+  }
+
+  &__circle::before {
+    border-radius: 50%;
+  }
+
+  &__slider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: V.$gray-300;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+  
+  &__slider::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: #FFFFFF;
+    transition: all 0.4s ease;
+  }
+
+  & input[name="toggle"]:checked + &__slider {
+    background-color: V.$green-700;
+  }
+  
+  & input[name="toggle"]:checked + &__slider::before {
+    transform: translateX(24px);
+  }
+
+  & input[name="toggle"]:disabled + &__slider {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+}
