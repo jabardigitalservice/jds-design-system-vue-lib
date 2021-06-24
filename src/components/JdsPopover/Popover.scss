@@ -7,6 +7,8 @@
   }
 
   &__content {
+    display: inline-block;
+
     &--hidden {
       visibility: hidden;
       pointer-events: none;

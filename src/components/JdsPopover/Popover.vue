@@ -8,6 +8,7 @@
       <slot name="activator" v-bind="activatorSlotProps"></slot>
     </div>
     <div
+      key="popoverContent"
       ref="content"
       :class="{
         'jds-popover__content': true,
@@ -68,7 +69,10 @@ export default {
       return {
         on: {
           click: this.toggle
-        }
+        },
+        open: this.open,
+        close: this.close,
+        toggle: this.toggle,
       }
     },
   },
@@ -76,6 +80,9 @@ export default {
     if (this.immediate) {
       this.init(this.options)
     }
+  },
+  updated() {
+    this.updatePopper()
   },
   beforeDestroy () {
     this.destroy()
@@ -96,6 +103,11 @@ export default {
         this.$refs.content,
         options || {}
       )
+    },
+    updatePopper() {
+      if (this.popperInstance) {
+        this.popperInstance.update()
+      }
     },
     destroy() {
       if (typeof this.popperInstance.destroy === 'function') {
