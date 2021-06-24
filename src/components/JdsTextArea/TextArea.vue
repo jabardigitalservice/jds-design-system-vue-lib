@@ -21,7 +21,6 @@
     >
       <textarea
         rows="7"
-        :placeholder="placeholder"
         v-bind="inputAttributes"
         :value="mValue"
         @input="onInput"
