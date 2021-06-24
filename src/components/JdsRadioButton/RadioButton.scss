@@ -1,0 +1,68 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-radio-button {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__placeholder {
+    font-size: 14px;
+    line-height: 16px;
+    color: V.$gray-800;
+    word-wrap: break-word;
+
+    &--empty-text {
+      font-size: 14px;
+      line-height: 16px;
+      color: V.$gray-500;
+    }
+  }
+
+  input[type='radio']{
+    margin: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    outline: none;
+    border: 2px solid V.$gray-500;
+    background-color: V.$gray-50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input[type='radio']:hover {
+    border-color: V.$green-700;
+  }
+
+  input[type='radio']:focus {
+    box-shadow: 0px 0px 0px 2px V.$yellow-500
+  }
+
+  input[type='radio']::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+  }
+
+  input[type='radio']:checked::before {
+    background: V.$green-700;
+    transition: all 0.3s;
+  }
+    
+  input[type='radio']:checked {
+    border-color: V.$green-700;
+  }
+}
