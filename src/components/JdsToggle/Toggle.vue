@@ -9,7 +9,7 @@
       </jds-form-control-helper-text>
     </div>
     <label class="jds-toggle" :class="{'has-margin': hasMargin}">
-      <input hidden v-model="checked" type="checkbox" name="toggle" />
+      <input hidden :checked="mChecked" v-model="mChecked" @click="onClickCheckbox" type="checkbox" name="toggle" />
       <span class="jds-toggle__slider jds-toggle__circle"></span>
     </label>
   </div>
@@ -17,14 +17,30 @@
 
 <script>
 import { JdsFormControlLabel, JdsFormControlHelperText } from '../JdsFormControl'
+import localCopy from '../../mixins/local-copy'
 
 export default {
   name: 'jds-toggle',
+  mixins: [
+    localCopy('checked', 'mChecked')
+  ],
+  model: {
+    prop: 'checked',
+    event: 'change',
+  },
   components: {
     JdsFormControlLabel,
     JdsFormControlHelperText
   },
   props: {
+    /**
+     * Bound model.
+     * @name checked
+     * @model
+     */
+    checked: {
+      type: Boolean
+    },
     /**
      * Label for the toggle
      */
@@ -47,16 +63,7 @@ export default {
   },
   data() {
     return {
-      checked: false
-    }
-  },
-  watch: {
-    checked () {
-      /**
-       * Emitted on click
-       * @param {boolean} value
-       */
-      this.$emit('click', this.checked) 
+      mChecked: undefined
     }
   },
   computed: {
@@ -68,6 +75,16 @@ export default {
     },
     hasMargin () {
       return this.hasLabel && !this.inline
+    }
+  },
+  methods: {
+    onClickCheckbox () {
+      this.mChecked = !this.mChecked
+      /**
+       * Emitted on change
+       * @param {boolean} checked
+       */
+      this.$emit('change', this.mChecked) 
     }
   }
 }
