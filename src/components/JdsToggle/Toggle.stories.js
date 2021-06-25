@@ -14,6 +14,7 @@ const Template = (args, context) => {
     template: `
     <jds-toggle 
       v-bind="$props"
+      v-on="events"
     />
     `,
   }
