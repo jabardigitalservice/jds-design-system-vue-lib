@@ -1,7 +1,6 @@
 // Button.stories.js
 
 import JdsCheckboxGroup from './CheckboxGroup.vue'
-import JdsCheckbox from '../JdsCheckbox'
 import storybookMixin from '../../utils/storybook'
 
 export default {
@@ -9,11 +8,11 @@ export default {
   title: 'Components/CheckboxGroup',
   argTypes: {
     orientation: {
+      options: [
+        'horizontal',
+        'vertical',
+      ],
       control: {
-        options: [
-          'horizontal',
-          'vertical',
-        ],
         type: 'radio',
       },
     },
@@ -24,21 +23,26 @@ const Template = (args, context) => {
   const { argTypes } = context
   return {
     name: 'JdsCheckboxGroupStories',
-    components: { JdsCheckboxGroup, JdsCheckbox },
+    components: { JdsCheckboxGroup },
     props: Object.keys(argTypes),
     mixins: [storybookMixin(args, context)],
     template: `
       <jds-checkbox-group
         v-bind="$props"
         v-on="events"
-      >
-        <jds-checkbox value="1" text="One" />
-        <jds-checkbox value="2" text="Two" />
-        <jds-checkbox value="3" text="Three" />
-        <jds-checkbox value="4" text="Four" />
-      </jds-checkbox-group>
+      />
     `,
   }
 }
 
 export const Default = Template.bind({})
+Default.args = {
+  options: [
+    { label: 'Some', val: 'some' },
+    { label: 'Label', val: 'label' },
+    { label: 'For', val: 'for' },
+    { label: 'Checkbox', val: 'checkbox' }
+  ],
+  valueKey: 'val',
+  labelKey: 'label',
+}
