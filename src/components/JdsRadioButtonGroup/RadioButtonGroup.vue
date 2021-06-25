@@ -1,5 +1,5 @@
 <template>
-  <div class="font-sans-1">
+  <div class="jds-radio-button-group font-sans-1">
     <div>
       <jds-form-control-label v-if="showLabel">
         {{ label }}
@@ -11,25 +11,34 @@
         {{ errorMessage }}
       </jds-form-control-error-message>
     </div>
-    <ul v-if="radioButtonItems.length">
-      <template v-for="(cb, index) in radioButtonItems">
-        <component
-          :key="index" 
-          :is="cb.Ctor"
-          v-bind="cb.propsData"
-          @change="onRadioButtonChange($event, cb.propsData)"
-        />
-      </template>
-    </ul>
+    <div :class="{
+      'jds-radio-button-group__list jds-radio-button-group__list--horizontal': isHorizontal,
+      'jds-radio-button-group__list jds-radio-button-group__list--vertical': isVertical,
+    }" role="list">
+      <jds-radio-button 
+        v-for="(item, i) in items"
+        :key="i"
+        :name="name"
+        :checked="getChecked(item)"
+        :value="getOptionValue(item)"
+        :placeholder="getOptionLabel(item)"
+        @change="onRadioButtonChange"
+      />
+    </div>
   </div>
 </template>
 <script>
+import JdsRadioButton from '../JdsRadioButton'
 import {
   JdsFormControlLabel,
   JdsFormControlHelperText,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
-import localCopy from '../../mixins/local-copy'
+import {
+  getOptionValue,
+  getOptionLabel
+} from '../../utils/options-handler'
+
 
 // TODO: move to utils
 function isStringDefined(val) {
@@ -41,17 +50,39 @@ export default {
   components:{
     JdsFormControlLabel,
     JdsFormControlHelperText,
-    JdsFormControlErrorMessage
+    JdsFormControlErrorMessage,
+    JdsRadioButton,
   },
-  mixins: [localCopy('value','mValue')],
   model: {
     prop: 'value',
     event: 'change',
   },
   props:{
     /**
+     * Array Object contain lists of radio button properties
+     * 
+     */
+    items: {
+      type: Array,
+      default: () => []
+    },
+    /**
+     * Option property name of value for item
+     */
+    valueKey: {
+      type: String,
+      default: 'value',
+    },
+    /**
+     * Option property name of placeholder for item
+     */
+    placeholderKey: {
+      type: String,
+      default: 'placeholder',
+    },
+    /**
      * Bound model. 
-     * Radio button value
+     * Radio button group value
      * @name value
      * @model
      */
@@ -81,15 +112,23 @@ export default {
      */
     errorMessage: {
       type: String
-    }
-  },
-  data () {
-    return{
-      radioButtonItems: [],
-      mValue: undefined,
-    }
+    },
+    /**
+     * Set list orientation.
+     * @values horizontal,vertical
+     */
+    orientation: {
+      type: String,
+      default: 'vertical'
+    },
   },
   computed: {
+    isHorizontal () {
+      return this.orientation === 'horizontal'
+    },
+    isVertical () {
+      return this.orientation === 'vertical'
+    },
     showLabel () {
       return isStringDefined(this.label)
     },
@@ -100,47 +139,24 @@ export default {
       return isStringDefined(this.errorMessage)
     },
   },
-  created () {
-    this.renderDefaultSlot()
-  },
   methods:{
-    async renderDefaultSlot() {
-      await this.$nextTick()
-      try {
-        const children = this.$scopedSlots
-          .default({})
-          .reduce((arr, child) => {
-            if (!!child.tag && typeof child.componentOptions?.Ctor === 'function') {
-              const { componentOptions } = child
-              
-              /* eslint-disable no-unused-vars */
-              // remove label, helperText, errorMessage from each radio button
-              const {
-                label,
-                helperText,
-                errorMessage,
-                ...rest
-              } = componentOptions.propsData
-              /* eslint-enable no-unused-vars */
-
-              componentOptions.propsData = {
-                ...rest,
-                name: this.name,
-                tag: 'li',
-              }
-              arr.push(componentOptions)
-            }
-            return arr
-          }, [])
-        this.radioButtonItems = children
-      } catch (e) {
-        console.error(e)
-      }
+    getChecked(value){
+      return this.value === this.getOptionValue(value)
     },
-    onRadioButtonChange(checked) {
-      this.emitChange(checked)
+    getOptionValue(option) {
+      return getOptionValue(option, this.valueKey)
+    },
+    getOptionLabel(option) {
+      return getOptionLabel(option, this.placeholderKey)
+    },
+    onRadioButtonChange(value) {
+      this.emitChange(value)
     },
     emitChange (value) {
+     /**
+       * Emitted when bound model changed.
+       * @param {string} value
+       */
       this.$emit('change',value)
     }
   }

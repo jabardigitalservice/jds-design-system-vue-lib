@@ -1,7 +1,6 @@
 // Radio Button.stories.js
 
 import JdsRadioButtonGroup from './RadioButtonGroup.vue';
-import JdsRadioButton from '../JdsRadioButton';
 import storybookMixin from '../../utils/storybook'
 
 export default {
@@ -16,6 +15,15 @@ export default {
         options: ['none', 'fix-3','fix-6','fix-9','fix-12','full-width']
       } 
     },
+    orientation: {
+      options: [
+        'horizontal',
+        'vertical',
+      ],
+      control: {
+        type: 'radio',
+      },
+    }
   }
 };
 
@@ -23,7 +31,7 @@ export default {
 const Template = (args, context) => {
   return {
     name: 'JdsRadioButtonGroupStories',
-    components: { JdsRadioButtonGroup, JdsRadioButton },
+    components: { JdsRadioButtonGroup },
     mixins: [storybookMixin(args, context)],
     computed: {
       responsiveness(){
@@ -35,17 +43,23 @@ const Template = (args, context) => {
     // Each arg is also available as their own name.
     template: 
     `<jds-radio-button-group 
-      :class="responsiveness" 
+      :class="responsiveness"
       v-bind="$props"
       v-on="events"
-    >
-      <jds-radio-button value="1" placeholder="A"/>
-      <jds-radio-button value="2" placeholder="B"/>
-      <jds-radio-button value="3" placeholder="C"/>
-      <jds-radio-button value="4" placeholder="D"/>
-    </jds-radio-button-group>`,
+    />`,
   }
 };
 
 //👇 Each story then reuses that template
 export const Default = Template.bind({});
+Default.args = {
+  name: 'radio-button-group',
+  items: [
+    { label: 'Some', val: 'some' },
+    { label: 'Label', val: 'label' },
+    { label: 'For', val: 'for' },
+    { label: 'Radio', val: 'radio' }
+  ],
+  valueKey: 'val',
+  placeholderKey: 'label',
+}
