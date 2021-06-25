@@ -1,6 +1,6 @@
 <template>
   <div class="jds-toggle__wrapper font-sans-1" :class="{'is-inline': isInline}">
-    <div v-if="isLabel">
+    <div v-if="hasLabel">
       <jds-form-control-label>
         {{ label }}
       </jds-form-control-label>
@@ -8,7 +8,7 @@
         {{ helperText }}
       </jds-form-control-helper-text>
     </div>
-    <label class="jds-toggle" :class="{'is-props': isProps}">
+    <label class="jds-toggle" :class="{'has-margin': hasMargin}">
       <input hidden v-model="checked" type="checkbox" name="toggle" />
       <span class="jds-toggle__slider jds-toggle__circle"></span>
     </label>
@@ -60,14 +60,14 @@ export default {
     }
   },
   computed: {
-    isLabel () {
+    hasLabel () {
       return this.label
     },
     isInline () {
-      return this.label && this.inline
+      return this.hasLabel && this.inline
     },
-    isProps () {
-      return this.label && !this.inline
+    hasMargin () {
+      return this.hasLabel && !this.inline
     }
   }
 }
