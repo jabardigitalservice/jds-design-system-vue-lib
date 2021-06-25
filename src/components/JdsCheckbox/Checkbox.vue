@@ -84,12 +84,6 @@ export default {
     prop: 'checked',
     event: 'change',
   },
-  inject: {
-    checkboxGroup: {
-      from: 'adrian',
-      default: null,
-    },
-  },
   props: {
     /**
      * Define checkbox root element tag.
@@ -197,12 +191,6 @@ export default {
   methods: {
     onClickCheckbox () {
       this.mChecked = !this.mChecked
-      if (this.checkboxGroup) {
-        this.checkboxGroup.onCheckboxItemChange(this.mChecked, {
-          value: this.value,
-          text: this.text,
-        })
-      }
       this.emitInput(this.mChecked)
       this.emitChange(this.mChecked)
     },
