@@ -67,7 +67,6 @@ import {
 
 import iconCheckMark from '../../assets/icon/check-mark.svg'
 import iconMinus from '../../assets/icon/minus.svg'
-import localCopy from '../../mixins/local-copy'
 
 // TODO: move to utils
 function isStringDefined(val) {
@@ -81,9 +80,6 @@ export default {
     JdsFormControlHelperText,
     JdsFormControlErrorMessage
   },
-  mixins: [
-    localCopy('checked', 'mChecked')
-  ],
   model: {
     prop: 'checked',
     event: 'change',
@@ -102,13 +98,13 @@ export default {
      * Input checkbox value.
      */
     value: {
-      type: String,
+      type: [String, Number],
     },
     /**
      * Displays text next to checkbox input.
      */
     text: {
-      type: String,
+      type: [String, Number],
     },
     /**
      * Checkbox name attribute.
@@ -171,6 +167,25 @@ export default {
     },
     showErrorLine () {
       return this.showLabel && this.showHelperText && this.showErrorMsg
+    },
+    hasInputValue () {
+      return this.value !== null && typeof this.value !== 'undefined'
+    }
+  },
+  watch: {
+    checked: {
+      immediate: true,
+      handler (v) {
+        if (!this.hasInputValue) {
+          this.mChecked = !!v
+          return
+        }
+        if (v === true) {
+          this.mChecked = true
+          return
+        }
+        this.mChecked = v === this.mValue
+      }
     }
   },
   methods: {
@@ -187,11 +202,15 @@ export default {
       this.$emit('input', checked ? this.value : undefined)
     },
     emitChange (checked) {
-      /**
-       * Emitted when checkbox checked state is changed.
-       * @param {boolean} checked
-       */
-      this.$emit('change', checked)
+      if (this.hasInputValue) {
+        this.$emit('change', this.mChecked ? this.value : undefined)
+      } else {
+        /**
+         * Emitted when checkbox checked state is changed.
+         * @param {boolean} checked
+         */
+        this.$emit('change', checked)
+      }
     }
   }
 }

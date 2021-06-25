@@ -1,3 +1,7 @@
 export * from './JdsButton'
 export * from './JdsInputText'
 export * from './JdsCheckbox'
+export * from './JdsCheckboxGroup'
+export * from './JdsPopover'
+export * from './JdsPopoverDropdown'
+export * from './JdsRadioButton'
