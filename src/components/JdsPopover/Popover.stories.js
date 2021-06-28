@@ -24,7 +24,7 @@ const Template = (args, context) => {
           </button>
         </template>
         <jds-popover-dropdown>
-          <p>
+          <p style="padding: 16px;">
             Content
           </p>
         </jds-popover-dropdown>
