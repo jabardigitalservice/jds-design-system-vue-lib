@@ -1,29 +1,23 @@
 @use "~/styles/scss/variables" as V;
 
 @mixin set-input-bg-color($color) {
-  @if & and $color {
-    .jds-input-text__input-wrapper {
-      background-color: $color;
-    }
+  .jds-input-text__input-wrapper {
+    background-color: $color;
   }
 }
 
 @mixin set-input-border-color($color) {
-  @if & and $color {
-    .jds-input-text__input-wrapper {
-      border-color: $color;
-    }
+  .jds-input-text__input-wrapper {
+    border-color: $color;
   }
 }
 
 @mixin toggle-input-inset-shadow($toggle) {
-  @if & {
-    .jds-input-text__input-wrapper::after {
-      @if ($toggle) {
-        opacity: 1;
-      } @else {
-        opacity: 0;
-      }
+  .jds-input-text__input-wrapper::after {
+    @if ($toggle) {
+      opacity: 1;
+    } @else {
+      opacity: 0;
     }
   }
 }
@@ -99,25 +93,25 @@
 .jds-input-text {
   @include set-input-border-color(V.$gray-500);
   @include set-input-bg-color(V.$white);
-}
 
-.jds-input-text.is-empty {
-  @include set-input-bg-color(V.$gray-50);
-}
+  &--empty {
+    @include set-input-bg-color(V.$gray-50);
+  }
+  
+  &--hovered {
+    @include set-input-border-color(V.$green-700);
+  }
+  
+  &--focused:not(&--error) {
+    @include set-input-border-color(V.$green-700);
+    @include toggle-input-inset-shadow(true);
+  }
 
-.jds-input-text.is-hover {
-  @include set-input-border-color(V.$green-700);
-}
-
-.jds-input-text.is-focus:not(.is-error) {
-  @include set-input-border-color(V.$green-700);
-  @include toggle-input-inset-shadow(true);
-}
-
-.jds-input-text:not(.is-focus) {
-  @include toggle-input-inset-shadow(false);
-}
-
-.jds-input-text.is-error {
-  @include set-input-border-color(V.$red-700);
+  &:not(&--focused) {
+    @include toggle-input-inset-shadow(false);
+  }
+  
+  &--error {
+    @include set-input-border-color(V.$red-700);
+  }
 }

@@ -1,6 +1,11 @@
 <template>
   <button 
-  :class="['jds-button font-sans-1', classVariant]">
+  :class="[{
+    'jds-button': true,
+    'font-sans-1': true,
+  }, classVariant]"
+  @click="onButtonClick"
+  >
     {{ label }}
     <!-- 
       @slot Use this slot for label or anything you want 
@@ -37,10 +42,25 @@ export default {
   computed:{
     // class variant
     classVariant(){
-      return 'jds-button--'+this.variant;
+      return {
+        'jds-button--primary': this.variant === 'primary',
+        'jds-button--secondary': this.variant === 'secondary',
+        'jds-button--tertiary': this.variant === 'tertiary',
+        'jds-button--tertiary-paddingless': this.variant === 'tertiary-paddingless',
+        'jds-button--danger': this.variant === 'danger'
+      }
     }
   },
   methods: {
+    onButtonClick(e){
+      this.emitClick(e)
+    },
+    emitClick(value){
+      /**
+       * Emitted when button is click
+       */
+      this.$emit('click', value)
+    }
   }
 }
 </script>

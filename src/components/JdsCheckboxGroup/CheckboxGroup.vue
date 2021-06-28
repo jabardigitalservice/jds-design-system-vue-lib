@@ -13,20 +13,18 @@
     <jds-form-control-helper-text v-if="showHelperText">
       {{ helperText }}
     </jds-form-control-helper-text>
-    <ul
-      v-if="checkboxItems.length" 
+    <div
       class="jds-checkbox-group__checkbox-items"
+      role="list"
     >
-      <template v-for="(cb, index) in checkboxItems">
-        <component
-          :key="index" 
-          :is="cb.Ctor"
-          v-bind="cb.propsData"
-          class="jds-checkbox-group__checkbox-item"
-          @change="onCheckboxItemChange($event, cb.propsData)"
-        />
-      </template>
-    </ul>
+      <jds-checkbox
+        v-for="(opt, i) in options"
+        :key="i"
+        :value="getOptionValue(opt)"
+        :text="getOptionLabel(opt)"
+        @change="onCheckboxItemChange($event, opt)"
+      />
+    </div>
     <jds-form-control-error-message v-if="showErrorMsg">
       {{ errorMessage }}
     </jds-form-control-error-message>
@@ -34,12 +32,17 @@
 </template>
 
 <script>
+import JdsCheckbox from '../JdsCheckbox'
 import {
   JdsFormControlLabel,
   JdsFormControlHelperText,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
 import localCopy from '../../mixins/local-copy'
+import {
+  getOptionValue,
+  getOptionLabel
+} from '../../utils/options-handler'
 
 // TODO: move to utils
 function isStringDefined(val) {
@@ -51,7 +54,8 @@ export default {
   components: {
     JdsFormControlLabel,
     JdsFormControlHelperText,
-    JdsFormControlErrorMessage
+    JdsFormControlErrorMessage,
+    JdsCheckbox,
   },
   mixins: [localCopy('value', 'mValue')],
   model: {
@@ -59,6 +63,18 @@ export default {
     event: 'change'
   },
   props: {
+    options: {
+      type: Array,
+      default: () => []
+    },
+    valueKey: {
+      type: String,
+      default: 'value',
+    },
+    labelKey: {
+      type: String,
+      default: 'text',
+    },
     /**
      * Bound model.
      * @name value
@@ -103,7 +119,6 @@ export default {
   },
   data () {
     return {
-      checkboxItems: [],
       isFocused: false,
       isHovered: false,
       mValue: [],
@@ -126,48 +141,19 @@ export default {
       return isStringDefined(this.errorMessage)
     },
   },
-  created () {
-    this.renderDefaultSlot()
-  },
   methods: {
-    async renderDefaultSlot() {
-      await this.$nextTick()
-      try {
-        const children = this.$scopedSlots
-          .default({})
-          .reduce((arr, child) => {
-            if (!!child.tag && typeof child.componentOptions?.Ctor === 'function') {
-              const { componentOptions } = child
-              
-              /* eslint-disable no-unused-vars */
-              // remove label, helperText, errorMessage from each checkbox
-              const {
-                label,
-                helperText,
-                errorMessage,
-                ...rest
-              } = componentOptions.propsData
-              /* eslint-enable no-unused-vars */
-
-              componentOptions.propsData = {
-                ...rest,
-                name: this.name,
-                tag: 'li',
-              }
-              arr.push(componentOptions)
-            }
-            return arr
-          }, [])
-        this.checkboxItems = children
-      } catch (e) {
-        console.error(e)
-      }
+    getOptionValue(option) {
+      return getOptionValue(option, this.valueKey)
+    },
+    getOptionLabel(option) {
+      return getOptionLabel(option, this.labelKey)
     },
     onCheckboxItemChange (checked, option) {
-      if (checked && !this.mValue.includes(option.value)) {
-        this.mValue.push(option.value)
-      } else if (!checked && this.mValue.includes(option.value)) {
-        this.mValue = this.mValue.filter((v) => v !== option.value)
+      const val = this.getOptionValue(option)
+      if (checked && !this.mValue.includes(val)) {
+        this.mValue.push(val)
+      } else if (!checked && this.mValue.includes(val)) {
+        this.mValue = this.mValue.filter((v) => v !== val)
       }
       this.emitChange(this.mValue)
     },
