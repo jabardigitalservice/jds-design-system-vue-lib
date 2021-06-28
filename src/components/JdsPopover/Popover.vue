@@ -7,6 +7,7 @@
       <!-- @slot When used, will activate the component when clicked or hovered. -->
       <slot name="activator" v-bind="activatorSlotProps"></slot>
     </div>
+    <br>
     <div
       ref="content"
       :class="{
@@ -105,12 +106,12 @@ export default {
       )
     },
     updatePopper () {
-      if (typeof this.popperInstance.update === 'function') {
+      if (this.popperInstance) {
         this.popperInstance.update()
       }
     },
     destroy() {
-      if (typeof this.popperInstance.destroy === 'function') {
+      if (this.popperInstance) {
         this.popperInstance.destroy()
       }
       this.popperInstance = null
