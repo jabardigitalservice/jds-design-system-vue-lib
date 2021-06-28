@@ -3,12 +3,12 @@
     :is="tag" 
     :class="{
       'jds-checkbox font-sans-1': true,
-      'has-error-line': showErrorLine,
-      'is-checked': !indeterminate && mChecked,
-      'is-indeterminate': indeterminate,
-      'is-error': showErrorMsg,
-      'is-focus': isFocused,
-      'is-hover': isHovered,
+      'jds-checkbox--error-line': showErrorLine,
+      'jds-checkbox--checked': !indeterminate && mChecked,
+      'jds-checkbox--indeterminate': indeterminate,
+      'jds-checkbox--error': showErrorMsg,
+      'jds-checkbox--focus': isFocused,
+      'jds-checkbox--hover': isHovered,
     }"
   >
     <jds-form-control-label v-if="showLabel">

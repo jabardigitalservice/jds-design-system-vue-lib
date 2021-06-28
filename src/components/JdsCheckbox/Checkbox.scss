@@ -4,62 +4,56 @@ $checkbox-size: 20px;
 $checkbox-border-radius: 4px;
 
 @mixin set-option-checkbox-border-color($color) {
-  @if & and $color {
-    .jds-checkbox__option-checkbox {
-      border-color: $color;
-    }
+  .jds-checkbox__option-checkbox {
+    border-color: $color;
   }
 }
 
 @mixin toggle-checkbox-shadow($toggle) {
-  @if & {
-    .jds-checkbox__option-checkbox::before {
-      @if ($toggle) {
-        opacity: 1;
-      } @else {
-        opacity: 0;
-      }
+  .jds-checkbox__option-checkbox::before {
+    @if ($toggle) {
+      opacity: 1;
+    } @else {
+      opacity: 0;
     }
   }
 }
 
 @mixin toggle-checkbox($checked, $is-indeterminate: false) {
-  @if & {
-    @if ($checked) {
-      @include set-option-checkbox-border-color(V.$green-700);
-      .jds-checkbox__option-checkbox {
-        &::after {
-          border-radius: $checkbox-border-radius;
+  @if ($checked) {
+    @include set-option-checkbox-border-color(V.$green-700);
+    .jds-checkbox__option-checkbox {
+      &::after {
+        border-radius: $checkbox-border-radius;
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      @if ($is-indeterminate) {
+        & > .jds-checkbox__icon[alt="indeterminate"] {
           transform: scale(1);
           opacity: 1;
         }
-
-        @if ($is-indeterminate) {
-          & > .jds-checkbox__icon[alt="indeterminate"] {
-            transform: scale(1);
-            opacity: 1;
-          }
-        } @else {
-          & > .jds-checkbox__icon[alt="checked"] {
-            transform: scale(1);
-            opacity: 1;
-          }
+      } @else {
+        & > .jds-checkbox__icon[alt="checked"] {
+          transform: scale(1);
+          opacity: 1;
         }
       }
-    } @else {
-      .jds-checkbox__option-checkbox {
-        &::after {
-          transform: scale(0.5);
-          border-radius: $checkbox-size;
-        }
-        &::after,
-        & > .jds-checkbox__icon {
-          opacity: 0;
-          
-          transition-timing-function: ease-out;
-          transition-duration: 0.2s;
-          transition-property: transform, border-radius;
-        }
+    }
+  } @else {
+    .jds-checkbox__option-checkbox {
+      &::after {
+        transform: scale(0.5);
+        border-radius: $checkbox-size;
+      }
+      &::after,
+      & > .jds-checkbox__icon {
+        opacity: 0;
+        
+        transition-timing-function: ease-out;
+        transition-duration: 0.2s;
+        transition-property: transform, border-radius;
       }
     }
   }
@@ -162,29 +156,27 @@ $checkbox-border-radius: 4px;
     @include toggle-checkbox(false);
   }
 
-  &.is-checked {
+  &--checked {
     @include toggle-checkbox(true, false);
   }
-  &.is-indeterminate {
+  &--indeterminate {
     @include toggle-checkbox(true, true);
   }
-  
-  &:not(.is-error) {
-    &.is-hover {
-      @include set-option-checkbox-border-color(V.$green-700);  
-    }
-    &.is-focus,
-    &.is-active {
-      @include set-option-checkbox-border-color(V.$green-700);  
-      @include toggle-checkbox-shadow(true);
-    }
+
+  &--hover:not(&--error) {
+    @include set-option-checkbox-border-color(V.$green-700);  
+  }
+  &--focus:not(&--error),
+  &--active:not(&--error) {
+    @include set-option-checkbox-border-color(V.$green-700);  
+    @include toggle-checkbox-shadow(true);
   }
 
-  &.is-error {
+  &--error {
     @include set-option-checkbox-border-color(V.$red-700);
   }
 
-  &.has-error-line.is-error {
+  &--error#{&}--error-line {
     transform: translateX(10px);
 
     &::before {
