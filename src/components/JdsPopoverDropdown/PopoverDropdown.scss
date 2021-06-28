@@ -1,5 +1,9 @@
 $--border: 1px solid #BDBDBD;
 
+.jds-popover .jds-popover-dropdown {
+  display: block;
+}
+
 .jds-popover-dropdown {
   display: inline-block;
   background-color: white;
@@ -16,10 +20,6 @@ $--border: 1px solid #BDBDBD;
       text-align: center;
       font-weight: bold;
     }
-  }
-
-  &__body {
-    padding: 16px;
   }
 
   &__arrow,
