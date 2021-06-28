@@ -9,6 +9,7 @@
     </div>
     <br>
     <div
+      key="popoverContent"
       ref="content"
       :class="{
         'jds-popover__content': true,

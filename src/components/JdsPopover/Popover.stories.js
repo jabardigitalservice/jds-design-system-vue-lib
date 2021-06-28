@@ -1,6 +1,6 @@
 import storybookMixin from '../../utils/storybook'
 import JdsPopoverDropdown from '../JdsPopoverDropdown'
-import popperOptions from '../JdsPopoverDropdown/popper.options'
+import popperOptions from '../JdsPopoverDropdown/options'
 import JdsPopover from './Popover.vue'
 
 export default {
@@ -19,7 +19,7 @@ const Template = (args, context) => {
     template: `
       <jds-popover v-bind="$props">
         <template #activator="{ on }">
-          <button v-on="on">
+          <button v-on="on" style="width: 600px;">
             Activator
           </button>
         </template>
