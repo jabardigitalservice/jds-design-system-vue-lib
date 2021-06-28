@@ -1,0 +1,18 @@
+.jds-radio-button-group {
+  &__list{
+    display: flex;
+    margin: 0;
+    padding: 0;
+
+    &--horizontal {
+      flex-flow: row wrap;
+      gap: 0.75em;
+    }
+
+    &--vertical {
+      flex-flow: column nowrap;
+      gap: 0.75em
+    }
+
+  }
+}
