@@ -1,10 +1,10 @@
 <template>
   <div :class="{
     'jds-input-text font-sans-1': true,
-    'is-empty': isEmpty,
-    'is-error': showErrorMsg,
-    'is-focus': isFocused,
-    'is-hover': isHovered,
+    'jds-input-text--empty': isEmpty,
+    'jds-input-text--error': showErrorMsg,
+    'jds-input-text--focused': isFocused,
+    'jds-input-text--hovered': isHovered,
   }">
     <jds-form-control-label v-if="showLabel">
       {{ label }}

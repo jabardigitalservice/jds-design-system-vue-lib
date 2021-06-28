@@ -1,7 +1,7 @@
 <template>
-  <label class="jds-form-control-error-message">
+  <p class="jds-form-control-error-message">
     <slot></slot>
-  </label>  
+  </p>  
 </template>
 
 <style lang="scss">
