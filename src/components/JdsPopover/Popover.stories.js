@@ -1,6 +1,6 @@
 import storybookMixin from '../../utils/storybook'
 import JdsPopoverDropdown from '../JdsPopoverDropdown'
-import defaultDropdownPopperOptions from '../JdsPopoverDropdown/default-dropdown-popper.options'
+import popperOptions from '../JdsPopoverDropdown/popper.options'
 import JdsPopover from './Popover.vue'
 
 export default {
@@ -36,5 +36,5 @@ const Template = (args, context) => {
 export const Default = Template.bind({})
 Default.storyName = 'Default'
 Default.args = {
-  options: defaultDropdownPopperOptions
+  options: popperOptions
 }
