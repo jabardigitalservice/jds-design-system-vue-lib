@@ -67,8 +67,12 @@ export default {
     activatorSlotProps () {
       return {
         on: {
-          click: this.toggle
-        }
+          click: this.toggle,
+          keydown: this.onPressEnter
+        },
+        open: this.open,
+        close: this.close,
+        toggle: this.toggle
       }
     },
   },
@@ -76,6 +80,9 @@ export default {
     if (this.immediate) {
       this.init(this.options)
     }
+  },
+  updated () {
+    this.updatePopper()
   },
   beforeDestroy () {
     this.destroy()
@@ -97,6 +104,11 @@ export default {
         options || {}
       )
     },
+    updatePopper () {
+      if (typeof this.popperInstance.update === 'function') {
+        this.popperInstance.update()
+      }
+    },
     destroy() {
       if (typeof this.popperInstance.destroy === 'function') {
         this.popperInstance.destroy()
@@ -116,6 +128,7 @@ export default {
      */
     open () {
       this.mValue = true
+      this.emitInput(this.mValue)
     },
     /**
      * Close popper.
@@ -123,6 +136,7 @@ export default {
      */
     close () {
       this.mValue = false
+      this.emitInput(this.mValue)
     },
     /**
      * Toggle popper between opened and closed.
@@ -130,6 +144,25 @@ export default {
      */
     toggle () {
       this.mValue = !this.mValue
+      this.emitInput(this.mValue)
+    },
+    onPressEnter (e) {
+      if (e instanceof KeyboardEvent === false) {
+        return
+      }
+      const isEnter = e.keyCode === 13
+        || e.key === 'Enter'
+        || e.code === 'Enter'
+      if (isEnter) {
+        this.toggle()
+      }
+    },
+    emitInput (value) {
+      /**
+       * Emitted when popover is open or closed.
+       * @param {boolean} - value
+       */
+      this.$emit('input', value)
     }
   }
 }
