@@ -2,10 +2,10 @@
   <div
     :class="{
       'jds-text-area font-sans-1': true,
-      'is-empty': isEmpty,
-      'is-error': showErrorMsg,
-      'is-focus': isFocused,
-      'is-hover': isHovered,
+      'jds-text-area--empty': isEmpty,
+      'jds-text-area--error': showErrorMsg,
+      'jds-text-area--focused': isFocused,
+      'jds-text-area--hovered': isHovered,
     }"
   >
     <jds-form-control-label v-if="showLabel">
