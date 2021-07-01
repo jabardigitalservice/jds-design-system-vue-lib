@@ -83,7 +83,7 @@ export default {
       this.init(this.options)
     }
   },
-  updated () {
+  updated() {
     this.updatePopper()
   },
   beforeDestroy () {
@@ -106,7 +106,7 @@ export default {
         options || {}
       )
     },
-    updatePopper () {
+    updatePopper() {
       if (this.popperInstance) {
         this.popperInstance.update()
       }
