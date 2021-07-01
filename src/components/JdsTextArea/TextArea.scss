@@ -1,26 +1,20 @@
 @use "~/styles/scss/variables" as V;
 
 @mixin set-input-border-color($color) {
-  @if & and $color {
-    .jds-text-area__input-wrapper textarea {
-      border-color: $color;
-    }
+  .jds-text-area__input-wrapper textarea {
+    border-color: $color;
   }
 }
 
 @mixin set-input-bg-color($color) {
-  @if & and $color {
-    .jds-text-area__input-wrapper textarea {
-      background-color: $color;
-    }
+  .jds-text-area__input-wrapper textarea {
+    background-color: $color;
   }
 }
 
 @mixin set-input-caret-color($color) {
-  @if & and $color {
-    .jds-text-area__input-wrapper textarea {
-      caret-color: $color;
-    }
+  .jds-text-area__input-wrapper textarea {
+    caret-color: $color;
   }
 }
 
@@ -50,39 +44,39 @@
       color: V.$gray-800;
     }
   }
-}
 
-.jds-text-area.is-empty {
-  @include set-input-bg-color(V.$gray-50);
-}
+  &--empty {
+    @include set-input-bg-color(V.$gray-50);
+  }
 
-.jds-text-area.is-focus {
-  @include set-input-caret-color(V.$green-700);
-  @include set-input-bg-color(V.$white);
+  &--focused {
+    @include set-input-caret-color(V.$green-700);
+    @include set-input-bg-color(V.$white);
 
-  .jds-text-area__input-wrapper textarea {
-    box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
+    .jds-text-area__input-wrapper textarea {
+      box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
 
-    &:focus {
-      outline: none;
+      &:focus {
+        outline: none;
+      }
     }
   }
-}
 
-.jds-text-area.is-hover {
-  @include set-input-border-color(V.$green-700);
-  @include set-input-bg-color(V.$white);
-}
-
-.jds-text-area.is-error {
-  @include set-input-border-color(V.$red-700);
-  @include set-input-caret-color(V.$red-700);
-
-  .jds-text-area__input-wrapper textarea {
-    box-shadow: none;
+  &--hovered {
+    @include set-input-border-color(V.$green-700);
+    @include set-input-bg-color(V.$white);
   }
 
-  .jds-form-control-label {
-    color: V.$red-700;
+  &--error {
+    @include set-input-border-color(V.$red-700);
+    @include set-input-caret-color(V.$red-700);
+
+    .jds-text-area__input-wrapper textarea {
+      box-shadow: none;
+    }
+
+    .jds-form-control-label {
+      color: V.$red-700;
+    }
   }
 }
