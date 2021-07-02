@@ -1,0 +1,45 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-table {
+  width: 100%;
+  border-spacing: 0 !important;
+  border: none;
+  
+  * {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  &__row {
+    background-color: V.$white;
+  }
+
+  &__row:nth-child(even) {
+    background-color: V.$gray-50;
+  }
+
+  &__header {
+    background-color: V.$green-700;
+    padding: 6px 8px;
+    color: V.$white;
+    font-weight: 700;
+
+    & div {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      // grid-template-columns: 1fr auto 1fr;
+
+      &:last-child {
+        white-space: nowrap;
+        text-align: right;
+      }
+    }
+  }
+
+  &__data {
+    padding: 6px 8px;
+    border-top: 1px solid V.$gray-200;
+  }
+}
