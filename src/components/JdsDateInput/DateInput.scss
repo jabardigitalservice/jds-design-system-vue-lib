@@ -1,0 +1,72 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-date-input {
+
+  &__input{
+    border: 1px solid V.$gray-500;
+    border-radius: 8px;
+    padding: 8px;
+    width: fit-content;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background: V.$gray-50;
+
+    &:hover{
+      border: 1px solid V.$green-700;
+      background: white;
+    }
+
+    &--error{
+      border: 1px solid V.$red-700;
+      background: white;
+  
+      &:hover{
+        border: 1px solid V.$red-700;
+      }
+    }
+
+    &--focus{
+      border: 1px solid V.$green-700;
+      box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
+      background: white;
+    }
+  
+    input[type="text"]{
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: none;
+      color: V.$gray-800;
+      font-size: 14px;
+      line-height: 16px;
+      background: transparent;
+      width: 100%;
+      
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    input[type="text"]:focus{
+      outline: none;
+    }
+
+    &-suffix-icon{
+      cursor: pointer;
+      fill: V.$gray-500;
+
+      &:hover{
+        fill: V.$green-700
+      }
+
+      &--focus{
+        fill: V.$green-700
+      }
+    }
+  }
+}

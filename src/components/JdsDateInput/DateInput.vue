@@ -1,19 +1,31 @@
 <template>
   <div :class="{
     'jds-date-input': true,
-    'font-sans-1': true
+    'font-sans-1': true,
   }">
     <jds-form-control-label v-if="showLabel">
       {{ label }}
     </jds-form-control-label>
-    <div>
+    <div :class="{
+      'jds-date-input__input': true,
+      'jds-date-input__input--error': showErrorMsg,
+      'jds-date-input__input--focus': isFocused,
+      }">
       <input
+        type="text"
         id="date"
         ref="input"
         :value="mValue"
         @accept="onAccept"
         @complete="onComplete"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
+      <icon-calendar 
+      :class="{
+        'jds-date-input__input-suffix-icon': true,
+        'jds-date-input__input-suffix-icon--focus': isFocused,
+      }"/>
     </div>
     <jds-form-control-error-message v-if="showErrorMsg">
       {{ errorMessage }}
@@ -25,6 +37,8 @@ import {
   JdsFormControlLabel,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
+
+import IconCalendar from './IconCalendar'
 
 import { fnDate, imask } from '../../utils/date-input'
 
@@ -38,6 +52,7 @@ export default {
   components: {
     JdsFormControlLabel,
     JdsFormControlErrorMessage,
+    IconCalendar
   },
   props:{
     /**
@@ -94,9 +109,13 @@ export default {
   },
   data(){
     return{
+      isFocused: null,
       maskRef: {},
       mValue: undefined,
-      options : {}
+      options : {
+        min: this.min ? fnDate.parseDate(this.min) : undefined,
+        max: this.max ? fnDate.parseDate(this.max) : undefined,
+      },
     }
   },
   watch: {
@@ -119,7 +138,10 @@ export default {
       }else{
         this.mValue = v
       }
-      this.initialMask()
+      this.updateValue()
+    },
+    updateValue(){
+      this.maskRef.value = this.mValue
     },
     onAccept(e){
       const maskRef = e.detail;
@@ -131,8 +153,7 @@ export default {
     },
     async initialMask(){
       await this.$nextTick()
-      const maskRef = imask.initMask(this.$refs.input,this.options)
-      maskRef.value = this.mValue
+      this.maskRef = imask.initMask(this.$refs.input,this.options)
     },
     emitInput(value){
       /**

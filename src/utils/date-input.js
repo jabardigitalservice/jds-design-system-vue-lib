@@ -6,9 +6,32 @@ const optionMask = {
   mask: Date,
   lazy: false,
   pattern: 'd{/}`m{/}`Y',
+  blocks: {
+    d: {
+      placeholderChar: 'D',
+      mask: IMask.MaskedRange,
+      from: 1,
+      to: 31,
+      maxLength: 2,
+    },
+    m: {
+      placeholderChar: 'M',
+      mask: IMask.MaskedRange,
+      from: 1,
+      to: 12,
+      maxLength: 2,
+    },
+    Y: {
+      placeholderChar: 'Y',
+      mask: IMask.MaskedRange,
+      from: 1900,
+      to: 9999,
+    }
+  },
   format: formatDate,
   parse: parseDate,
   autofix: true,
+  overwrite: true,
 }
 
 /**
@@ -17,7 +40,8 @@ const optionMask = {
  * @returns {String} Return string formatted `DD/MM/YYYY` date string
  */
 function formatDate(date){
-  return format(date, 'DD/MM/YYYY')
+  if(date instanceof Date) return format(date, 'DD/MM/YYYY')
+  return
 }
 
 /**
@@ -50,6 +74,7 @@ function initMask (el, opts) {
   return el.maskRef = IMask(el, {...optionMask,...opts})
     .on('accept', () => fireEvent(el, 'accept', el.maskRef))
     .on('complete', () => fireEvent(el, 'complete', el.maskRef));
+  
 }
 
 /**
