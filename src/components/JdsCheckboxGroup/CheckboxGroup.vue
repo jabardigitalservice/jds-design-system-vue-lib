@@ -1,11 +1,8 @@
 <template>
   <div :class="{
     'jds-checkbox-group font-sans-1': true,
-    'is-error': showErrorMsg,
-    'is-focus': isFocused,
-    'is-hover': isHovered,
-    'is-horizontal': isHorizontal,
-    'is-vertical': isVertical,
+    'jds-checkbox-group--horizontal': isHorizontal,
+    'jds-checkbox-group--vertical': isVertical,
   }">
     <jds-form-control-label v-if="showLabel">
       {{ label }}
