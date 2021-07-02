@@ -89,12 +89,8 @@
     }
 
   }
-}
 
-// Types
-
-.jds-input-text-edge {
-  &.is-prefix {
+  &--prefix {
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
     border-right: 1px solid V.$gray-300;
@@ -104,7 +100,7 @@
     }
   }
 
-  &.is-suffix {
+  &--suffix {
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
     border-left: 1px solid V.$gray-300;
@@ -113,28 +109,25 @@
       right: 0;
     }
   }
-}
 
-// Modifiers
-.jds-input-text-edge {
-  &.is-clickable {
-    .jds-input-text-edge__dropdown-trigger {
+  &--selectable & {
+    &__dropdown-trigger {
       cursor: pointer;
     }
   }
 
-  &:not(.is-dropdown-open) {
-    .jds-input-text-edge__dropdown {
+  &:not(&--dropdown-opened) & {
+    &__dropdown {
       transform: translateY(-8px);
       opacity: 0;
     }
-    .jds-input-text-edge__dropdown-item {
+    &__dropdown-item {
       pointer-events: none;
     }
   }
 
-  &.is-dropdown-open > {
-    .jds-input-text-edge__dropdown-trigger {
+  &--dropdown-opened > & {
+    &__dropdown-trigger {
       background-color: V.$gray-300;
 
       > img {

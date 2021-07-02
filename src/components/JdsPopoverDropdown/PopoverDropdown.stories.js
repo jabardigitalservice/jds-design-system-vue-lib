@@ -22,7 +22,9 @@ const Template = (args, context) => {
       <jds-popover-dropdown
         v-bind="$props"
       >
-        Dropdown Content
+        <div style="padding: 16px;">
+          Dropdown Content
+        </div>
       </jds-popover-dropdown>
     `,
   }

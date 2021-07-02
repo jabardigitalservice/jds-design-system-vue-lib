@@ -1,10 +1,10 @@
 <template>
   <div :class="{
     'jds-input-text-edge': true,
-    'is-clickable': hasOptions,
-    'is-dropdown-open': isDropdownOpen,
-    'is-prefix': type === 'prefix',
-    'is-suffix': type === 'suffix',
+    'jds-input-text-edge--selectable': hasOptions,
+    'jds-input-text-edge--dropdown-opened': isDropdownOpen,
+    'jds-input-text-edge--prefix': type === 'prefix',
+    'jds-input-text-edge--suffix': type === 'suffix',
   }">
     <div
       class="jds-input-text-edge__dropdown-trigger"
