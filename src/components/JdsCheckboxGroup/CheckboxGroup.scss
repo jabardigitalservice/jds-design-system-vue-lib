@@ -7,14 +7,14 @@ $--checkbox-gap-v: 0.75em;
   position: relative;
   display: inline-block;
 
-  &.is-horizontal & {
+  &--horizontal & {
     &__checkbox-items {
       flex-flow: row wrap;
       gap: $--checkbox-gap-h;
     }
   }
   
-  &.is-vertical & {
+  &--vertical & {
     &__checkbox-items {
       flex-flow: column nowrap;
       gap: $--checkbox-gap-v;
