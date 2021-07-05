@@ -1,6 +1,7 @@
 export * from './JdsButton'
 export * from './JdsInputText'
 export * from './JdsCheckbox'
+export * from './JdsCheckboxToggle'
 export * from './JdsCheckboxGroup'
 export * from './JdsPopover'
 export * from './JdsPopoverDropdown'
