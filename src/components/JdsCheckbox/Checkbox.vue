@@ -23,12 +23,16 @@
       @mouseleave="isHovered = false"
     >
       <jds-checkbox-toggle
+        ref="checkboxToggle"
         :name="name"
         :checked="mChecked"
         :indeterminate="indeterminate"
         @change="onCheckboxChange"
       />
-      <label class="jds-checkbox__option-label">
+      <label
+        class="jds-checkbox__option-label"
+        @click="onClickLabel"
+      >
         {{ text }}
       </label>
     </div>
@@ -167,6 +171,10 @@ export default {
     }
   },
   methods: {
+    onClickLabel () {
+      // forward click event to CheckboxToggle
+      this.$refs.checkboxToggle?.onClick?.()
+    },
     onCheckboxChange (checked) {
       this.mChecked = checked
       this.emitInput(this.mChecked)
