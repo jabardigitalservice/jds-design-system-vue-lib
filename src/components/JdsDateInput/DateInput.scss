@@ -21,7 +21,7 @@
     }
 
     &--error{
-      border: 1px solid V.$red-700;
+      border: 1px solid V.$red-700 !important;
       background: white;
   
       &:hover{
