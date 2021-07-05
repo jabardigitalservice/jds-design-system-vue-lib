@@ -1,43 +1,53 @@
 <template>
   <table class="jds-table font-sans-1">
-    <thead class="jds-table__head">
+    <thead>
       <tr class="jds-table__row">
         <th class="jds-table__header">
-          <div>
+          <div class="jds-table__header-wrapper">
+          
+          <!-- TODO: 
+          1. create checkbox component (or using existing one?)
+          2. import an arrow icon
+          3. create sorting animation -->
+
             <input type="checkbox">
-            <div>Test 1</div>
-            <div>&#8593;</div> 
+            <div class="jds-table__title">Header 1</div>
+            <div>&#8593;</div>
           </div> 
         </th>
-        <th class="jds-table__header">Test 2</th>
-        <th class="jds-table__header">Test 3</th>
-        <th class="jds-table__header">Test 4</th>
+        <th class="jds-table__header">
+          <div class="jds-table__title">Header 2</div>
+        </th>
+        <th class="jds-table__header">
+          <div class="jds-table__title">Header 3</div>
+        </th>
+        <th class="jds-table__header">
+          <div class="jds-table__title">Header 4</div>
+        </th>
       </tr>
     </thead>
-    <tbody class="jds-table__body">
+    <tbody>
       <tr class="jds-table__row">
+        <td class="jds-table__data">
+          <div class="jds-table__data-wrapper">
+            <input type="checkbox">
+            <div>Body 1</div>
+          </div>
+        </td>
         <td class="jds-table__data">Body 1</td>
-        <td class="jds-table__data">Body 2</td>
-        <td class="jds-table__data">Body 3</td>
-        <td class="jds-table__data">Body 4</td>
+        <td class="jds-table__data">Body 1</td>
+        <td class="jds-table__data">Body 1</td>
       </tr>
       <tr class="jds-table__row">
-        <td class="jds-table__data">Body 1</td>
+        <td class="jds-table__data">
+          <div class="jds-table__data-wrapper">
+            <input type="checkbox">
+            <div>Body 2</div>
+          </div>
+        </td>
         <td class="jds-table__data">Body 2</td>
-        <td class="jds-table__data">Body 3</td>
-        <td class="jds-table__data">Body 4</td>
-      </tr>
-      <tr class="jds-table__row">
-        <td class="jds-table__data">Body 1</td>
         <td class="jds-table__data">Body 2</td>
-        <td class="jds-table__data">Body 3</td>
-        <td class="jds-table__data">Body 4</td>
-      </tr>
-      <tr class="jds-table__row">
-        <td class="jds-table__data">Body 1</td>
         <td class="jds-table__data">Body 2</td>
-        <td class="jds-table__data">Body 3</td>
-        <td class="jds-table__data">Body 4</td>
       </tr>
     </tbody>
   </table>

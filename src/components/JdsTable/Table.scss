@@ -25,21 +25,34 @@
     color: V.$white;
     font-weight: 700;
 
-    & div {
+    &-wrapper {
       width: 100%;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      // grid-template-columns: 1fr auto 1fr;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0 8px;
 
       &:last-child {
-        white-space: nowrap;
-        text-align: right;
+        flex-basis: 0;
+        justify-self: flex-end;
+        cursor: pointer;
       }
     }
+  }
+
+  &__title {
+    text-align: left;
+    flex-grow: 1;
   }
 
   &__data {
     padding: 6px 8px;
     border-top: 1px solid V.$gray-200;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0 8px;
+    }
   }
 }
