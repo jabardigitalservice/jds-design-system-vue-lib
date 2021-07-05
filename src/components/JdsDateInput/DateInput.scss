@@ -12,9 +12,8 @@
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-top: 4px;
-    margin-bottom: 4px;
     background: V.$gray-50;
+    height: 38px;
 
     &:hover{
       border: 1px solid V.$green-700;
