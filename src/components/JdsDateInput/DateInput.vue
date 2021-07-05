@@ -54,6 +54,10 @@ export default {
     JdsFormControlErrorMessage,
     IconCalendar
   },
+  model: {
+    prop: 'value',
+    event: 'input',
+  },
   props:{
     /**
      * The name for date input
@@ -72,23 +76,26 @@ export default {
     /**
      * You can set minimal date for
      * the earliest acceptable date
+     * The value of the min date format follows the pattern `DD/MM/YYYY`.
      */
     min: {
       type: String,
+      default: '01/01/1900'
     },
     /**
      * You can set maximal date for
      * the latest acceptable date
+     * The value of the max date format follows the pattern `DD/MM/YYYY`.
      */
     max: {
       type: String,
+      default: '31/12/9999'
     },
     /**
      * Bound model.
      * @name value
      * @model
-     * The value for the date 
-     * format date following `DD/MM/YYYY` pattern
+     * The value of the input date format follows the pattern `DD/MM/YYYY`.
      * if value not set the value will be current date
      */
     value: {
