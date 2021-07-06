@@ -19,11 +19,11 @@
     line-height: 23px;
   }
 
-  &__row {
+  tr {
     background-color: V.$white;
   }
 
-  &__row:nth-child(even) {
+  tr:nth-child(even) {
     background-color: V.$gray-50;
   }
 
@@ -48,7 +48,7 @@
         transform: rotate(0deg);
         transition: transform 350ms ease-out;
 
-        &.toggle {
+        &--toggle {
           transform: rotate(180deg);
         }
       }
