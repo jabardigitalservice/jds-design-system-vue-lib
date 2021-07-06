@@ -1,5 +1,8 @@
 @use "~/styles/scss/variables" as V;
 
+// set to (input text border-radius - 1px);
+$--border-radius: 7px;
+
 .jds-input-text-edge {
   position: relative;
   flex: 0 0 auto;
@@ -13,7 +16,6 @@
     align-items: center;
     padding: 0 8px;
     overflow: hidden;
-    border-radius: inherit;
 
     background-color: V.$gray-100;
     transition-property: background-color;
@@ -91,21 +93,31 @@
   }
 
   &--prefix {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
     border-right: 1px solid V.$gray-300;
+  }
+
+  &--prefix & {
+    &__dropdown-trigger {
+      border-top-left-radius: $--border-radius;
+      border-bottom-left-radius: $--border-radius;
+    }
   
-    .jds-input-text-edge__dropdown {
+    &__dropdown {
       left: 0;
     }
   }
 
   &--suffix {
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
     border-left: 1px solid V.$gray-300;
+  }
+
+  &--suffix & {
+    &__dropdown-trigger {
+      border-top-right-radius: $--border-radius;
+      border-bottom-right-radius: $--border-radius;
+    }
   
-    .jds-input-text-edge__dropdown {
+    &__dropdown {
       right: 0;
     }
   }
