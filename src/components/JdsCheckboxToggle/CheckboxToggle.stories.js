@@ -1,5 +1,3 @@
-// Button.stories.js
-
 import JdsCheckboxToggle from './CheckboxToggle.vue'
 import storybookMixin from '../../utils/storybook'
 
