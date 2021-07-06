@@ -20,6 +20,7 @@
         @complete="onComplete"
         @focus="isFocused = true"
         @blur="isFocused = false"
+        @keydown="onKeyDown"
       />
       <icon-calendar 
       :class="{
@@ -28,7 +29,7 @@
       }"/>
     </div>
     <jds-form-control-error-message v-if="showErrorMsg">
-      {{ errorMessage }}
+      {{ mErrorMessage }}
     </jds-form-control-error-message>
   </div>
 </template>
@@ -37,6 +38,7 @@ import {
   JdsFormControlLabel,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
+import localCopy from '../../mixins/local-copy'
 
 import IconCalendar from './IconCalendar'
 
@@ -54,6 +56,7 @@ export default {
     JdsFormControlErrorMessage,
     IconCalendar
   },
+  mixins: [localCopy('errorMessage','mErrorMessage')],
   model: {
     prop: 'value',
     event: 'input',
@@ -116,6 +119,7 @@ export default {
   },
   data(){
     return{
+      mErrorMessage: undefined,
       isFocused: null,
       maskRef: {},
       mValue: undefined,
@@ -135,7 +139,7 @@ export default {
       return isStringDefined(this.label)
     },
     showErrorMsg () {
-      return isStringDefined(this.errorMessage)
+      return isStringDefined(this.mErrorMessage)
     },
   },
   methods: {
@@ -153,10 +157,19 @@ export default {
     onAccept(e){
       const maskRef = e.detail;
       this.mValue = maskRef.value;
+      this.mErrorMessage = 'Invalid date'
     },
     onComplete (e) {
       const maskRef = e.detail;
       this.emitInput(maskRef.unmaskedValue)
+      if(this.errorMessage){
+        this.mErrorMessage = this.errorMessage
+      }else{
+        this.mErrorMessage = undefined
+      }
+    },
+    onKeyDown (e) {
+      console.log(e)
     },
     async initialMask(){
       await this.$nextTick()
