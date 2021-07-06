@@ -1,5 +1,13 @@
 @use "~/styles/scss/variables" as V;
 
+@mixin set-wrapper-style() {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0 8px;
+  padding: 2px 0;
+}
+
 .jds-table {
   width: 100%;
   border-spacing: 0 !important;
@@ -26,23 +34,25 @@
     font-weight: 700;
 
     &-wrapper {
-      width: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 0 8px;
+      @include set-wrapper-style;
+      
+      .jds-table__header-title {
+        text-align: left;
+        flex-grow: 1;
+      }
 
-      &:last-child {
+      .jds-table__header-action {
         flex-basis: 0;
         justify-self: flex-end;
         cursor: pointer;
+        transform: rotate(0deg);
+        transition: transform 350ms ease-out;
+
+        &.toggle {
+          transform: rotate(180deg);
+        }
       }
     }
-  }
-
-  &__title {
-    text-align: left;
-    flex-grow: 1;
   }
 
   &__data {
@@ -50,9 +60,7 @@
     border-top: 1px solid V.$gray-200;
 
     &-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 0 8px;
+      @include set-wrapper-style;
     }
   }
 }
