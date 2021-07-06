@@ -1,12 +1,12 @@
 @use "~/styles/scss/variables" as V;
 
 .jds-date-input {
-
+  display: inline-block;
+  
   &__input{
     border: 1px solid V.$gray-500;
     border-radius: 8px;
     padding: 8px;
-    width: fit-content;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
