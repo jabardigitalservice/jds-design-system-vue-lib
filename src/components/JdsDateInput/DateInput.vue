@@ -20,7 +20,6 @@
         @complete="onComplete"
         @focus="isFocused = true"
         @blur="isFocused = false"
-        @keydown="onKeyDown"
       />
       <icon-calendar 
       :class="{
@@ -167,9 +166,6 @@ export default {
       }else{
         this.mErrorMessage = undefined
       }
-    },
-    onKeyDown (e) {
-      console.log(e)
     },
     async initialMask(){
       await this.$nextTick()
