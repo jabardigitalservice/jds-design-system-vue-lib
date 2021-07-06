@@ -22,7 +22,7 @@
       role="checkbox"
       :class="{
         'jds-checkbox-toggle__icon-wrapper': true,
-        'jds-checkbox-toggle__icon-wrapper--small': size === 'small'
+        'jds-checkbox-toggle__icon-wrapper--sm': size === 'sm'
       }"
       :tabIndex="1"
       @focus="onFocus"
@@ -52,25 +52,41 @@ export default {
     event: 'change'
   },
   props: {
+    /**
+     * Checkbox name attribute.
+     */
     name: {
       type: String,
     },
+    /**
+     * Checkbox value.
+     */
     value: {
       type: [String, Number, Boolean],
       default: null,
     },
+    /**
+     * Bound model. Display check mark icon if equals true.
+     * @name checked
+     * @model
+     */
     checked: {
       type: [String, Number, Boolean]
     },
+    /**
+     * Set checkbox as indeterminate (nor true or false).
+     * Override currently displayed icon, if any.
+     */
     indeterminate: {
       type: Boolean,
     },
     /**
-     * @values small,base
+     * Determine checkbox size.
+     * @values sm,md
      */
     size: {
       type: String,
-      default: 'base'
+      default: 'md'
     }
   },
   data () {
