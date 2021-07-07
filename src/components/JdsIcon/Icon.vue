@@ -53,6 +53,8 @@ export default {
         'jds-icon': true,
       }
 
+      // size modifier classes should not be assigned
+      // if `size` prop is defined using CSS unit.
       if (!this.isCustomSize) {
         Object.assign(classes, {
           'jds-icon--xs': this.size === 'xs',
@@ -74,6 +76,8 @@ export default {
       if (!Number.isNaN(rotate)) {
         styles.transform = `rotate(${rotate}deg)`
       }
+      // if `fill` attribute is nil,
+      // fallback inherited css `color` attribute
       if (!this.$attrs.fill) {
         styles.fill = 'currentColor'
       }
@@ -92,6 +96,7 @@ export default {
         this.iconComponent = null
         return
       }
+      // dynamic import component based on provided `name` prop
       const iconComponent = await import(`../../assets/icon/${name}.svg?vue`)
         .then((m) => m.default || m)
         // return null on import error
