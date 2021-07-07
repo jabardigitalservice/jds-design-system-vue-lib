@@ -20,6 +20,7 @@ export default {
   title: 'Components/Icon',
   argTypes: {
     className: {
+      name: 'class',
       type: 'string',
       description:
         'Can be used to define color using typography color class name, ' +
