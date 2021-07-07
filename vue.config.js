@@ -5,6 +5,28 @@ function mergeAppWebpackConfig(config) {
   Object.assign(config.resolve.alias, {
     '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
   })
+
+  const svgRule = config.module.rules.find((rule) => {
+    return rule.test.test('.svg')
+  })
+
+  if (svgRule) {
+    const defaultLoader = svgRule.use
+    delete svgRule.use
+
+    svgRule.oneOf = [
+      {
+        resourceQuery: /vue/,
+        use: [
+          // This loader compiles .svg file to .vue file
+          // So we use `vue-loader` after it
+          'vue-loader',
+          'svg-to-vue-component/loader'
+        ]
+      },
+      ...defaultLoader
+    ]
+  }
 }
 
 function mergeWebComponentWebpackConfig(config) {
