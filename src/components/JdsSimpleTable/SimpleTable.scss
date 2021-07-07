@@ -1,0 +1,34 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-simple-table {
+  width: 100%;
+  border-spacing: 0 !important;
+  border: none;
+  
+  * {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  tr {
+    background-color: V.$white;
+    text-align: left;
+
+    th {
+      background-color: V.$green-700;
+      padding: 6px 8px;
+      color: V.$white;
+      font-weight: 700;
+    }
+  
+    td {
+      padding: 6px 8px;
+      border-top: 1px solid V.$gray-200;
+    }
+
+    &:nth-child(even) {
+      background-color: V.$gray-50;
+    }
+  }
+}
