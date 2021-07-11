@@ -2,18 +2,31 @@ import JdsIcon from './Icon.vue';
 import storybookMixin from '../../utils/storybook'
 import './Icon.stories.scss'
 
-const iconContext = require.context(
-  '../../assets/icons/',
-  true,
-  /\.svg$/,
-  'sync'
-);
-const iconNames = Array.from(iconContext.keys())
-  .map((fileName) => {
-    return fileName
+// START: GROUPED INTO COLUMNS
+const tableColumnsCount = 4
+const groupedIcons = (function() {
+  const iconContext = require.context(
+    '../../assets/icons/',
+    true,
+    /\.svg$/,
+    'sync'
+    );
+    const iconNames = Array.from(iconContext.keys())
+    .map((fileName) => {
+      return fileName
       .replace('.svg', '')
       .replace('./', '')
-  })
+    })
+    
+  const tableRowsCount = Math.ceil(iconNames.length / tableColumnsCount)
+  const arr = []
+  for (let i = 0; i < tableRowsCount; i++) {
+    const icons = iconNames.splice(0, tableColumnsCount)
+    arr.push(icons)
+  }
+  return arr
+})();
+// END: GROUPED INTO COLUMNS
 
 export default {
   component: JdsIcon,
@@ -49,11 +62,22 @@ const Template = (args, context) => {
     name: 'JdsIconStories',
     components: { JdsIcon },
     mixins: [storybookMixin(args, context)],
-    props: ['fill', 'className', 'icons'],
+    props: ['fill', 'className'],
+    data() {
+      return {
+        tableColumnsCount,
+        groupedIcons
+      }
+    },
     computed: {
       responsiveness(){
         const { responsiveness } = args
         return responsiveness !== 'none' ? responsiveness : ''
+      }
+    },
+    methods: {
+      getIconName (rowIndex, colIndex) {
+        return this.groupedIcons[rowIndex - 1][colIndex - 1]
       }
     },
     template: `
@@ -69,17 +93,20 @@ const Template = (args, context) => {
         <br>
         <table class="story:table-icons font-sans-1">
           <tbody>
-            <tr v-for="(icon, i) in $props.icons" :key="i">
-              <td>
-                <jds-icon
-                  size="sm"
-                  fill="#bdbdbd"
-                  :name="icon"
-                />
-              </td>
-              <td>
-                <span>{{ icon }}</span>
-              </td>
+            <tr v-for="i in groupedIcons.length" :key="i">
+              <template v-for="j in tableColumnsCount">
+                <td :key="'icon:' + j">
+                  <jds-icon
+                    v-if="getIconName(i, j)"
+                    size="sm"
+                    fill="#bdbdbd"
+                    :name="getIconName(i, j)"
+                  />
+                </td>
+                <td :key="'icon-name:' + j">
+                  <span>{{ getIconName(i, j) }}</span>
+                </td>
+              </template>
             </tr>
           </tbody>
         </table>
@@ -90,6 +117,5 @@ const Template = (args, context) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  name: 'chevron-down',
-  icons: iconNames,
+  name: 'chevron-down'
 };
