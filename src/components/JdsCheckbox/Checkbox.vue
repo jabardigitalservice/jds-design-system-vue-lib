@@ -19,36 +19,20 @@
     </jds-form-control-helper-text>
     <div
       class="jds-checkbox__checkbox-wrapper"
-      @click="onClickCheckbox"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     >
-      <div class="jds-checkbox__controls-input">
-        <input
-          :name="name"
-          type="checkbox"
-          style="display: none;"
-          :tabIndex="-1"
-          :checked="mChecked"
-        >
-        <i
-          role="checkbox"
-          class="jds-checkbox__option-checkbox"
-          :tabIndex="1"
-          @focus="isFocused = true"
-          @blur="isFocused = false"
-        >
-          <img
-            class="jds-checkbox__icon"
-            alt="checked"
-            :src="iconCheckMark">
-          <img
-            class="jds-checkbox__icon"
-            alt="indeterminate"
-            :src="iconMinus">
-        </i>
-      </div>
-      <label class="jds-checkbox__option-label">
+      <jds-checkbox-toggle
+        ref="checkboxToggle"
+        :name="name"
+        :checked="mChecked"
+        :indeterminate="indeterminate"
+        @change="onCheckboxChange"
+      />
+      <label
+        class="jds-checkbox__option-label"
+        @click="onClickLabel"
+      >
         {{ text }}
       </label>
     </div>
@@ -65,8 +49,7 @@ import {
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
 
-import iconCheckMark from '../../assets/icons/check-mark.svg'
-import iconMinus from '../../assets/icons/minus.svg'
+import JdsCheckboxToggle from '../JdsCheckboxToggle'
 
 // TODO: move to utils
 function isStringDefined(val) {
@@ -78,7 +61,8 @@ export default {
   components: {
     JdsFormControlLabel,
     JdsFormControlHelperText,
-    JdsFormControlErrorMessage
+    JdsFormControlErrorMessage,
+    JdsCheckboxToggle
   },
   model: {
     prop: 'checked',
@@ -118,7 +102,7 @@ export default {
      * @model
      */
     checked: {
-      type: Boolean
+      type: [String, Number, Boolean]
     },
     /**
      * Set checkbox as indeterminate (nor true or false).
@@ -148,8 +132,6 @@ export default {
   },
   data () {
     return {
-      iconCheckMark,
-      iconMinus,
       isFocused: false,
       isHovered: false,
       mChecked: undefined,
@@ -184,13 +166,17 @@ export default {
           this.mChecked = true
           return
         }
-        this.mChecked = v === this.mValue
+        this.mChecked = v === this.value
       }
     }
   },
   methods: {
-    onClickCheckbox () {
-      this.mChecked = !this.mChecked
+    onClickLabel () {
+      // forward click event to CheckboxToggle
+      this.$refs.checkboxToggle?.onClick?.()
+    },
+    onCheckboxChange (checked) {
+      this.mChecked = checked
       this.emitInput(this.mChecked)
       this.emitChange(this.mChecked)
     },
