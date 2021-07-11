@@ -12,9 +12,12 @@
       <label>
         {{ label }}
       </label>
-      <img
+      <JdsIcon
         v-if="hasOptions"
-        :src="chevronDownIcon">
+        name="chevron-down"
+        size="16px"
+        class="jds-input-text-edge__dropdown-trigger__icon"
+      />
     </div>
     <ul
       v-if="hasOptions"
@@ -35,7 +38,7 @@
 </template>
 
 <script>
-import chevronDownIcon from '../../assets/icons/chevron-down.svg'
+import JdsIcon from '../JdsIcon'
 import {
   getOptionLabel,
   getOptionValue,
@@ -46,6 +49,9 @@ import localCopy from '../../mixins/local-copy'
 export default {
   name: 'jds-input-text-edge',
   mixins: [localCopy('value', 'mValue')],
+  components: {
+    JdsIcon
+  },
   props: {
     type: {
       validator: (v) => {
@@ -68,7 +74,6 @@ export default {
   },
   data() {
     return {
-      chevronDownIcon,
       mValue: undefined,
       isDropdownOpen: false,
     }
