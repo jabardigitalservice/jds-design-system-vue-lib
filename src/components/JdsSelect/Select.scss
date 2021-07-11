@@ -4,6 +4,17 @@
   display: inline-block;
 
   position: relative;
+
+  &__trigger-icon {
+    pointer-events: none;
+    height: 16px;
+    width: auto;
+    object-fit: contain;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    transform: rotate(0deg);
+  }
   
   &__error-message {
     position: absolute;
@@ -44,6 +55,15 @@
   
     &:hover {
       background-color: V.$gray-50;
+    }
+  }
+}
+
+// STATE
+.jds-select {
+  &--opened & {
+    &__trigger-icon {
+      transform: rotate(180deg);
     }
   }
 }
