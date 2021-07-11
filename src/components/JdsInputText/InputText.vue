@@ -24,6 +24,12 @@
         :value="mPrefixText"
         @change="onPrefixTextChanged">
       </jds-input-text-edge>
+      <slot name="prefix-icon">
+      <!-- 
+        @slot Used for displaying prefix icon.
+        Can be used  in conjunction with <JdsIcon />
+      -->
+      </slot>
       <input
         v-bind="inputAttributes"
         :value="mValue"
@@ -31,6 +37,11 @@
         @input="onInput"
         @focus="isFocused = true"
         @blur="isFocused = false">
+      <!-- 
+        @slot Used for displaying suffix icon.
+        Can be used  in conjunction with <JdsIcon />
+      -->
+      <slot name="suffix-icon"></slot>
       <jds-input-text-edge
         v-if="showSuffixEdge"
         v-bind="suffixConfig"
