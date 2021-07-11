@@ -28,13 +28,13 @@
       @focus="onFocus"
       @blur="onBlur"
     >
-      <JdsIcon
+      <jds-icon
         name="check-mark"
         alt="checked"
         class="jds-checkbox-toggle__icon"
         fill="white"
       />
-      <JdsIcon
+      <jds-icon
         v-show="indeterminate"
         name="minus"
         alt="indeterminate"

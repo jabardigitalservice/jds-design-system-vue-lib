@@ -12,7 +12,7 @@
       <label>
         {{ label }}
       </label>
-      <JdsIcon
+      <jds-icon
         v-if="hasOptions"
         name="chevron-down"
         size="16px"
