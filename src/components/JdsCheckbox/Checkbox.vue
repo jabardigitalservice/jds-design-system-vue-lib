@@ -65,8 +65,8 @@ import {
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
 
-import iconCheckMark from '../../assets/icon/check-mark.svg'
-import iconMinus from '../../assets/icon/minus.svg'
+import iconCheckMark from '../../assets/icons/check-mark.svg'
+import iconMinus from '../../assets/icons/minus.svg'
 
 // TODO: move to utils
 function isStringDefined(val) {

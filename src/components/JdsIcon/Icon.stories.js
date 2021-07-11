@@ -3,7 +3,7 @@ import storybookMixin from '../../utils/storybook'
 import './Icon.stories.scss'
 
 const iconContext = require.context(
-  '../../assets/icon/',
+  '../../assets/icons/',
   true,
   /\.svg$/,
   'sync'
