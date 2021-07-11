@@ -88,6 +88,20 @@
       color: V.$gray-600;
     }
   }
+
+  &__prefix-icon,
+  &__suffix-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__prefix-icon {
+    padding-left: 8px;
+  }
+  &__suffix-icon {
+    padding-right: 8px;
+  }
 }
 
 .jds-input-text {

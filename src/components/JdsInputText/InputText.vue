@@ -24,12 +24,17 @@
         :value="mPrefixText"
         @change="onPrefixTextChanged">
       </jds-input-text-edge>
-      <slot name="prefix-icon">
-      <!-- 
-        @slot Used for displaying prefix icon.
-        Can be used  in conjunction with <JdsIcon />
-      -->
-      </slot>
+      <span
+        v-if="showPrefixIcon"
+        class="jds-input-text__prefix-icon"
+      >
+        <!-- 
+          @slot Used for displaying prefix icon.
+          Can be used  in conjunction with `JdsIcon`.
+        -->
+        <slot name="prefix-icon">
+        </slot>
+      </span>
       <input
         v-bind="inputAttributes"
         :value="mValue"
@@ -37,11 +42,17 @@
         @input="onInput"
         @focus="isFocused = true"
         @blur="isFocused = false">
-      <!-- 
-        @slot Used for displaying suffix icon.
-        Can be used  in conjunction with <JdsIcon />
-      -->
-      <slot name="suffix-icon"></slot>
+      <span
+        v-if="showSuffixIcon"
+        class="jds-input-text__suffix-icon"
+      >
+        <!-- 
+          @slot Used for displaying suffix icon.
+          Can be used  in conjunction with `JdsIcon`.
+        -->
+        <slot name="suffix-icon">
+        </slot>
+      </span>
       <jds-input-text-edge
         v-if="showSuffixEdge"
         v-bind="suffixConfig"
@@ -184,6 +195,12 @@ export default {
     },
     showPrefixEdge () {
       return isStringDefined(this.mPrefixText)
+    },
+    showPrefixIcon () {
+      return !!this.$slots['prefix-icon']
+    },
+    showSuffixIcon () {
+      return !!this.$slots['suffix-icon']
     },
     showSuffixEdge () {
       return isStringDefined(this.mSuffixText)
