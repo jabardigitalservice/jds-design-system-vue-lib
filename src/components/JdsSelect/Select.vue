@@ -1,21 +1,34 @@
 <template>
   <jds-popover
+    v-clickaway="onClickaway"
     v-model="isDropdownOpen" 
     :options="popperOptions"
   >
     <template #activator="{ on }">
       <div :class="{
         'jds-select font-sans-1': true,
+        'jds-select--opened': isDropdownOpen,
         'jds-select--hovered': isHovered,
         'jds-select--focused': isFocused,
         'jds-select--error': showErrorMsg,
       }">
         <jds-input-text
           v-bind="{ label, placeholder, helperText }"
+          :class="{
+            'jds-input-text--error': showErrorMsg
+          }"
           :value="currentOptionLabel"
           @click.native="on.click"
           @keydown.native="on.keydown"
-        />
+        >
+          <template #suffix-icon>
+            <jds-icon
+              class="jds-select__trigger-icon"
+              name="chevron-down"
+              size="1em"
+            />
+          </template>
+        </jds-input-text>
         <jds-form-control-error-message
           v-if="showErrorMsg && !isDropdownOpen"
           class="jds-select__error-message">
@@ -46,7 +59,9 @@
 </template>
 
 <script>
+import { directive as clickaway } from 'vue-clickaway'
 import localCopy from '../../mixins/local-copy'
+import JdsIcon from '../JdsIcon'
 import JdsFormControlErrorMessage from '../JdsFormControl/FormControlErrorMessage'
 import JdsInputText from '../JdsInputText'
 import JdsPopover from '../JdsPopover'
@@ -69,7 +84,11 @@ export default {
     prop: 'value',
     event: 'change',
   },
+  directives: {
+    clickaway,
+  },
   components: {
+    JdsIcon,
     JdsPopover,
     JdsPopoverDropdown,
     JdsInputText,
@@ -192,6 +211,11 @@ export default {
         this.isDropdownOpen = false
       }
       this.emitChange(this.mValue)
+    },
+    onClickaway() {
+      if (this.isDropdownOpen) {
+        this.isDropdownOpen = false
+      }
     },
     isOptionSelected(option) {
       const val = getOptionValue(option, this.valueKey)
