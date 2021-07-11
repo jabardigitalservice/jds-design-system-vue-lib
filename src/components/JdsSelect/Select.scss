@@ -2,11 +2,15 @@
 
 .jds-select {
   display: inline-block;
-
   position: relative;
 
+  &,
+  & * {
+    cursor: pointer;
+  }
+
   &__trigger-icon {
-    pointer-events: none;
+    color: V.$green-700;
     height: 16px;
     width: auto;
     object-fit: contain;
@@ -52,9 +56,14 @@
       color: V.$green-700;
       font-weight: bolder;
     }
-  
-    &:hover {
+    
+    &--highlighted,
+    &:hover,
+    &:focus,
+    &:focus-within {
       background-color: V.$gray-50;
+      outline: none;
+      border: none;
     }
   }
 }

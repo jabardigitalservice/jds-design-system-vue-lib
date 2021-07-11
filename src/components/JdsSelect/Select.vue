@@ -1,31 +1,33 @@
 <template>
   <jds-popover
     v-clickaway="onClickaway"
-    v-model="isDropdownOpen" 
+    :value="isDropdownOpen" 
     :options="popperOptions"
+    @input="toggleDropdown"
   >
-    <template #activator="{ on }">
+    <template #activator>
       <div :class="{
         'jds-select font-sans-1': true,
         'jds-select--opened': isDropdownOpen,
-        'jds-select--hovered': isHovered,
-        'jds-select--focused': isFocused,
-        'jds-select--error': showErrorMsg,
       }">
         <jds-input-text
-          v-bind="{ label, placeholder, helperText }"
+          ref="inputText"
+          v-model="inputElementValue"
+          readonly
+          :label="label"
+          :placeholder="placeholder"
+          :helper-text="helperText"
           :class="{
             'jds-input-text--error': showErrorMsg
           }"
-          :value="currentOptionLabel"
-          @click.native="on.click"
-          @keydown.native="on.keydown"
+          @click.native="onInputClicked"
         >
           <template #suffix-icon>
             <jds-icon
               class="jds-select__trigger-icon"
               name="chevron-down"
               size="1em"
+              @click="onTriggerClicked"
             />
           </template>
         </jds-input-text>
@@ -39,10 +41,13 @@
     <jds-popover-dropdown>
       <ul
         class="jds-select__options"
+        ref="optionList"
       >
         <li
-          v-for="(opt, index) in options"
+          v-for="(opt, index) in mOptions"
           :key="index"
+          ref="optionItemsEl"
+          tabindex="0"
           :class="{
             'jds-select__option': true,
             'jds-select__option--selected': isOptionSelected(opt)
@@ -60,6 +65,7 @@
 
 <script>
 import { directive as clickaway } from 'vue-clickaway'
+import * as keyCode from '../../utils/key-code'
 import localCopy from '../../mixins/local-copy'
 import JdsIcon from '../JdsIcon'
 import JdsFormControlErrorMessage from '../JdsFormControl/FormControlErrorMessage'
@@ -96,7 +102,8 @@ export default {
   },
   mixins: [
     localCopy('value', 'mValue'),
-    localCopy('filterValue', 'mFilterValue')
+    localCopy('filterValue', 'mFilterValue'),
+    localCopy('options', 'mOptions'),
   ],
   props: {
     /**
@@ -137,8 +144,7 @@ export default {
      * Close options dropdown on option clicked.
      */
     autoClose: {
-      type: Boolean,
-      default: false,
+      type: Boolean
     },
 
     /**
@@ -173,10 +179,11 @@ export default {
         placement: 'bottom-start',
       },
       isDropdownOpen: false,
-      isFocused: false,
-      isHovered: false,
       mValue: undefined,
       mFilterValue: undefined,
+      inputElementValue: undefined,
+
+      mOptions: [],
     }
   },
   computed: {
@@ -189,37 +196,163 @@ export default {
     showErrorMsg () {
       return isStringDefined(this.errorMessage)
     },
-    currentOptionLabel () {
-      const opt = findMatchedOption(this.mValue, this.options, this.valueKey)
-      if (!opt) {
-        return ''
-      }
-      return getOptionLabel(opt, this.labelKey)
-    },
+    currentOptionIndex () {
+      return this.mOptions.findIndex((opt) => {
+        return getOptionValue(opt, this.valueKey) === this.mValue
+      })
+    }
+  },
+  mounted () {
+    window.addEventListener('keydown', this.listenToKeydownEvent)
+  },
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.listenToKeydownEvent)
   },
   methods: {
     getOptionLabel,
     getOptionValue,
     findMatchedOption,
-    onClickOptionItem(option) {
-      if (this.isOptionSelected(option)) {
-        this.mValue = undefined
-      } else {
-        this.mValue = getOptionValue(option, this.valueKey)
-      }
-      if (this.autoClose) {
-        this.isDropdownOpen = false
-      }
-      this.emitChange(this.mValue)
+    findMatchedOptionByLabel (label) {
+      return this.mOptions.find((opt) => {
+        return getOptionLabel(opt, this.labelKey) === label
+      })
     },
-    onClickaway() {
+    listenToKeydownEvent (e) {
+      const activeEl = document.activeElement
+      if (!activeEl) {
+        return
+      }
+      const isWithinThisPopover = this.$el?.contains?.(activeEl)
+      if (!isWithinThisPopover) {
+        return
+      }
+
+      this.handleKeyboardNavigation(e)
+    },
+
+    // START: DROPDOWN STATE
+    toggleDropdown (open) {
+      // if argument is supplied,
+      // force dropdown to open or close
+      if (typeof open === 'boolean') {
+        if (open) {
+          this.openDropdown()
+        } else {
+          this.closeDropdown()
+        }
+        return
+      }
+
+      // switch between open or close
+      // based on current state
       if (this.isDropdownOpen) {
-        this.isDropdownOpen = false
+        this.closeDropdown()
+      } else {
+        this.openDropdown()
       }
     },
+    openDropdown () {
+      this.isDropdownOpen = true
+    },
+    closeDropdown ({ retainFocus = false } = {}) {
+      this.isDropdownOpen = false
+      this.$nextTick(() => {
+        if (retainFocus) {
+          this.$refs.inputText.forceFocus()
+        }
+      })
+    },
+    // END: DROPDOWN STATE
+
+    // START: NAVIGATION
+    handleKeyboardNavigation(e) {
+      if (keyCode.isArrow('Up', e) || keyCode.isArrow('Left', e)) {
+        this.navigateToPrevOption()
+      } else if (keyCode.isArrow('Down', e) || keyCode.isArrow('Right', e)) {
+        this.navigateToNextOption()
+      }
+
+      if (!this.isDropdownOpen) {
+        if (keyCode.isEnter(e)) {
+          e.preventDefault()
+          this.openDropdown()
+        }
+        return
+      }
+
+      const shouldClose = keyCode.isTab(e)
+        || keyCode.isEscape(e)
+        || keyCode.isEnter(e)
+      if (shouldClose) {
+        // prevent focus from moving to next focusable element,
+        // retain focus on input text element
+        e.preventDefault()
+        this.closeDropdown({ retainFocus: true })
+      }
+    },
+    navigateToPrevOption () {
+      let i
+      if (this.currentOptionIndex <= 0) {
+        i = 0
+      } else {
+        i = this.currentOptionIndex - 1
+      }
+      const opt = this.mOptions[i]
+      this.changeSelectedOption(opt)
+      this.$refs.optionItemsEl[i].focus()
+    },
+    navigateToNextOption () {
+      if (this.currentOptionIndex === this.mOptions.length - 1) {
+        return
+      }
+      const i = this.currentOptionIndex + 1
+      const opt = this.mOptions[i]
+      this.changeSelectedOption(opt)
+      this.$refs.optionItemsEl[i].focus()
+    },
+    // END: NAVIGATION
+
+    // START: OPTION STATE
     isOptionSelected(option) {
       const val = getOptionValue(option, this.valueKey)
       return this.mValue === val
+    },
+    resetSelectedOption() {
+      this.mValue = undefined
+      this.inputElementValue = ''
+      this.emitChange(this.mValue)
+    },
+    changeSelectedOption(option) {
+      this.mValue = getOptionValue(option, this.valueKey)
+      this.inputElementValue = getOptionLabel(option, this.labelKey)
+      this.emitChange(this.mValue)
+    },
+    // END: OPTION STATE
+
+    onTriggerClicked () {
+      this.$refs.inputText.forceFocus()
+    },
+
+    onInputClicked () {
+      this.toggleDropdown()
+    },
+    onPopperKeydown (e) {
+      this.handleKeyboardNavigation(e)
+    },
+    onClickaway() {
+      if (this.isDropdownOpen) {
+        this.closeDropdown({ retainFocus: true })
+      }
+    },
+    onClickOptionItem(option) {
+      if (this.isOptionSelected(option)) {
+        this.resetSelectedOption()
+      } else {
+        this.changeSelectedOption(option)
+      }
+      if (this.autoClose) {
+        this.closeDropdown({ retainFocus: true })
+      }
     },
     emitChange (value) {
       /**
