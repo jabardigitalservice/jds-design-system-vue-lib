@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import chevronDownIcon from '../../assets/icon/chevron-down.svg'
+import chevronDownIcon from '../../assets/icons/chevron-down.svg'
 import {
   getOptionLabel,
   getOptionValue,
