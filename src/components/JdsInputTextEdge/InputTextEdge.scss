@@ -31,7 +31,7 @@ $--border-radius: 7px;
       pointer-events: none;
     }
 
-    > img {
+    &__icon {
       pointer-events: none;
       margin-left: 8px;
       height: 16px;
@@ -138,11 +138,11 @@ $--border-radius: 7px;
     }
   }
 
-  &--dropdown-opened > & {
+  &--dropdown-opened & {
     &__dropdown-trigger {
       background-color: V.$gray-300;
 
-      > img {
+      &__icon {
         transform: rotate(180deg);
       }
     }

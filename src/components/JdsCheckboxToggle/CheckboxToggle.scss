@@ -23,9 +23,9 @@
       right: 0;
       bottom: 0;
       left: 0;
-      border-radius: inherit;
+      border-radius: 3px;
       pointer-events: none;
-      box-shadow: 0 0 2px 2px V.$yellow-500;
+      box-shadow: 0 0 0 2px V.$yellow-500;
       
       transition: opacity 0.3s ease-out;
       opacity: 0;
@@ -100,7 +100,7 @@
     opacity: 0;
     transition-timing-function: ease-out;
     transition-duration: 0.2s;
-    transition-property: transform, border-radius;
+    transition-property: transform, border-radius, opacity;
   }
   /**
    * END: initial state
