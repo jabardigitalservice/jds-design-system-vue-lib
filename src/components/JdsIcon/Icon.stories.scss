@@ -1,0 +1,12 @@
+table.story\:table-icons {
+  border-collapse: collapse;
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+
+  th,
+  td {
+    padding: 8px 16px;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+}
