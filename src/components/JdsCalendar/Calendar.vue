@@ -34,7 +34,7 @@
           'jds-calendar__days-day' : true,
           'jds-calendar__days-day--selected': isSelected(date),
           'jds-calendar__days-day--today': isToday(date),
-          'jds-calendar__days-day--sunday': isSunday(date),
+          'jds-calendar__days-day--holiday': isSunday(date),
           'jds-calendar__days-day--gray': isNotThisMonth(date),
         }"
       >
