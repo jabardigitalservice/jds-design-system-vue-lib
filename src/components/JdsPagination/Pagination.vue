@@ -29,7 +29,7 @@
       <!-- rigth section -->
       <div class="jds-pagination__page-control--right">
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="clicked()">
-          <
+          <jds-icon name="chevron-left"/>
         </button>
         <i class="jds-pagination__divider" />
         <div class="jds-pagination__page-control__select">
@@ -43,7 +43,7 @@
         </div>
         <i class="jds-pagination__divider" />
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="clicked()">
-          >
+          <jds-icon name="chevron-right"></jds-icon>
         </button>
       </div>
     </div>
@@ -51,8 +51,12 @@
 </template>
 
 <script>
+import JdsIcon from '../JdsIcon'
 export default {
   name: "jds-pagination",
+  components: {
+    JdsIcon
+  },
   props: {
     /**
      * Pagination is disabled
