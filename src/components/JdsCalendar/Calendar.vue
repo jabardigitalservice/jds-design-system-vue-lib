@@ -113,7 +113,6 @@ export default {
   watch: {
     value: {
       handler: function (v) {
-        console.log(v)
         if(typeof v === 'undefined' || v === null){
           this.mValue = new Date()
         }else{
