@@ -28,28 +28,34 @@
       @focus="onFocus"
       @blur="onBlur"
     >
-      <img
+      <jds-icon
+        name="check-mark"
         alt="checked"
         class="jds-checkbox-toggle__icon"
-        :src="iconCheckMark">
-      <img
+        fill="white"
+      />
+      <jds-icon
         v-show="indeterminate"
+        name="minus"
         alt="indeterminate"
         class="jds-checkbox-toggle__icon"
-        :src="iconMinus">
+        fill="white"
+      />
     </i>
   </div>
 </template>
 
 <script>
-import iconCheckMark from '../../assets/icon/check-mark.svg'
-import iconMinus from '../../assets/icon/minus.svg'
+import JdsIcon from '../JdsIcon'
 
 export default {
   name: 'jds-checkbox-toggle',
   model: {
     prop: 'checked',
     event: 'change'
+  },
+  components: {
+    JdsIcon
   },
   props: {
     /**
@@ -91,8 +97,6 @@ export default {
   },
   data () {
     return {
-      iconCheckMark,
-      iconMinus,
       isHovered: false,
       isFocused: false,
       mChecked: false,
