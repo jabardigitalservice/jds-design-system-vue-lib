@@ -1,0 +1,160 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-checkbox-toggle {
+  &__icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-width: 1px;
+    border-style: solid;
+
+    user-select: none;
+    overflow: visible;
+
+    outline: none;
+
+    &::before {
+      pointer-events: none;
+      position: absolute;
+      z-index: -1;
+      content: '';
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 3px;
+      pointer-events: none;
+      box-shadow: 0 0 0 2px V.$yellow-500;
+      
+      transition: opacity 0.3s ease-out;
+      opacity: 0;
+    }
+
+    &::after {
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+      content: '';
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+      left: -1px;
+      color: white;
+      fill: white;
+      background-color: V.$green-700;
+    }
+  }
+
+  &__icon {
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+    object-fit: contain;
+    object-position: center;
+
+    &[alt="checked"] {
+      width: 75%;
+      height: 75%;
+    }
+
+    &[alt="indeterminate"] {
+      width: 75%;
+      height: 75%;
+    }
+  }
+}
+
+// SIZE VARIANT
+.jds-checkbox-toggle__icon-wrapper {
+  // base
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+
+  &--sm {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+  }
+}
+
+// STATES
+.jds-checkbox-toggle {
+  /**
+   * START: initial state
+   */
+  &__icon-wrapper {
+    border-color: V.$gray-500;
+    &::before {
+      opacity: 0;
+    }
+    &::after {
+      transform: scale(0.5);
+      border-radius: 100%;
+      opacity: 0;
+    }
+  }
+  &__icon-wrapper::after,
+  &__icon {
+    opacity: 0;
+    transition-timing-function: ease-out;
+    transition-duration: 0.2s;
+    transition-property: transform, border-radius, opacity;
+  }
+  /**
+   * END: initial state
+   */
+
+  /**
+   * hover
+   */
+  &--hovered:not(&--error) &__icon-wrapper {
+    border-color: V.$green-700;
+  }
+
+  /**
+   * focus and active, only applies if not error
+   */
+  &--focused:not(&--error) &__icon-wrapper,
+  &--active:not(&--error) &__icon-wrapper {
+    border-color: V.$green-700;
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  /**
+   * error
+   */
+  &--error &__icon-wrapper {
+    border-color: V.$green-700;
+  }
+
+  /**
+   * checked and indeterminate
+   */
+  &--checked &__icon-wrapper,
+  &--indeterminate &__icon-wrapper {
+    &::after {
+      border-radius: inherit;
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /**
+   * checked
+   */
+  &--checked &__icon[alt="checked"] {
+    opacity: 1;
+  }
+
+  /**
+   * indeterminate
+   */
+  &--indeterminate &__icon[alt="indeterminate"] {
+    opacity: 1;
+  }
+}
