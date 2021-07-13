@@ -1,6 +1,8 @@
 @use "~/styles/scss/variables" as V;
 
 .jds-pagination {
+  $--wrapper-padding: 8px;
+
   display: inline-block;
   width: 100%;
   background-color: V.$gray-50;
@@ -14,7 +16,6 @@
   &__wrapper {
     display: grid;
     grid-template-columns: 1fr;
-    height: 100%;
     padding: 8px;
   }
 
@@ -26,33 +27,46 @@
 
     &--right {
       width: 100%;
-      justify-self: center;
       display: flex;
-      justify-content: space-between;
 
       .jds-pagination__page-control__select {
         display: flex;
+        flex-grow: 1;
+        justify-content: center;
         gap: 8px;
       }
-
     }
   }
 
-  // &__navigation {
-  //   button {
-  //     display: flex;
-  //     border: none;
-  //     background: none;
-  //     width: 40px;
-  //     height: 100%;
-  //     align-items: center;
-  //     justify-content: center;
-  //   }
-  // }
+  &__divider {
+    display: inline-block;
+    width: 1px;
+    align-self: stretch;
+    margin: ($--wrapper-padding * -1) 0;
+    background-color: V.$gray-200;
+  }
 
-  // &__navigation:nth-of-type(3) {
-  //   order: 3;
-  // }
+  &__navigation-button {
+    width: 40px;
+    border: none;
+    background: inherit;
+    margin: ($--wrapper-padding * -1) 0;
+    cursor: pointer;
+
+    &:hover, 
+    &:focus {
+      background: V.$gray-100;
+      outline: none;
+    }
+  }
+
+  &--disabled {
+    background-color: V.$gray-100;
+
+    * {
+      color: V.$gray-600;
+    }
+  }
 }
 
 @media (min-width: 728px) {
@@ -68,6 +82,7 @@
         .jds-pagination__page-control__select {
           display: flex;
           gap: 8px;
+          flex-grow: 1;
         }
       }
 
@@ -81,12 +96,20 @@
           justify-content: center;
         }
 
-        .jds-pagination__navigation-button:nth-of-type(1) {
+        .jds-pagination__divider:nth-of-type(1) {
           order: 2;
         }
 
-        .jds-pagination__navigation-button:nth-of-type(2) {
+        .jds-pagination__navigation-button:nth-of-type(1) {
           order: 3;
+        }
+
+        .jds-pagination__divider:nth-of-type(2) {
+          order: 4;
+        }
+
+        .jds-pagination__navigation-button:nth-of-type(2) {
+          order: 5;
         }
       }
     }
