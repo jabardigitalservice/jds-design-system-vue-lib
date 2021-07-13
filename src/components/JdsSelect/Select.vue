@@ -144,7 +144,8 @@ export default {
      * Close options dropdown on option clicked.
      */
     autoClose: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
 
     /**
