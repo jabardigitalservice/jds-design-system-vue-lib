@@ -1,16 +1,22 @@
 @use '~/styles/scss/variables' as V;
 
 $--accordion-border-radius: 8px;
+$--accordion-border-color: V.$green-800;
+
 .jds-accordion {
   position: relative;
+  border: 1px solid transparent;
+  border-bottom-color: V.$green-800;
+  border-radius: $--accordion-border-radius;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
   &__header {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid V.$green-800;
-    border-radius: $--accordion-border-radius;
+    border-radius: $--accordion-border-radius - 1;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
@@ -49,32 +55,32 @@ $--accordion-border-radius: 8px;
     padding: 8px 16px;
   }
 
-  &--show & {
-    &__header {
-      border-bottom: 1px solid V.$green-800;
-    }
+  &:hover,
+  &:focus,
+  &:focus-within {
+    border-color: $--accordion-border-color;
+  }
 
+  &:focus &,
+  &:focus-within & {
+    &__header {
+      box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
+      outline: none;
+    }
+  }
+
+  &--show {
+    border-color: $--accordion-border-color;
+    border-bottom-left-radius: $--accordion-border-radius;
+    border-bottom-right-radius: $--accordion-border-radius;
+  }
+
+  &--show & {
     &__body {
       display: block;
     }
-  }
-
-  &--outlined {
-    border-radius: $--accordion-border-radius;
-    border: 1px solid V.$green-800;
-  }
-
-  &--outlined:not(&--show) {
-    border-bottom: none;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  &--outlined & {
-    &__header:focus,
-    &__header:focus-within {
-      box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
-      outline: none;
+    &__header {
+      border-bottom: 1px solid $--accordion-border-color;
     }
   }
 
