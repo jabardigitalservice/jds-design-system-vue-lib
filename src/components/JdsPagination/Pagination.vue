@@ -12,16 +12,15 @@
             Tampilkan
           </span>
           <select name="" id="" :disabled="disabled">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+            <option :value="option" v-for="option in pageOptions" :key="option" >
+              {{ option }}
+            </option>
           </select>
           <span>
             item
           </span>
           <i class="jds-pagination__divider" />
-          <span>dari total <strong>100</strong></span>
+          <span>dari total <strong>{{ itemsPerPage }}</strong></span>
           <i class="jds-pagination__divider" />
         </div>
       </div>
@@ -35,11 +34,15 @@
         <div class="jds-pagination__page-control__select">
           <span>Halaman</span>
           <select name="" id="" :disabled="disabled">
-            <option value="1">1</option>
-            <option value="1">2</option>
-            <option value="1">3</option>
+            <option 
+            :value="page" 
+            v-for="page in generatePageArray" 
+            :key="page"
+            >
+              {{ page }}
+            </option>
           </select>
-          <span>dari <strong>10</strong></span>
+          <span>dari <strong>{{ length }}</strong></span>
         </div>
         <i class="jds-pagination__divider"/>
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="clicked()">
@@ -57,17 +60,48 @@ export default {
   components: {
     JdsIcon
   },
+  data() {
+    return {
+      currentPage: null,
+      pageOptions: [5, 10, 20, 25, 50, 100]
+    }
+  },
   props: {
     /**
      * Pagination is disabled
      */
     disabled: {
       type: Boolean,
+    },
+
+    /**
+     * Total page available
+     */
+    length: {
+      type: Number,
+      default: 1
+    },
+
+    /**
+     * How many row will shown inside the Table
+     */
+    itemsPerPage: {
+      type: Number,
+      default: 5
     }
   },
   methods: {
     clicked() {
       console.log('clicked')
+    }
+  },
+  computed: {
+    generatePageArray() {
+      const array = []
+      for (let index = 0; index < this.length; index++) {
+        array.push(index + 1)
+      }
+      return array
     }
   }
 }
