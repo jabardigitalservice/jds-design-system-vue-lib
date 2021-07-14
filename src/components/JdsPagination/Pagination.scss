@@ -47,11 +47,18 @@
   }
 
   &__navigation-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40px;
+    margin: ($--wrapper-padding * -1) 0;
     border: none;
     background: inherit;
-    margin: ($--wrapper-padding * -1) 0;
     cursor: pointer;
+
+    i {
+      color: V.$green-700;
+    }
 
     &:hover, 
     &:focus {
@@ -64,7 +71,7 @@
     background-color: V.$gray-100;
 
     * {
-      color: V.$gray-600;
+      color: V.$gray-600 !important;
     }
   }
 }
@@ -93,7 +100,8 @@
         .jds-pagination__page-control__select {
           order: 1;
           flex-grow: 1;
-          justify-content: center;
+          justify-content: flex-end;
+          padding-right: 8px;
         }
 
         .jds-pagination__divider:nth-of-type(1) {

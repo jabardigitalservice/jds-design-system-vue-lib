@@ -29,21 +29,21 @@
       <!-- rigth section -->
       <div class="jds-pagination__page-control--right">
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="clicked()">
-          <jds-icon name="chevron-left"/>
+          <jds-icon name="chevron-left" size="sm"/>
         </button>
         <i class="jds-pagination__divider" />
         <div class="jds-pagination__page-control__select">
-          Halaman
+          <span>Halaman</span>
           <select name="" id="" :disabled="disabled">
             <option value="1">1</option>
             <option value="1">2</option>
             <option value="1">3</option>
           </select>
-          dari <strong>10</strong>
+          <span>dari <strong>10</strong></span>
         </div>
-        <i class="jds-pagination__divider" />
+        <i class="jds-pagination__divider"/>
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="clicked()">
-          <jds-icon name="chevron-right"></jds-icon>
+          <jds-icon name="chevron-right" size="sm"/>
         </button>
       </div>
     </div>
