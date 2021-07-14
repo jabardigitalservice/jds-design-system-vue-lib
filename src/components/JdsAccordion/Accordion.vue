@@ -107,6 +107,11 @@ export default {
       this.mShow = false
       this.emitChange(false)
     },
+    /**
+     * Can be used to force toggle accordion
+     * based on previous state
+     * @public
+     */
     toggle() {
       this.mShow = !this.mShow
       this.emitChange(this.mShow)
