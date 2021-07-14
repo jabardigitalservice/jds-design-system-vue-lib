@@ -2,7 +2,6 @@
   <div :class="{
     'jds-accordion': true,
     'jds-accordion--icon-as-trigger': trigger === 'icon',
-    'jds-accordion--outlined': outlined,
     'jds-accordion--show': mShow
   }">
     <div
@@ -69,12 +68,6 @@ export default {
      */
     title: {
       type: String
-    },
-    /**
-     * Display rounded border around accordion
-     */
-    outlined: {
-      type: Boolean
     }
   },
   data() {
