@@ -38,6 +38,7 @@
         }"
         @click="onClickOptionItem(opt)"
         @keydown.stop.enter="onKeydownEnterOptionItem(opt)"
+        @keydown.stop.delete="onKeydownDeleteOptionItem(opt)"
       >
         <span class="jds-options__option-list-item__text">
           {{ getOptionLabel(opt, labelKey) }}
@@ -191,12 +192,19 @@ export default {
     // END: DROPDOWN STATE
 
     // START: NAVIGATION
+    focusOnFirstFocusable() {
+      if (this.filterable) {
+        this.focusOnFilterInput()
+      } else {
+        this.focusToFirstOption()
+      }
+    },
     /**
      * Set focus on filter input
      * @public
      */
     focusOnFilterInput() {
-      this.$refs.filterInputText?.$refs?.inputEl?.focus?.()
+      this.$refs.filterInputText?.$refs?.inputEl?.focus()
     },
     isFocusingOnFilterInput() {
       return document?.hasFocus()
@@ -266,9 +274,9 @@ export default {
         && (isGoingUp || isGoingDown)
 
       if (isLosingFocus) {
-        this.focusOnFilterInput()
+        this.focusOnFirstFocusable()
       } else if (currentFocusedOptionIndex === 0 && isGoingUp) {
-        this.focusOnFilterInput()
+        this.focusOnFirstFocusable()
       } else if (isGoingUp) {
         this.focusToPrevOption()
       } else if (isGoingDown) {
@@ -314,6 +322,11 @@ export default {
     },
     onKeydownEnterOptionItem(option) {
       this.changeSelectedOption(option)
+    },
+    onKeydownDeleteOptionItem(option) {
+      if (this.isOptionSelected(this.mValue, option, this.valueKey)) {
+        this.resetSelectedOption()
+      }
     },
     onFilterInput(str) {
       this.mFilter = typeof str === "string" && str.length ? str : null
