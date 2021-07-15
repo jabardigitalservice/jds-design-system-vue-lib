@@ -314,11 +314,11 @@ export default {
       const filterInputHasFocus = this.isFocusingOnFilterInput()
       const currentFocusedOptionIndex = this.getCurrentFocusedOptionIndex()
 
-      const isLosingFocus = !filterInputHasFocus
+      const isRetainingFocus = !filterInputHasFocus
         && currentFocusedOptionIndex < 0
         && (isGoingUp || isGoingDown)
 
-      if (isLosingFocus) {
+      if (isRetainingFocus) {
         this.focusOnFirstFocusable()
       } else if (currentFocusedOptionIndex === 0 && isGoingUp) {
         this.focusOnFirstFocusable()
