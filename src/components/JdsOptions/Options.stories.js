@@ -59,10 +59,3 @@ Header.args = {
   options: defaultOptions,
   header: 'Header'
 }
-
-export const Filterable = Template.bind({})
-Filterable.args = {
-  options: defaultOptions,
-  filterable: true,
-  header: 'Header'
-}
