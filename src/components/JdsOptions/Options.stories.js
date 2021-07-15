@@ -35,14 +35,33 @@ const Template = (args, context) => {
   }
 }
 
-export const Default = Template.bind({})
-Default.args = {
-  options: [
-    { value: 1, label: 'one' },
-    { value: 2, label: 'two' },
-    { value: 3, label: 'three' },
-    { value: 4, label: 'four' },
-  ],
+const defaultOptions = [
+  { value: 1, label: 'one' },
+  { value: 2, label: 'two' },
+  { value: 3, label: 'three' },
+  { value: 4, label: 'four' },
+]
+
+export const FullExample = Template.bind({})
+FullExample.args = {
+  options: defaultOptions,
   filterable: true,
   header: 'Header'
+}
+
+export const Simple = Template.bind({})
+Simple.args = {
+  options: defaultOptions
+}
+
+export const Header = Template.bind({})
+Header.args = {
+  options: defaultOptions,
+  header: 'Header'
+}
+
+export const Filterable = Template.bind({})
+Filterable.args = {
+  options: defaultOptions,
+  filterable: true
 }
