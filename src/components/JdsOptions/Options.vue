@@ -19,12 +19,17 @@
       @keydown.native.capture.passive="onKeydownFilterInput"
     >
       <template #prefix-icon>
-        <jds-icon name="magnifier" size="14px" fill="#BDBDBD" />
+        <jds-icon
+          name="magnifier"
+          size="14px" 
+          fill="#BDBDBD"
+        />
       </template>
     </jds-input-text>
     <ul
+      ref="optionList"
       tabindex="0"
-      class="jds-options__option-list" ref="optionList"
+      class="jds-options__option-list"
     >
       <li
         v-for="(opt, index) in availableOptions"
@@ -58,7 +63,6 @@ import JdsInputText from "../JdsInputText"
 import {
   getOptionLabel,
   getOptionValue,
-  findMatchedOption,
 } from "../../utils/options-handler"
 
 export default {
@@ -181,14 +185,59 @@ export default {
     },
   },
   methods: {
+    // START: OPTION STATE AND METHODS
     getOptionLabel,
     getOptionValue,
-    findMatchedOption,
-    findMatchedOptionByLabel(label) {
-      return this.availableOptions.find((opt) => {
-        return getOptionLabel(opt, this.labelKey) === label
-      })
+    isOptionSelected(option) {
+      const val = getOptionValue(option, this.valueKey)
+      return this.mValue === val
     },
+    changeSelectedOption(newOption) {
+      this.mValue = getOptionValue(newOption, this.valueKey)
+      this.emitChange(this.mValue)
+    },
+    /**
+     * @public
+     */
+    resetSelectedOption() {
+      this.mValue = undefined
+      this.emitChange(this.mValue)
+    },
+    /**
+     * @public
+     */
+    selectFirstOption() {
+      const opt = this.availableOptions[0]
+      this.changeSelectedOption(opt)
+    },
+    /**
+     * @public
+     */
+    selectPreviousOption() {
+      const i = Math.max(this.currentOptionIndex - 1, 0)
+      const opt = this.availableOptions[i]
+      this.changeSelectedOption(opt)
+    },
+    /**
+     * @public
+     */
+    selectNextOption() {
+      const i = Math.min(
+        this.currentOptionIndex + 1,
+        this.availableOptions.length - 1
+      )
+      const opt = this.availableOptions[i]
+      this.changeSelectedOption(opt)
+    },
+    /**
+     * @public
+     */
+    selectLastOption() {
+      const len = this.availableOptions.length
+      const opt = this.availableOptions[len - 1]
+      this.changeSelectedOption(opt)
+    },
+    // END: OPTION STATE AND METHODS
 
     // START: NAVIGATION
     focusOnFirstFocusable() {
@@ -209,9 +258,6 @@ export default {
       return document?.hasFocus()
         && document.activeElement === this.$refs.filterInputText?.$refs.inputEl
     },
-    /**
-     * Get currently focused option index
-     */
     getCurrentFocusedOptionIndex() {
       if (!document?.hasFocus()) {
         return -1
@@ -222,7 +268,7 @@ export default {
       })
     },
     /**
-     * Set focus to first option
+     * Set focus to specific option using index
      * @public
      */
     focusOnOption(index) {
@@ -231,7 +277,7 @@ export default {
       }
     },
     /**
-     * Set focus to specific option using index
+     * Set focus to first option
      * @public
      */
     focusOnFirstOption() {
@@ -284,55 +330,6 @@ export default {
     },
     // END: NAVIGATION
 
-    // START: OPTION STATE
-    isOptionSelected(option) {
-      const val = getOptionValue(option, this.valueKey)
-      return this.mValue === val
-    },
-    resetSelectedOption() {
-      this.mValue = undefined
-      this.emitChange(this.mValue)
-    },
-    changeSelectedOption(newOption) {
-      this.mValue = getOptionValue(newOption, this.valueKey)
-      this.emitChange(this.mValue)
-    },
-    /**
-     * @public
-     */
-    selectFirstOption() {
-      const opt = this.availableOptions[0]
-      this.changeSelectedOption(opt)
-    },
-    /**
-     * @public
-     */
-    selectPreviousOption() {
-      const i = Math.max(this.currentOptionIndex - 1, 0)
-      const opt = this.availableOptions[i]
-      this.changeSelectedOption(opt)
-    },
-    /**
-     * @public
-     */
-    selectNextOption() {
-      const i = Math.min(
-        this.currentOptionIndex + 1,
-        this.availableOptions.length - 1
-      )
-      const opt = this.availableOptions[i]
-      this.changeSelectedOption(opt)
-    },
-    /**
-     * @public
-     */
-    selectLastOption() {
-      const len = this.availableOptions.length
-      const opt = this.availableOptions[len - 1]
-      this.changeSelectedOption(opt)
-    },
-    // END: OPTION STATE
-
     onClickOptionItem(option) {
       if (this.isOptionSelected(option)) {
         this.resetSelectedOption()
@@ -358,6 +355,9 @@ export default {
         return
       }
       // FIXME: can not emit native event on storybook
+      /**
+       * Emitted on keydown within filter input element
+       */
       this.$emit('keydown:filter', /* e */)
     },
     emitChange(value) {
