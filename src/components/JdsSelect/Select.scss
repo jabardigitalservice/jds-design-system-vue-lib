@@ -24,6 +24,34 @@
     position: absolute;
     top: 100%;
   }
+
+  &__dropdown {
+    position: relative;
+  }
+
+  &__header {
+    display: none;
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid V.$gray-300;
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  &__filter {
+    position: absolute;
+    width: calc(100% - (16px * 2));
+    height: 36px;
+    margin: 8px 16px;
+
+    &__input-text {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
   
   &__options {
     list-style: none;
@@ -43,6 +71,7 @@
     height: 20px;
     // TODO: define font-size typography class
     font-size: 14px;
+    line-height: 16px;
   
     & + & {
       margin-top: 12px;
@@ -57,7 +86,6 @@
       font-weight: bolder;
     }
     
-    &--highlighted,
     &:hover,
     &:focus,
     &:focus-within {
@@ -73,6 +101,32 @@
   &--opened & {
     &__trigger-icon {
       transform: rotate(180deg);
+    }
+  }
+
+  &:not(&--filterable) & {
+    &__filter {
+      display: none;
+    }
+  }
+
+  &--filterable & {
+    &__options {
+      position: relative;
+      // defaultPaddingTop + filterInputHeight + (filterInputMarginY * 2)
+      padding-top: 16px + 36px + (8px * 2);
+    }
+  }
+
+  &:not(&--error) & {
+    &__error-message {
+      display: none;
+    }
+  }
+
+  &--has-header & {
+    &__header {
+      display: block;
     }
   }
 }
