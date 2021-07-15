@@ -1,46 +1,60 @@
 <template>
-  <div :class="{
-    'jds-date-input': true,
-    'font-sans-1': true,
-  }">
-    <jds-form-control-label v-if="showLabel">
-      {{ label }}
-    </jds-form-control-label>
-    <div :class="{
-      'jds-date-input__input': true,
-      'jds-date-input__input--error': showErrorMsg,
-      'jds-date-input__input--focus': isFocused,
+  <jds-popover ref="popover" v-clickaway="onClickaway" :options="popperOptions">
+    <template #activator="{ on }">
+      <div :class="{
+        'jds-date-input': true,
+        'font-sans-1': true,
       }">
-      <input
-        type="text"
-        id="date"
-        ref="input"
-        :value="mValue"
-        @accept="onAccept"
-        @complete="onComplete"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-      />
-      <icon-calendar 
-      :class="{
-        'jds-date-input__input-suffix-icon': true,
-        'jds-date-input__input-suffix-icon--focus': isFocused,
-      }"/>
-    </div>
-    <jds-form-control-error-message v-if="showErrorMsg">
-      {{ mErrorMessage }}
-    </jds-form-control-error-message>
-  </div>
+        <jds-form-control-label v-if="showLabel">
+          {{ label }}
+        </jds-form-control-label>
+        <div :class="{
+          'jds-date-input__input': true,
+          'jds-date-input__input--error': showErrorMsg,
+          'jds-date-input__input--focus': isFocused,
+          }">
+          <input
+            type="text"
+            id="date"
+            ref="input"
+            v-on="on"
+            :value="mValue"
+            @click="onClick"
+            @accept="onAccept"
+            @complete="onComplete"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+          <jds-icon
+            v-on="on" 
+            name="calendar-date-outline" 
+            size="18px"
+            :class="{
+              'jds-date-input__input-suffix-icon': true,
+              'jds-date-input__input-suffix-icon--focus': isFocused,
+            }
+          "/>
+        </div>
+        <jds-form-control-error-message v-if="showErrorMsg">
+          {{ mErrorMessage }}
+        </jds-form-control-error-message>
+      </div>
+    </template>
+    <template>
+      <jds-calendar v-model="mValue" @change="onDateInputChange()" />
+    </template>
+  </jds-popover>
 </template>
 <script>
 import {
   JdsFormControlLabel,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
+import popperOptions from './options'
 import localCopy from '../../mixins/local-copy'
-
-import IconCalendar from './IconCalendar'
-
+import JdsIcon from '../JdsIcon'
+import JdsCalendar from '../JdsCalendar'
+import { directive as clickaway } from 'vue-clickaway'
 import { fnDate, imask } from '../../utils/date-input'
 
 // TODO: move to utils
@@ -53,12 +67,16 @@ export default {
   components: {
     JdsFormControlLabel,
     JdsFormControlErrorMessage,
-    IconCalendar
+    JdsCalendar,
+    JdsIcon,
   },
   mixins: [localCopy('errorMessage','mErrorMessage')],
   model: {
     prop: 'value',
     event: 'input',
+  },
+  directives: {
+    clickaway,
   },
   props:{
     /**
@@ -118,6 +136,7 @@ export default {
   },
   data(){
     return{
+      popperOptions,
       mErrorMessage: undefined,
       isFocused: null,
       maskRef: {},
@@ -151,7 +170,25 @@ export default {
       this.updateValue()
     },
     updateValue(){
-      this.maskRef.value = this.mValue
+      this.maskRef.updateValue()
+      // this.maskRef.value = this.mValue
+    },
+    onClick(){
+      this.updateValue()
+    },
+    onFocus(){
+      this.updateValue()
+      this.isFocused = true
+    },
+    onBlur(){
+      this.updateValue()
+      this.isFocused = false
+    },
+    onDateInputChange(){
+      this.$refs.popover.close()
+    },
+    onClickaway(){
+      this.$refs.popover.close()
     },
     onAccept(e){
       const maskRef = e.detail;

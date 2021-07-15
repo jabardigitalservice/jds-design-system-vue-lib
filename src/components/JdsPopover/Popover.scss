@@ -1,6 +1,7 @@
 .jds-popover {
   visibility: visible;
   pointer-events: all;
+  display: inline-block;
 
   &__activator {
     display: inline-block;

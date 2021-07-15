@@ -57,14 +57,14 @@
 
     &-suffix-icon{
       cursor: pointer;
-      fill: V.$gray-500;
+      color: V.$gray-500;
 
       &:hover{
-        fill: V.$green-700
+        color: V.$green-700
       }
 
       &--focus{
-        fill: V.$green-700
+        color: V.$green-700
       }
     }
   }
