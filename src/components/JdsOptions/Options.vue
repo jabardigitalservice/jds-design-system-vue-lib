@@ -196,7 +196,7 @@ export default {
       if (this.filterable) {
         this.focusOnFilterInput()
       } else {
-        this.focusToFirstOption()
+        this.focusOnFirstOption()
       }
     },
     /**
@@ -226,7 +226,7 @@ export default {
      * Set focus to first option
      * @public
      */
-    focusToOption(index) {
+    focusOnOption(index) {
       if (index >= 0 && index < this.availableOptions.length) {
         this.$refs.optionListItems?.[index]?.focus()
       }
@@ -235,33 +235,33 @@ export default {
      * Set focus to specific option using index
      * @public
      */
-    focusToFirstOption() {
-      this.focusToOption(0)
+    focusOnFirstOption() {
+      this.focusOnOption(0)
     },
     /**
      * Set focus to previous option,
      * based on latest focused option
      * @public
      */
-    focusToPrevOption() {
+    focusOnPrevOption() {
       const i = this.getCurrentFocusedOptionIndex()
-      this.focusToOption(i - 1)
+      this.focusOnOption(i - 1)
     },
     /**
      * Set focus to next option,
      * based on latest focused option
      * @public
      */
-    focusToNextOption() {
+    focusOnNextOption() {
       const i = this.getCurrentFocusedOptionIndex()
-      this.focusToOption(i + 1)
+      this.focusOnOption(i + 1)
     },
     /**
      * Set focus to last option
      * @public
      */
-    focusToLastOption() {
-      this.focusToOption(this.availableOptions.length - 1)
+    focusOnLastOption() {
+      this.focusOnOption(this.availableOptions.length - 1)
     },
     handleKeyboardNavigation(e) {
       const isGoingUp = keyCode.isArrow("Up", e)
@@ -278,9 +278,9 @@ export default {
       } else if (currentFocusedOptionIndex === 0 && isGoingUp) {
         this.focusOnFirstFocusable()
       } else if (isGoingUp) {
-        this.focusToPrevOption()
+        this.focusOnPrevOption()
       } else if (isGoingDown) {
-        this.focusToNextOption()
+        this.focusOnNextOption()
       }
     },
     // END: NAVIGATION
@@ -294,21 +294,42 @@ export default {
       this.mValue = undefined
       this.emitChange(this.mValue)
     },
-    changeSelectedOption(option) {
-      this.mValue = getOptionValue(option, this.valueKey)
+    changeSelectedOption(newOption) {
+      this.mValue = getOptionValue(newOption, this.valueKey)
       this.emitChange(this.mValue)
     },
+    /**
+     * @public
+     */
+    selectFirstOption() {
+      const opt = this.availableOptions[0]
+      this.changeSelectedOption(opt)
+    },
+    /**
+     * @public
+     */
     selectPreviousOption() {
       const i = Math.max(this.currentOptionIndex - 1, 0)
       const opt = this.availableOptions[i]
       this.changeSelectedOption(opt)
     },
+    /**
+     * @public
+     */
     selectNextOption() {
       const i = Math.min(
         this.currentOptionIndex + 1,
         this.availableOptions.length - 1
       )
       const opt = this.availableOptions[i]
+      this.changeSelectedOption(opt)
+    },
+    /**
+     * @public
+     */
+    selectLastOption() {
+      const len = this.availableOptions.length
+      const opt = this.availableOptions[len - 1]
       this.changeSelectedOption(opt)
     },
     // END: OPTION STATE
@@ -324,7 +345,7 @@ export default {
       this.changeSelectedOption(option)
     },
     onKeydownDeleteOptionItem(option) {
-      if (this.isOptionSelected(this.mValue, option, this.valueKey)) {
+      if (this.isOptionSelected(option)) {
         this.resetSelectedOption()
       }
     },
