@@ -1,0 +1,141 @@
+@use '~/styles/scss/variables' as V;
+
+$--image-aspect-ratio: 16/9;
+$--thumbnail-size: 50px;
+$--card-padding: 24px;
+
+.jds-card {
+  padding: $--card-padding;
+  border-radius: 8px;
+  overflow: hidden;
+
+  // hidden by default
+  &__media,
+  &__thumbnail,
+  &__action {
+    display: none;
+  }
+
+  &__media {
+    border-bottom: 1px solid V.$gray-100;
+    margin: -1 * $--card-padding;
+    margin-bottom: 0;
+    position: relative;
+    padding: ((1 / $--image-aspect-ratio) * (50%)) 0;
+    overflow: hidden;
+
+    &__image-default {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start; 
+  }
+
+  &__thumbnail {
+    flex: 0 0 auto;
+    overflow: hidden;
+    width: $--thumbnail-size;
+    height: $--thumbnail-size;
+    margin-right: 16px;
+    border-radius: $--thumbnail-size * 2;
+  }
+
+  &__titles {
+    flex-grow: 1;
+    display: inline-block;
+    word-break: break-all;
+  }
+
+  &__title {
+    margin: 0;
+    color: V.$black;
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 25px;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: V.$gray-600;
+  }
+
+  &__action {
+    flex: 0 0 auto;
+    margin-top: 14px;
+
+    &__icon-default {
+      background: none;
+
+      &,
+      &:focus,
+      &:active,
+      &:hover {
+        outline: none;
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
+
+  &__body {
+
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  &__button-default {
+    & + & {
+      margin-left: 16px;
+    }
+  }
+
+  &__header + &__body {
+    margin-top: 16px;
+  }
+
+  &--has-media & {
+    &__media {
+      display: block;
+    }
+
+    &__header {
+      margin-top: 17px;
+    }
+  }
+
+  &--has-thumbnail & {
+    &__thumbnail {
+      display: block;
+    }
+  }
+
+  &--has-action & {
+    &__action {
+      display: block;
+    }
+  }
+
+  &--single-button & {
+    &__buttons {
+      justify-content: center;
+    }
+  }
+}
