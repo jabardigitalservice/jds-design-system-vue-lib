@@ -189,7 +189,6 @@ export default {
         return getOptionLabel(opt, this.labelKey) === label
       })
     },
-    // END: DROPDOWN STATE
 
     // START: NAVIGATION
     focusOnFirstFocusable() {
