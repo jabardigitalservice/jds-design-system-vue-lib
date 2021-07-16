@@ -24,6 +24,7 @@
             @complete="onComplete"
             @focus="onFocus"
             @blur="onBlur"
+            autocomplete="off"
           />
           <jds-icon
             v-on="on" 
@@ -54,6 +55,7 @@ import popperOptions from './options'
 import localCopy from '../../mixins/local-copy'
 import JdsIcon from '../JdsIcon'
 import JdsCalendar from '../JdsCalendar'
+import JdsPopover from '../JdsPopover'
 import { directive as clickaway } from 'vue-clickaway'
 import { fnDate, imask } from '../../utils/date-input'
 
@@ -69,6 +71,7 @@ export default {
     JdsFormControlErrorMessage,
     JdsCalendar,
     JdsIcon,
+    JdsPopover
   },
   mixins: [localCopy('errorMessage','mErrorMessage')],
   model: {

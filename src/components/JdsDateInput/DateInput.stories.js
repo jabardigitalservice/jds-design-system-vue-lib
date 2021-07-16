@@ -1,6 +1,7 @@
 // Button.stories.js
 
 import JdsDateInput from './DateInput.vue'
+import JdsPopover from '../JdsPopover'
 import storybookMixin from '../../utils/storybook'
 
 export default {
@@ -26,11 +27,9 @@ export default {
 }
 
 const Template = (args, context) => {
-  const { argTypes } = context
   return {
     name: 'JdsDateInputStories',
-    components: { JdsDateInput },
-    props: Object.keys(argTypes),
+    components: { JdsDateInput, JdsPopover },
     mixins: [storybookMixin(args, context)],
     computed: {
       responsiveness(){
