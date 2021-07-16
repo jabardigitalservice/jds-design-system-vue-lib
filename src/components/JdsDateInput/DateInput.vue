@@ -83,22 +83,22 @@ export default {
   },
   props:{
     /**
-     * The name for date input
+     * The name for date input.
      */
     name: {
       type: String
     },
     /**
-     * Type of date input
-     * Value is `picker | range`
+     * Type of date input.
+     * Value is `picker | range`.
      */
     type: {
      type: String,
      default: 'picker'
     },
     /**
-     * You can set minimal date for
-     * the earliest acceptable date
+     * You can set minimal date for.
+     * the earliest acceptable date.
      * The value of the min date format follows the pattern `DD/MM/YYYY`.
      */
     min: {
@@ -106,8 +106,8 @@ export default {
       default: '01/01/1900'
     },
     /**
-     * You can set maximal date for
-     * the latest acceptable date
+     * You can set maximal date for.
+     * the latest acceptable date.
      * The value of the max date format follows the pattern `DD/MM/YYYY`.
      */
     max: {
@@ -119,19 +119,19 @@ export default {
      * @name value
      * @model
      * The value of the input date format follows the pattern `DD/MM/YYYY`.
-     * if value not set the value will be current date
+     * if value not set the value will be current date.
      */
     value: {
       type: String,
     },
     /**
-     * Label for Date Input
+     * Label for Date Input.
      */
     label:{
       type: String,
     },
     /**
-     * Error Message for Date Input
+     * Error Message for Date Input.
      */
     errorMessage: {
       type: String
