@@ -1,5 +1,3 @@
-// Button.stories.js
-
 import JdsDateInput from './DateInput.vue'
 import JdsPopover from '../JdsPopover'
 import storybookMixin from '../../utils/storybook'
