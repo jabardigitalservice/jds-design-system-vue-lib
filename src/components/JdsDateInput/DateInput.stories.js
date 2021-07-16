@@ -1,5 +1,4 @@
 import JdsDateInput from './DateInput.vue'
-import JdsPopover from '../JdsPopover'
 import storybookMixin from '../../utils/storybook'
 
 export default {
@@ -27,7 +26,7 @@ export default {
 const Template = (args, context) => {
   return {
     name: 'JdsDateInputStories',
-    components: { JdsDateInput, JdsPopover },
+    components: { JdsDateInput },
     mixins: [storybookMixin(args, context)],
     computed: {
       responsiveness(){
