@@ -25,7 +25,8 @@
     "core-js": "^3.6.5",
     "fecha": "^4.2.1",
     "imask": "^6.0.7",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-clickaway": "^2.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
