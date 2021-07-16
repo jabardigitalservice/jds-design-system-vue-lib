@@ -1,5 +1,6 @@
 <template>
-  <div :class="{
+  <div
+    :class="{
       'jds-pagination font-sans-1': true,
       'jds-pagination--disabled': disabled,
     }"
@@ -11,12 +12,8 @@
           <span>
             Tampilkan
           </span>
-          <select
-            :value="mItemsPerPage" 
-            @change="onItemsPerPageChange"
-            :disabled="disabled"
-          >
-            <option :value="item" v-for="item in itemsPerPageOptions" :key="item" >
+          <select :value="mItemsPerPage" @change="onItemsPerPageChange" :disabled="disabled">
+            <option :value="item" v-for="item in itemsPerPageOptions" :key="item">
               {{ item }}
             </option>
           </select>
@@ -31,30 +28,26 @@
 
       <!-- rigth section -->
       <div class="jds-pagination__page-control--right">
-        <button class="jds-pagination__navigation-button" :disabled="disabled" @click="onPreviousPage">
-          <jds-icon name="chevron-left" size="sm"/>
+        <button
+          class="jds-pagination__navigation-button"
+          :disabled="disabled"
+          @click="onPreviousPage"
+        >
+          <jds-icon name="chevron-left" size="sm" />
         </button>
         <i class="jds-pagination__divider" />
         <div class="jds-pagination__page-control__select">
           <span>Halaman</span>
-          <select 
-            :value="mCurrentPage"
-            @change="onPageChange"
-            :disabled="disabled"
-          >
-            <option 
-            :value="page" 
-            v-for="page in generatedPageNumbers" 
-            :key="page"
-            >
+          <select :value="mCurrentPage" @change="onPageChange" :disabled="disabled">
+            <option :value="page" v-for="page in generatedPageNumbers" :key="page">
               {{ page }}
             </option>
           </select>
           <span>dari <strong>{{ pages }}</strong></span>
         </div>
-        <i class="jds-pagination__divider"/>
+        <i class="jds-pagination__divider" />
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="onNextPage">
-          <jds-icon name="chevron-right" size="sm"/>
+          <jds-icon name="chevron-right" size="sm" />
         </button>
       </div>
     </div>
@@ -71,93 +64,104 @@ export default {
     JdsIcon
   },
   mixins: [
-    localCopy('currentPage', 'mCurrentPage'), 
+    localCopy('currentPage', 'mCurrentPage'),
     localCopy('itemsPerPage', 'mItemsPerPage')
   ],
   data() {
     return {
       mCurrentPage: null,
       mItemsPerPage: null,
-      // pageOptions: [5, 10, 20, 25, 50, 100]
     }
   },
   props: {
+
     /**
-     * Pagination is disabled
+     * Bound model.
+     * @name currentPage
+     * @model
+     */
+    currentPage: {
+      type: [Number, String],
+      default: 1
+    },
+
+     /**
+     * Bound model.
+     * @name itemsPerPage
+     * @model
+     */
+    itemsPerPage: {
+      type: [Number, String],
+      default: 5,
+    },
+
+    /**
+     * Toogle pagination disabled state
      */
     disabled: {
       type: Boolean,
+      default: false
     },
 
     /**
-     *  Current page
-     */
-    currentPage: {
-      type: Number,
-      default: 1
-    },
-
-    /**
-     * Total page available
-     */
-    length: {
-      type: Number,
-      default: 1
-    },
-
-    /**
-     * 
+     *  Total of data rows
      */
     totalRows: {
-      type: Number,
+      type: [Number, String],
+      default: 0
     },
 
     /**
-     * How many row will shown inside the Table
-     */
-    itemsPerPage: {
-      type: Number,
-      default: 5
-    },
-
-    /**
-     * 
+     *  Options to show how many rows or data per page
      */
     itemsPerPageOptions: {
       type: Array,
       default: () => [5, 10, 20, 50, 100]
     },
-
-    
-
-   
   },
   methods: {
     onPreviousPage() {
+      /**
+       * Emitted on previous button is clicked
+       */
       this.$emit('previous-page')
     },
     onNextPage() {
+      /**
+       * Emitted on next button is clicked
+       */
       this.$emit('next-page')
     },
     onPageChange(e) {
       this.mCurrentPage = e.target.value
+      /**
+       * Emitted on page is changed
+       * @param {number} currentPage
+       */
       this.$emit('page-change', this.mCurrentPage)
     },
     onItemsPerPageChange(e) {
       this.mItemsPerPage = e.target.value
+      /**
+       * Emitted on item per page is changed
+       * @param {number} itemsPerPage
+       */
       this.$emit('per-page-change', this.mItemsPerPage)
     }
   },
   computed: {
     generatedPageNumbers() {
-      const array = []
-      for (let index = 0; index < this.length; index++) {
-        array.push(index + 1)
+      const pageNumbers = []
+      for (let index = 0; index < this.pages; index++) {
+        pageNumbers.push(index + 1)
       }
-      return array
+      return pageNumbers
     },
     pages() {
-      return Math.ceil(parseInt(this.totalRows)/parseInt(this.mItemsPerPage))
+      if (!!this.totalRows && !!this.mItemsPerPage) {
+        return Math.ceil(parseInt(this.totalRows)/parseInt(this.mItemsPerPage)) 
+      }
+      return 1
     }
   }
 }
@@ -166,3 +170,4 @@ export default {
 <style lang="scss" scoped>
 @use "./Pagination.scss";
 </style>
+
