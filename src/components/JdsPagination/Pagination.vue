@@ -31,7 +31,11 @@
           :disabled="disabled"
           @click="onPreviousPage"
         >
-          <jds-icon name="chevron-left" size="sm" />
+          <jds-icon 
+            name="chevron-left" 
+            class="text-green-800"
+            size="16px" 
+          />
         </button>
         <i class="jds-pagination__divider" />
         <div class="jds-pagination__page-control__select">
@@ -45,7 +49,11 @@
         </div>
         <i class="jds-pagination__divider" />
         <button class="jds-pagination__navigation-button" :disabled="disabled" @click="onNextPage">
-          <jds-icon name="chevron-right" size="sm" />
+          <jds-icon 
+            name="chevron-right" 
+            class="text-green-800"
+            size="16px"
+          />
         </button>
       </div>
     </div>
@@ -132,7 +140,7 @@ export default {
       this.$emit('next-page')
     },
     onPageChange(e) {
-      this.mCurrentPage = e.target.value
+      this.mCurrentPage = +e.target.value
       /**
        * Emitted on page is changed.
        * @param {number} currentPage
@@ -140,7 +148,7 @@ export default {
       this.$emit('page-change', this.mCurrentPage)
     },
     onItemsPerPageChange(e) {
-      this.mItemsPerPage = e.target.value
+      this.mItemsPerPage = +e.target.value
       /**
        * Emitted on item per page is changed.
        * @param {number} itemsPerPage
