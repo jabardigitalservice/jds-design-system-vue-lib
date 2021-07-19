@@ -1,0 +1,111 @@
+@use "~/styles/scss/variables" as V;
+
+.jds-calendar {
+  user-select:none;
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #BDBDBD;
+  display: block;
+  max-width: 224px;
+  border-radius: 6px;
+  z-index: 20;
+  padding: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 23px;
+  font-family: 'Roboto';
+  box-shadow: 0 4px 10px 0 rgb(0,0,0,.08);
+
+  &__days{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    &-day {
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Lato';
+      color: V.$gray-700;
+      border-radius: 50%;
+
+      &:hover{
+        background: V.$green-700;
+        color: white;
+      }
+
+      &--selected{
+        background: V.$green-700;
+        color: white !important;
+      }
+
+      &--today{
+        font-weight: bold;
+        color: V.$gray-900;
+      }
+
+      &--holiday {
+        color: V.$red-700;
+      }
+
+      &--gray {
+        color: V.$gray-500
+      }
+    }
+  }
+
+  &__headerbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__month {
+    font-weight: 700;
+    color: V.$gray-900;
+  }
+
+  &__year {
+    font-weight: 700;
+    color: V.$gray-900;
+  }
+
+  &__list-of-days{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  &__name-of-day{
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: V.$gray-800;
+  }
+
+  &__btn-prev{
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+  }
+
+  &__btn-next{
+    width: 20px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    cursor: pointer;
+  }
+}
