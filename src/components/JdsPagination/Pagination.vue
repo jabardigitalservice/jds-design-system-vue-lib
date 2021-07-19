@@ -6,7 +6,6 @@
     }"
   >
     <div class="jds-pagination__wrapper">
-      <!-- left section -->
       <div class="jds-pagination__page-control--left">
         <div class="jds-pagination__page-control__select">
           <span>
@@ -26,7 +25,6 @@
         </div>
       </div>
 
-      <!-- rigth section -->
       <div class="jds-pagination__page-control--right">
         <button
           class="jds-pagination__navigation-button"
@@ -59,6 +57,10 @@ import JdsIcon from '../JdsIcon'
 import localCopy from '../../mixins/local-copy'
 
 export default {
+  model: {
+    prop: 'currentPage',
+    event: 'change',
+  },
   name: "jds-pagination",
   components: {
     JdsIcon
@@ -74,7 +76,6 @@ export default {
     }
   },
   props: {
-
     /**
      * Bound model.
      * @name currentPage
@@ -86,9 +87,7 @@ export default {
     },
 
      /**
-     * Bound model.
-     * @name itemsPerPage
-     * @model
+     * How many rows are shown per page.
      */
     itemsPerPage: {
       type: [Number, String],
@@ -96,7 +95,7 @@ export default {
     },
 
     /**
-     * Toogle pagination disabled state
+     * Toggle pagination disabled state.
      */
     disabled: {
       type: Boolean,
@@ -104,7 +103,7 @@ export default {
     },
 
     /**
-     *  Total of data rows
+     *  Total of data rows.
      */
     totalRows: {
       type: [Number, String],
@@ -112,7 +111,7 @@ export default {
     },
 
     /**
-     *  Options to show how many rows or data per page
+     *  Options to show how many rows or data per page.
      */
     itemsPerPageOptions: {
       type: Array,
@@ -122,20 +121,20 @@ export default {
   methods: {
     onPreviousPage() {
       /**
-       * Emitted on previous button is clicked
+       * Emitted on previous button is clicked.
        */
       this.$emit('previous-page')
     },
     onNextPage() {
       /**
-       * Emitted on next button is clicked
+       * Emitted on next button is clicked.
        */
       this.$emit('next-page')
     },
     onPageChange(e) {
       this.mCurrentPage = e.target.value
       /**
-       * Emitted on page is changed
+       * Emitted on page is changed.
        * @param {number} currentPage
        */
       this.$emit('page-change', this.mCurrentPage)
@@ -143,7 +142,7 @@ export default {
     onItemsPerPageChange(e) {
       this.mItemsPerPage = e.target.value
       /**
-       * Emitted on item per page is changed
+       * Emitted on item per page is changed.
        * @param {number} itemsPerPage
        */
       this.$emit('per-page-change', this.mItemsPerPage)
