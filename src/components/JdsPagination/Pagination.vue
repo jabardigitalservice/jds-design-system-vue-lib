@@ -67,7 +67,7 @@ import localCopy from '../../mixins/local-copy'
 export default {
   model: {
     prop: 'currentPage',
-    event: 'change',
+    event: 'page-change',
   },
   name: "jds-pagination",
   components: {
