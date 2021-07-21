@@ -19,7 +19,7 @@ export default {
     },
     width: {
       name: 'style.width',
-      defaultValue: '320px',
+      defaultValue: '355px',
       description: 'Card width in pixel',
       control: {
         type: 'text'
@@ -35,7 +35,6 @@ export default {
 };
 
 const Template = (args, context) => {
-  console.log({ args, context })
   return {
     name: 'JdsCardStories',
     components: { JdsCard },
@@ -62,8 +61,8 @@ const Template = (args, context) => {
 
 // FIXME: should image asset be hardcoded?
 const defaultArgs = {
-  image: 'https://firebasestorage.googleapis.com/v0/b/jabarprov-covid19.appspot.com/o/public%2Fbanner%2FJabar%20Memanggil.jpeg?alt=media&token=e97d74d7-4f12-4747-9223-7225ce5849a4',
-  thumbnail: 'https://forum.pikobar.jabarprov.go.id/uploads/default/original/2X/0/086d5b957a17bdbe49f2fffa3e965ba094b2f5a2.jpeg',
+  image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
+  thumbnail: 'https://images.unsplash.com/photo-1494869042583-f6c911f04b4c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZXllc3xlbnwwfHwwfHw%3D&w=1000&q=80',
   title: 'Ini adalah judul',
   subtitle: 'Subjudul',
   actionIcon: 'share',
