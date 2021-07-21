@@ -4,6 +4,7 @@
     :value="isDropdownOpen" 
     :options="popperOptions"
     @input="toggleDropdown"
+    @keydown.native="handleKeyboardNavigation"
   >
     <template #activator>
       <div :class="{
@@ -12,7 +13,7 @@
       }">
         <jds-input-text
           ref="inputText"
-          v-model="inputElementValue"
+          :value="selectedOptionLabel"
           readonly
           :label="label"
           :placeholder="placeholder"
@@ -38,28 +39,22 @@
         </jds-form-control-error-message>
       </div>
     </template>
-    <jds-popover-dropdown>
-      <ul
-        class="jds-select__options"
-        ref="optionList"
-      >
-        <li
-          v-for="(opt, index) in mOptions"
-          :key="index"
-          ref="optionItemsEl"
-          tabindex="0"
-          :class="{
-            'jds-select__option': true,
-            'jds-select__option--selected': isOptionSelected(opt)
-          }"
-          @click="onClickOptionItem(opt)"
-        >
-          <span class="jds-select__option__text">
-            {{ getOptionLabel(opt, labelKey) }}
-          </span>
-        </li>
-      </ul>
-    </jds-popover-dropdown>
+    <jds-options
+      ref="optionsRef"
+      class="jds-select__options"
+      v-bind="{
+        options,
+        valueKey,
+        labelKey,
+        header: optionsHeader,
+        filterable,
+        filter,
+        filterType,
+      }"
+      @click:option="onOptionClicked"
+      @change="onOptionsValueChanged"
+      @change:filter="onOptionsFilterChanged"
+    />
   </jds-popover>
 </template>
 
@@ -71,7 +66,7 @@ import JdsIcon from '../JdsIcon'
 import JdsFormControlErrorMessage from '../JdsFormControl/FormControlErrorMessage'
 import JdsInputText from '../JdsInputText'
 import JdsPopover from '../JdsPopover'
-import JdsPopoverDropdown from '../JdsPopoverDropdown'
+import JdsOptions from '../JdsOptions'
 import popperOptions from '../JdsPopoverDropdown/options'
 
 import {
@@ -96,14 +91,13 @@ export default {
   components: {
     JdsIcon,
     JdsPopover,
-    JdsPopoverDropdown,
     JdsInputText,
     JdsFormControlErrorMessage,
+    JdsOptions
   },
   mixins: [
     localCopy('value', 'mValue'),
     localCopy('filterValue', 'mFilterValue'),
-    localCopy('options', 'mOptions'),
   ],
   props: {
     /**
@@ -115,6 +109,8 @@ export default {
       type: [String, Number, Boolean, Array],
       default: undefined,
     },
+
+    // START: JdsOptions related props ========================================
     /**
      * Available options to select from.
      * Can be array of primitives or objects.
@@ -129,7 +125,7 @@ export default {
      */
     valueKey: {
       type: String,
-      default: 'value',
+      default: "value",
     },
     /**
      * Required if options consist of objects.
@@ -137,8 +133,41 @@ export default {
      */
     labelKey: {
       type: String,
-      default: 'label',
+      default: "label",
     },
+
+    /**
+     * Set header text
+     */
+    optionsHeader: {
+      type: String,
+    },
+
+    /**
+     * Set options as filterable by typing.
+     * Options will be filtered based on its label.
+     */
+    filterable: {
+      type: Boolean,
+    },
+    /**
+     * One of `start,contain`.
+     * <br>
+     * start: filter using `String#startsWith`
+     * <br>
+     * contain: filter using `String#includes`
+     */
+    filterType: {
+      type: String,
+      default: "start",
+    },
+    /**
+     * Initial filter value
+     */
+    filter: {
+      type: String,
+    },
+    // END: JdsOptions related props ========================================
 
     /**
      * Close options dropdown on option clicked.
@@ -181,10 +210,7 @@ export default {
       },
       isDropdownOpen: false,
       mValue: undefined,
-      mFilterValue: undefined,
-      inputElementValue: undefined,
-
-      mOptions: [],
+      mFilterValue: undefined
     }
   },
   computed: {
@@ -197,40 +223,23 @@ export default {
     showErrorMsg () {
       return isStringDefined(this.errorMessage)
     },
-    currentOptionIndex () {
-      return this.mOptions.findIndex((opt) => {
+    selectedOptionLabel () {
+      if (!Array.isArray(this.options)) {
+        return ''
+      }
+      const matched = this.options.find((opt) => {
         return getOptionValue(opt, this.valueKey) === this.mValue
       })
+      if (!matched) {
+        return ''
+      }
+      return getOptionLabel(matched, this.labelKey)
     }
-  },
-  mounted () {
-    window.addEventListener('keydown', this.listenToKeydownEvent)
-  },
-  beforeDestroy () {
-    window.removeEventListener('keydown', this.listenToKeydownEvent)
   },
   methods: {
     getOptionLabel,
     getOptionValue,
     findMatchedOption,
-    findMatchedOptionByLabel (label) {
-      return this.mOptions.find((opt) => {
-        return getOptionLabel(opt, this.labelKey) === label
-      })
-    },
-    listenToKeydownEvent (e) {
-      const activeEl = document.activeElement
-      if (!activeEl) {
-        return
-      }
-      const isWithinThisPopover = this.$el?.contains?.(activeEl)
-      if (!isWithinThisPopover) {
-        return
-      }
-
-      this.handleKeyboardNavigation(e)
-    },
-
     // START: DROPDOWN STATE
     toggleDropdown (open) {
       // if argument is supplied,
@@ -255,11 +264,16 @@ export default {
     openDropdown () {
       this.isDropdownOpen = true
     },
+    /**
+     * @param {object} options
+     * @param {boolean} options.retainFocus - Keep focus on JdsSelect
+     *     when closed.
+     */
     closeDropdown ({ retainFocus = false } = {}) {
       this.isDropdownOpen = false
       this.$nextTick(() => {
         if (retainFocus) {
-          this.$refs.inputText.forceFocus()
+          this.focusOnSelectInputElement()
         }
       })
     },
@@ -267,23 +281,43 @@ export default {
 
     // START: NAVIGATION
     handleKeyboardNavigation(e) {
-      if (keyCode.isArrow('Up', e) || keyCode.isArrow('Left', e)) {
-        this.navigateToPrevOption()
-      } else if (keyCode.isArrow('Down', e) || keyCode.isArrow('Right', e)) {
-        this.navigateToNextOption()
-      }
+      const isGoingUp = keyCode.isArrow("Up", e)
+      const isGoingDown = keyCode.isArrow("Down", e)
+      const isEnter = keyCode.isEnter(e)
+      const isFocusOnSelect = this.isFocusingOnSelectInputElement()
 
+      // START: when options is closed
       if (!this.isDropdownOpen) {
-        if (keyCode.isEnter(e)) {
+        if (isEnter) {
+          // open options on Enter
           e.preventDefault()
           this.openDropdown()
         }
+        if (isGoingUp) {
+          // auto select prev option on Arrow Up
+          this.selectPreviousOption()
+        } else if (isGoingDown) {
+          // auto select next option on Arrow Up
+          this.selectNextOption()
+        }
+        return
+      }
+      // END: when options is closed
+
+      // when options is open and focus is on JdsSelect <input> element,
+      // move focus to JdsOptions
+      if (isGoingDown && isFocusOnSelect) {
+        this.focusOnOptionsComponent()
         return
       }
 
+      // keys that trigger close:
+      // 1. Tab
+      // 2. Escape
+      // 3. Enter (ignored when autoClose is false)
       const shouldClose = keyCode.isTab(e)
         || keyCode.isEscape(e)
-        || keyCode.isEnter(e)
+        || (isEnter && this.autoClose)
       if (shouldClose) {
         // prevent focus from moving to next focusable element,
         // retain focus on input text element
@@ -291,73 +325,65 @@ export default {
         this.closeDropdown({ retainFocus: true })
       }
     },
-    navigateToPrevOption () {
-      let i
-      if (this.currentOptionIndex <= 0) {
-        i = 0
-      } else {
-        i = this.currentOptionIndex - 1
-      }
-      const opt = this.mOptions[i]
-      this.changeSelectedOption(opt)
-      this.$refs.optionItemsEl[i].focus()
+    isFocusingOnSelectInputElement () {
+      // FIXME: find better way to check focus state
+      return document?.hasFocus()
+        && document.activeElement === this.$refs.inputText?.$refs.inputEl
     },
-    navigateToNextOption () {
-      if (this.currentOptionIndex === this.mOptions.length - 1) {
-        return
-      }
-      const i = this.currentOptionIndex + 1
-      const opt = this.mOptions[i]
-      this.changeSelectedOption(opt)
-      this.$refs.optionItemsEl[i].focus()
+    focusOnSelectInputElement () {
+      this.$refs.inputText?.forceFocus?.()
+    },
+    focusOnOptionsComponent () {
+      this.$refs.optionsRef?.focusOnFirstFocusable?.()
+    },
+    selectPreviousOption () {
+      this.$refs.optionsRef?.selectPreviousOption?.()
+    },
+    selectNextOption () {
+      this.$refs.optionsRef?.selectNextOption?.()
     },
     // END: NAVIGATION
 
-    // START: OPTION STATE
-    isOptionSelected(option) {
-      const val = getOptionValue(option, this.valueKey)
-      return this.mValue === val
-    },
-    resetSelectedOption() {
-      this.mValue = undefined
-      this.inputElementValue = ''
-      this.emitChange(this.mValue)
-    },
-    changeSelectedOption(option) {
-      this.mValue = getOptionValue(option, this.valueKey)
-      this.inputElementValue = getOptionLabel(option, this.labelKey)
-      this.emitChange(this.mValue)
-    },
-    // END: OPTION STATE
-
     onTriggerClicked () {
-      this.$refs.inputText.forceFocus()
+      this.focusOnSelectInputElement()
     },
 
     onInputClicked () {
       this.toggleDropdown()
-    },
-    onPopperKeydown (e) {
-      this.handleKeyboardNavigation(e)
     },
     onClickaway() {
       if (this.isDropdownOpen) {
         this.closeDropdown({ retainFocus: true })
       }
     },
-    onClickOptionItem(option) {
-      if (this.isOptionSelected(option)) {
-        this.resetSelectedOption()
-      } else {
-        this.changeSelectedOption(option)
-      }
+    onOptionClicked() {
+      // only determine whether dropdown needs to be closed or not.      
       if (this.autoClose) {
         this.closeDropdown({ retainFocus: true })
       }
     },
+    onOptionsValueChanged (value) {
+      this.mValue = value
+      this.emitChange(this.mValue)
+    },
+    onOptionsFilterChanged (filter) {
+      /**
+       * Support `.sync` modifier for `filter` prop.
+       * Emitted when filter changed
+       * @param {string} filter
+       */
+      this.$emit('update:filter', filter)
+
+      /**
+       * Emitted when filter changed
+       * @param {string} filter
+       */
+      this.$emit('change:filter', filter)
+    },
     emitChange (value) {
       /**
        * Emitted when value changed
+       * @param {any} value
        */
       this.$emit('change', value)
     },
