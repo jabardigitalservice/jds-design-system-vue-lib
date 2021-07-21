@@ -30,6 +30,16 @@ export default {
       table: {
         disable: true
       }
+    },
+    body: {
+      description: 'Set body content (for testing purpose only)',
+      defaultValue: 
+        `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Non aliquam nunc etiam risus consequat vestibulum tellus eget orci.`
+      ,
+      control: {
+        type: 'text'
+      }
     }
   }
 };
@@ -39,20 +49,26 @@ const Template = (args, context) => {
     name: 'JdsCardStories',
     components: { JdsCard },
     mixins: [storybookMixin(args, context)],
-    props: ['className', 'width', 'hideBody'],
+    props: ['className', 'width', 'hideBody', 'body'],
     template: `
       <jds-card
-        :class="$props.className"
-        :style="{ width: $props.width }"
-        v-bind="$props"
+        :class="className"
+        :style="{ width }"
+        v-bind="{
+          image,
+          thumbnail,
+          title,
+          subtitle,
+          actionIcon,
+          button
+        }"
         v-on="events"
       >
         <div
           v-if="!hideBody"
           class="font-sans-1 text-gray-800"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Non aliquam nunc etiam risus consequat vestibulum tellus eget orci.
+          {{ body }} 
         </div>
       </jds-card>
     `,
