@@ -124,7 +124,7 @@ export default {
       type: String,
     },
     /**
-     * Set card action icon
+     * Set card action icon based on available JdsIcon set.
      */
     actionIcon: {
       type: String,
