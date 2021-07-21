@@ -1,12 +1,12 @@
 const path = require('path')
 
-function mergeAppWebpackConfig(config) {
-  config.resolve.alias = config.resolve.alias || {}
-  Object.assign(config.resolve.alias, {
-    '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
-  })
-
-  const svgRule = config.module.rules.find((rule) => {
+/**
+ * Insert svg-to-vue loader rule
+ * NOTE: This method mutate provided config argument
+ * @param {*} currentConfig 
+ */
+function modifySvgRule(currentConfig) {
+  const svgRule = currentConfig.module.rules.find((rule) => {
     return rule.test.test('.svg')
   })
 
@@ -29,7 +29,18 @@ function mergeAppWebpackConfig(config) {
   }
 }
 
+function mergeAppWebpackConfig(config) {
+  config.resolve.alias = config.resolve.alias || {}
+  Object.assign(config.resolve.alias, {
+    '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
+  })
+  
+  modifySvgRule(config)
+}
+
 function mergeWebComponentWebpackConfig(config) {
+  modifySvgRule(config)
+
   const styleRules = config.module.rules.filter((rule) => {
     return rule.test.test('.scss')
   })
