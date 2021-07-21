@@ -17,17 +17,14 @@ $--card-padding: 24px;
   }
 
   &__media {
-    border-bottom: 1px solid V.$gray-100;
+    overflow: hidden;
+    // height is specified as fixed at 200px
+    height: 200px;
     margin: -1 * $--card-padding;
     margin-bottom: 0;
-    position: relative;
-    padding: ((1 / $--image-aspect-ratio) * (50%)) 0;
-    overflow: hidden;
+    border-bottom: 1px solid V.$gray-100;
 
     &__image-default {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -49,6 +46,8 @@ $--card-padding: 24px;
     height: $--thumbnail-size;
     margin-right: 16px;
     border-radius: $--thumbnail-size * 2;
+    object-fit: cover;
+    object-position: center;
   }
 
   &__titles {
