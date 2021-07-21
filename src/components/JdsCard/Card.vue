@@ -68,12 +68,12 @@
        -->
       <slot></slot>
     </div>
-    <div class="jds-card__buttons">
-      <!-- 
-        @slot Will override buttons view
-        provided within `button` props.
-       -->
-      <slot name="buttons">
+    <!-- 
+      @slot Will override buttons view
+      provided within `button` props.
+      -->
+    <slot name="buttons">
+      <div class="jds-card__buttons">
         <jds-button
           v-for="(btn, i) in cardButtons"
           :key="i"
@@ -85,8 +85,8 @@
             {{ btn.label }}
           </strong>
         </jds-button>
-      </slot>
-    </div>
+      </div>
+    </slot>
   </div>
 </template>
 
