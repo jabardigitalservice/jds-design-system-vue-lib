@@ -141,13 +141,13 @@ export default {
       return this.getSrc("image");
     },
     imageAlt() {
-      return this.getAlt("image");
+      return this.getAlt("image", "image");
     },
     thumbnailSrc() {
       return this.getSrc("thumbnail");
     },
     thumbnailAlt() {
-      return this.getAlt("thumbnail");
+      return this.getAlt("thumbnail", "thumbnail");
     },
     showAction() {
       return !!this.actionIcon
@@ -189,14 +189,11 @@ export default {
     /**
      * FOR IMAGE AND THUMBNAIL PROPS ONLY
      * @param {'image' | 'thumbnail'} propName
-     * @param {string} fallback - default value if alt is not provided
+     * @param {string} defaultValue - default value if alt is not provided
      */
-    getAlt(propName, fallback = "image") {
+    getAlt(propName, defaultValue) {
       const prop = this[propName];
-      if (typeof prop === "string") {
-        return null;
-      }
-      return prop?.alt || fallback || null;
+      return prop?.alt || defaultValue || null;
     },
     getButtonVariant(index) {
       if (this.cardButtons.length > 1) {
