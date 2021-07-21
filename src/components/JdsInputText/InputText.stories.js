@@ -1,4 +1,4 @@
-// Button.stories.js
+import JdsIcon from '../JdsIcon'
 import JdsInputText from './InputText.vue'
 import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
@@ -88,3 +88,28 @@ hideEvents(Suffix, [
   'input',
   'change:prefix-text'
 ])
+
+export const WithIcons = (/* args, context */) => {
+  return {
+    name: 'JdsInputTextStories',
+    components: { JdsInputText, JdsIcon },
+    template: `
+      <jds-input-text>
+        <template #prefix-icon>
+          <jds-icon
+            name="user"
+            size="1em"
+            fill="#bdbdbd"
+          />
+        </template>
+        <template #suffix-icon>
+          <jds-icon
+            name="eye"
+            size="1em"
+            fill="#bdbdbd"
+          />
+        </template>
+      </jds-input-text>
+    `,
+  }
+}
