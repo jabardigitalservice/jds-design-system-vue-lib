@@ -61,7 +61,8 @@
         </slot>
       </div>
     </div>
-    <div class="jds-card__body">
+    <!-- ensure default slot is block element -->
+    <div>
       <!-- 
         @slot Default slot
        -->
