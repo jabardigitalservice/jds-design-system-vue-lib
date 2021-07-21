@@ -1,10 +1,8 @@
 <template>
-  <div :class="{
-    'jds-section-message font-sans-1': primary,
-    'jds-section-message--warning': warning,
-    'jds-section-message--success': success,
-    'jds-section-message--error': error
-  }">
+  <div :class="[{
+    'jds-section-message font-sans-1': true,
+    'jds-section-message--show': mShow,
+    }, classVariant]">
     <jds-icon 
       name="check-mark-circle-outline" 
       size="18px"
@@ -15,38 +13,66 @@
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
         Aliquid quis sapiente expedita ullam suscipit harum asperiores quia porro libero pariatur.
       </p>
-      <div class="jds-section-message__content__actions">
+      <div class='jds-section-message__content__actions'>
         <slot></slot>
       </div>
     </div>
-    <jds-icon 
-      name="times" 
-      size="18px"
-      class="jds-section-message__icon" 
-    />
+    <template v-if="dismissible">
+      <jds-icon 
+        name="times" 
+        size="18px"
+        class="jds-section-message__icon"
+        @click="closeMessage" 
+      />
+    </template>
   </div>
 </template>
 
 <script>
 import JdsIcon from '../JdsIcon'
+import localCopy from '../../mixins/local-copy' 
+
 export default {
   name: 'jds-section-message',
+  mixins: [
+    localCopy('show', 'mShow')
+  ],
+  model: {
+    prop: 'show',
+    event: 'change',
+  },
   components: {
     JdsIcon
   },
   props: {
-    primary: {
+    show: {
       type: Boolean,
-      default: true
     },
-    warning: {
-      type: Boolean
+    variant: {
+      type: String,
     },
-    success: {
+    dismissible: {
       type: Boolean
-    },
-    error: {
-      type: Boolean
+    }
+  },
+  data() {
+    return {
+      mShow: true,
+    }
+  },
+  computed: {
+    classVariant() {
+      const variant = {
+        warning: 'jds-section-message--warning',
+        success: 'jds-section-message--success',
+        error: 'jds-section-message--error',
+      }
+      return variant[this.variant] ?? ''
+    }
+  },
+  methods: {
+    closeMessage() {
+      this.$emit('change', false)
     }
   }
 }
