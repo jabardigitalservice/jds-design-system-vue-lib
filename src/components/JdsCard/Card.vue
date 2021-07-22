@@ -62,7 +62,7 @@
       </div>
     </div>
     <!-- ensure default slot is block element -->
-    <div>
+    <div class="jds-card__body">
       <!-- 
         @slot Default slot
        -->
