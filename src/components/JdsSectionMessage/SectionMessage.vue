@@ -10,8 +10,7 @@
       />  
     <div class="jds-section-message__content">
       <p class="jds-section-message__content__text">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-        Aliquid quis sapiente expedita ullam suscipit harum asperiores quia porro libero pariatur.
+        {{ message }}
       </p>
       <div class='jds-section-message__content__actions'>
         <slot></slot>
@@ -47,12 +46,16 @@ export default {
   props: {
     show: {
       type: Boolean,
+      default: false
     },
     variant: {
       type: String,
     },
     dismissible: {
       type: Boolean
+    },
+    message: {
+      type: String
     }
   },
   data() {
@@ -67,7 +70,7 @@ export default {
         success: 'jds-section-message--success',
         error: 'jds-section-message--error',
       }
-      return variant[this.variant] ?? ''
+      return variant[this.variant.toLowerCase()] ?? ''
     }
   },
   methods: {
