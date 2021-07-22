@@ -12,12 +12,9 @@ export * from './JdsTextArea'
 export * from './JdsToggle'
 export * from './JdsSpinner'
 export * from './JdsIcon'
-<<<<<<< HEAD
-=======
 export * from './JdsOptions'
 export * from './JdsAccordion'
 export * from './JdsBadge'
->>>>>>> f4474e526ddec64311676ce1602d83cd3070937c
 export * from './JdsSelect'
 export * from './JdsCalendar'
 export * from './JdsSimpleTable'
