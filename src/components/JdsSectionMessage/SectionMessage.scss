@@ -82,6 +82,10 @@
     display: flex;
   }
 
+  &--primary {
+    @include useVariant(V.$blue-50, V.$blue-800)
+  }
+
   &--warning {
     @include useVariant(V.$yellow-50, V.$yellow-800)
   }
