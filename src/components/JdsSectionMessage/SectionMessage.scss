@@ -14,7 +14,7 @@
     &__content {
   
       &__actions {
-        button {
+        * {
           color: $textColor;
         }
       }
@@ -23,7 +23,7 @@
 }
 
 .jds-section-message {
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-items: flex-start;
   background-color: V.$blue-50;
@@ -41,6 +41,10 @@
 
   &__icon {
     color: V.$blue-800;
+
+    &:nth-of-type(2) {
+      cursor: pointer;
+    }
   }
 
   &__content {
@@ -54,8 +58,12 @@
       display: flex;
       gap: 24px;
       margin-top: 12px;
+
+      &:empty {
+        margin-top: 0;
+      }
   
-      button {
+      * {
         border: none;
         background-color: transparent;
         color: V.$blue-800;
@@ -65,25 +73,24 @@
         font-size: 14px;
         line-height: 18px;
         font-weight: 700;
+        text-decoration: none;
       }
     }
   }
 
+  &--show {
+    display: flex;
+  }
+
   &--warning {
-    // background-color: V.$yellow-50;
-    // border: 1px solid V.$yellow-800;
     @include useVariant(V.$yellow-50, V.$yellow-800)
   }
 
   &--success {
-    // background-color: V.$green-50;
-    // border: 1px solid V.$green-800;
     @include useVariant(V.$green-50, V.$green-800)
   }
 
   &--error {
-    // background-color: V.$red-50;
-    // border: 1px solid V.$red-800;
     @include useVariant(V.$red-50, V.$red-800)
   }
 }
