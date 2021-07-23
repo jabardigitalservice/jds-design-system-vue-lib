@@ -13,6 +13,10 @@
         {{ message }}
       </p>
       <div class='jds-section-message__content__actions'>
+        <!-- 
+          @slot Default slot. 
+          You can insert button or link to this slot.
+        -->
         <slot></slot>
       </div>
     </div>
@@ -38,44 +42,66 @@ export default {
   ],
   model: {
     prop: 'show',
-    event: 'change',
+    event: 'click:close',
   },
   components: {
     JdsIcon
   },
   props: {
+    /**
+     * Bound model. Display the component when the value is `true`.
+     * @name show
+     * @model
+     */
     show: {
       type: Boolean,
       default: false
     },
+    /**
+     * Variant of this component.
+     * <br/>
+     * You can use either the `primary`, `warning`, `error`, or `success`.
+     */
     variant: {
       type: String,
+      default: "primary"
     },
+    /**
+     * Add close button to the component.
+     */
     dismissible: {
       type: Boolean
     },
+    /**
+     * Text for section message
+     */
     message: {
       type: String
     }
   },
   data() {
     return {
-      mShow: true,
+      mShow: null
     }
   },
   computed: {
     classVariant() {
       const variant = {
+        primary: 'jds-section-message--primary',
         warning: 'jds-section-message--warning',
         success: 'jds-section-message--success',
         error: 'jds-section-message--error',
       }
-      return variant[this.variant.toLowerCase()] ?? ''
+      return variant[this.variant?.toLowerCase()] ?? ''
     }
   },
   methods: {
     closeMessage() {
-      this.$emit('change', false)
+      /**
+       * Emitted on click close button
+       * @param {boolean} show
+       */
+      this.$emit('click:close', false)
     }
   }
 }
