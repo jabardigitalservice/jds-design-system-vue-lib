@@ -154,6 +154,13 @@ export default {
        * @param {number} itemsPerPage
        */
       this.$emit('per-page-change', this.mItemsPerPage)
+
+      /**
+       * The expected behavior when user change items per page 
+       * is to reset the current page value back to 1.
+       */
+      this.mCurrentPage = 1
+      this.$emit('page-change', this.mCurrentPage)
     }
   },
   computed: {
