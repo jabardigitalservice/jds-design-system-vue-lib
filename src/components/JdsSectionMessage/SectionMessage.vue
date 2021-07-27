@@ -3,11 +3,11 @@
     'jds-section-message font-sans-1': true,
     'jds-section-message--show': mShow,
     }, classVariant]">
-    <jds-icon 
+    <!-- <jds-icon 
       name="check-mark-circle-outline" 
       size="18px"
       class="jds-section-message__icon"
-      />  
+      />   -->
     <div class="jds-section-message__content">
       <p class="jds-section-message__content__text">
         {{ message }}
