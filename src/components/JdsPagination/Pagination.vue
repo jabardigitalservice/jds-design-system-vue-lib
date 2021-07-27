@@ -69,7 +69,7 @@ export default {
     prop: 'currentPage',
     event: 'page-change',
   },
-  name: "jds-pagination",
+  name: 'jds-pagination',
   components: {
     JdsIcon
   },
