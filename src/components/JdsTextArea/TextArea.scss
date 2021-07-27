@@ -1,4 +1,4 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 @mixin set-input-border-color($color) {
   .jds-text-area__input-wrapper textarea {
