@@ -1,0 +1,63 @@
+@use '../../../styles/scss/variables' as V;
+
+.jds-data-table {
+  width: 100%;
+  border-spacing: 0 !important;
+  border: none;
+
+  * {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  &__column-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: start;
+    gap: 8px;
+
+    span {
+      flex-grow: 1;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__head {
+    tr {
+      th {
+        background-color: V.$green-700;
+        padding: 6px 8px;
+        color: V.$white;
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  &__body {
+    tr {
+      background-color: V.$white;
+      text-align: left;
+
+      td {
+        padding: 6px 8px;
+        border-top: 1px solid V.$gray-200;
+      }
+
+      &:nth-child(even) {
+        background-color: V.$gray-50;
+      }
+    }
+  }
+}
