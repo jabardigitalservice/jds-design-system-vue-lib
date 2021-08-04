@@ -6,7 +6,7 @@
     "clean": "rm -rf publish/css publish/esm publish/wc",
     "build": "vue-cli-service build",
     "build-storybook": "build-storybook",
-    "build:css": "sass styles/scss/index.scss:publish/css/jds.css --style=expanded --no-source-map",
+    "build:css": "sass styles/scss/index.scss:publish/css/jds-design-system.css --style=expanded --no-source-map",
     "build:css:watch": "nodemon --config nodemon-css.json --exec npm run build:css",
     "build:icons": "node scripts/build-icons.js",
     "build:esm": "node scripts/build-esm.js",
