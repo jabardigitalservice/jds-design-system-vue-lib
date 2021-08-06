@@ -1,0 +1,65 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+
+<Meta title="Instalasi" />
+
+# Selamat Datang di Jabar Digital Service Sistem Desain
+
+**Jabar Digital Service Sistem Desain** adalah _open source_ JDS yang digunakan dalam mendesain dan mengembangkan aplikasi web maupun mobile dalam lingkungan pemerintahan Jawa Barat. Sistem desain ini terdiri dari komponen siap pakai dan kumpulan kode pendukungnya serta pedoman penggunaan untuk masing-masing komponen tersebut.
+
+## Catatan
+Sistem desain ini masih diperuntukan digunakan pada *framework*  VueJS selain itu kami juga berharap agar bisa mendukung penggunaan di *framework* lain dengan membuat *library* ini menjadi *web component* yang sedang kami kembangkan sampat saat ini.
+
+## Instalasi
+Untuk melakukan instalasi sistem desain ini anda dapat melakukannya dengan menggunakan aplikasi *package manager* NPM, lakukan perintah dibawah ini dengan aplikasi **CLI** (**C**ommand **L**ine **I**nterface) pada root direktori project anda.
+
+```bash 
+npm i @jabardigitalservice/jds-design-system
+```
+setelah anda berhasil melakukan instalasi, buka file main.js yang berarti *entrypoint* pada project anda, lalu tambahkan kode dibawah ini.
+```javascript 
+import { DesignSystem } from  '@jabardigitalservice/jds-design-system'
+Vue.use(DesignSystem)
+```
+### Desain Token
+Apabila dan ingin menggunakan desain token kami, anda dapat menambahkan kode di bawah pada *entrypoint* main.js
+```javascript
+import  '@jabardigitalservice/jds-design-system/css/jds-design-system.css'
+```
+### Icons
+Apabila anda ingin menggunakan icons sistem kami, anda dapat menambahkan kode di bawah pada *entrypoint* main.js
+```javascript
+TBD
+```
+### Contoh
+Contoh *setup* pada *entrypoint* main.js  VueJS
+```javascript
+import  Vue  from  'vue'
+import  App  from  './App.vue'
+
+import  '@jabardigitalservice/jds-design-system/css/jds-design-system.css'
+
+/**
+* register all components globally
+*/
+
+import  { DesignSystem }  from  '@jabardigitalservice/jds-design-system'
+Vue.use(DesignSystem)
+
+
+/**
+* register component ala carte
+*/
+
+// import { Button } from '@jabardigitalservice/jds-design-system/esm'
+// Vue.component('JdsButton', Button)
+// Vue.component('JdsInputText', InputText)
+
+new  Vue({
+el:  '#app',
+render: (h) =>  h(App),
+}).$mount('#app')
+```
+## Penggunaan
+Untuk menggunakan library sistem desain ini anda dapat melihat pada [Dokumentasi komponen](https://master--60d0320b29870700395d5ad8.chromatic.com)
+## Kendala
+Apabila anda memiliki kendala dalam menggunakan komponen sistem desain kami anda dapat menanyakan seputar sistem desain kami di [GitHub repository](https://github.com/jabardigitalservice/jds-design-system-vue-lib/issues)
