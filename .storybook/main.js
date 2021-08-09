@@ -21,18 +21,41 @@ module.exports = {
     },
   ],
   webpackFinal: async (config, { configType }) => {
-    // `configType` has a value of 'DEVELOPMENT' or 'PRODUCTION'
-    // You can change the configuration based on that.
-    // 'PRODUCTION' is used when building the static version of storybook.
+    config.resolve.alias = config.resolve.alias || {}
+    Object.assign(config.resolve.alias, {
+      '@jabardigitalservice/jds-design-system/icons': path.resolve(__dirname, '../src/assets/icons'),
+    })
 
-    // Make whatever fine-grained changes you need
+    config.resolve.extensions.push('.svg')
+    const svgRuleIndex = config.module.rules.findIndex((rule) => {
+      return rule.test.test('.svg')
+    })
+    let svgRule = config.module.rules[svgRuleIndex]
+    const defaultSvgLoader = {
+      loader: svgRule.loader,
+      options: svgRule.options,
+    }
+    delete svgRule.loader
+    delete svgRule.options
+
+    svgRule.oneOf = [
+      {
+        resourceQuery: /vue/,
+        use: [
+          'vue-loader',
+          'svg-to-vue-component/loader',
+        ],
+      },
+      defaultSvgLoader
+    ]
+    config.module.rules[svgRuleIndex] = svgRule
+
     config.module.rules.push({
       test: /\.scss$/,
       use: ['style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
 
-    // Return the altered config
     return config;
   },
 }

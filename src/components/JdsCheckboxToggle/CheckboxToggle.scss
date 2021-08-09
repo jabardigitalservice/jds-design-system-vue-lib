@@ -1,4 +1,4 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 .jds-checkbox-toggle {
   &__icon-wrapper {
@@ -26,6 +26,9 @@
       border-radius: inherit;
       pointer-events: none;
       box-shadow: 0 0 2px 2px V.$yellow-500;
+      border-radius: 3px;
+      pointer-events: none;
+      box-shadow: 0 0 0 2px V.$yellow-500;
       
       transition: opacity 0.3s ease-out;
       opacity: 0;
@@ -72,7 +75,7 @@
   height: 20px;
   border-radius: 4px;
 
-  &--small {
+  &--sm {
     width: 14px;
     height: 14px;
     border-radius: 4px;
@@ -100,7 +103,7 @@
     opacity: 0;
     transition-timing-function: ease-out;
     transition-duration: 0.2s;
-    transition-property: transform, border-radius;
+    transition-property: transform, border-radius, opacity;
   }
   /**
    * END: initial state

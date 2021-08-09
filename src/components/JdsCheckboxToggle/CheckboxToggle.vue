@@ -22,28 +22,31 @@
       role="checkbox"
       :class="{
         'jds-checkbox-toggle__icon-wrapper': true,
-        'jds-checkbox-toggle__icon-wrapper--small': size === 'small'
+        'jds-checkbox-toggle__icon-wrapper--sm': size === 'sm'
       }"
       :tabIndex="1"
       @focus="onFocus"
       @blur="onBlur"
     >
-      <img
+      <jds-icon
+        name="check-mark"
         alt="checked"
         class="jds-checkbox-toggle__icon"
-        :src="iconCheckMark">
-      <img
+        fill="white"
+      />
+      <jds-icon
         v-show="indeterminate"
+        name="minus"
         alt="indeterminate"
         class="jds-checkbox-toggle__icon"
-        :src="iconMinus">
+        fill="white"
+      />
     </i>
   </div>
 </template>
 
 <script>
-import iconCheckMark from '../../assets/icon/check-mark.svg'
-import iconMinus from '../../assets/icon/minus.svg'
+import JdsIcon from '../JdsIcon'
 
 export default {
   name: 'jds-checkbox-toggle',
@@ -51,32 +54,49 @@ export default {
     prop: 'checked',
     event: 'change'
   },
+  components: {
+    JdsIcon
+  },
   props: {
+    /**
+     * Checkbox name attribute.
+     */
     name: {
       type: String,
     },
+    /**
+     * Checkbox value.
+     */
     value: {
       type: [String, Number, Boolean],
       default: null,
     },
+    /**
+     * Bound model. Display check mark icon if equals true.
+     * @name checked
+     * @model
+     */
     checked: {
       type: [String, Number, Boolean]
     },
+    /**
+     * Set checkbox as indeterminate (nor true or false).
+     * Override currently displayed icon, if any.
+     */
     indeterminate: {
       type: Boolean,
     },
     /**
-     * @values small,base
+     * Determine checkbox size.
+     * @values sm,md
      */
     size: {
       type: String,
-      default: 'base'
+      default: 'md'
     }
   },
   data () {
     return {
-      iconCheckMark,
-      iconMinus,
       isHovered: false,
       isFocused: false,
       mChecked: false,

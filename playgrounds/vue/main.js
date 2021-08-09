@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import '@jabardigitalservice/jds-design-system/css/jds.css'
+import '@jabardigitalservice/jds-design-system/css/jds-design-system.css'
 
 /** 
  * register all components globally using Plugin

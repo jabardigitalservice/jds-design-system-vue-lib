@@ -1,0 +1,86 @@
+@use '../../../styles/scss/variables' as V;
+
+$--badge-size-xs: 10px;
+$--badge-size-sm: 14px;
+$--badge-size-md: 18px;
+$--badge-size-lg: 24px;
+$--badge-size-xl: 32px;
+
+@mixin set-dot-color($color) {
+  .jds-badge__dot {
+    background-color: $color;
+  }
+}
+
+@mixin set-dot-size-position($size) {
+  .jds-badge__dot {
+    bottom: calc(100% - #{$size / 2});
+    width: $size;
+    height: $size;
+    border-radius: 9999px;
+    color: white;
+    font-weight: 500;;
+    font-size: $size / 2;
+  }
+}
+
+.jds-badge {
+  position: relative;
+  display: inline-block;
+
+  &__dot {
+    position: absolute;
+    bottom: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    font-style: normal;
+    text-decoration: none;
+    text-transform: none;
+  }
+}
+
+.jds-badge {
+  &--right & {
+    &__dot {
+      left: 100%;
+    }
+  }
+
+  &--left & {
+    &__dot {
+      right: 100%;
+    }
+  }
+
+  &,
+  &--red {
+    @include set-dot-color(V.$red-600);
+  }
+  &--green {
+    @include set-dot-color(V.$green-600);
+  }
+  &--blue {
+    @include set-dot-color(V.$blue-600);
+  }
+
+  // default size
+  &,
+  &--xs {
+    @include set-dot-size-position($--badge-size-xs);
+  }
+
+  &--sm {
+    @include set-dot-size-position($--badge-size-sm);
+  }
+  &--md {
+    @include set-dot-size-position($--badge-size-md);
+  }
+  &--lg {
+    @include set-dot-size-position($--badge-size-lg);
+  }
+  &--xl {
+    @include set-dot-size-position($--badge-size-xl);
+  }
+}

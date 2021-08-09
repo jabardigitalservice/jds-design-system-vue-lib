@@ -24,13 +24,38 @@
         :value="mPrefixText"
         @change="onPrefixTextChanged">
       </jds-input-text-edge>
+      <span
+        v-if="showPrefixIcon"
+        class="jds-input-text__prefix-icon"
+      >
+        <!-- 
+          @slot Used for displaying prefix icon.
+          Can be used  in conjunction with `JdsIcon`.
+        -->
+        <slot name="prefix-icon">
+        </slot>
+      </span>
       <input
+        ref="inputEl"
         v-bind="inputAttributes"
-        :value="mValue"
         type="text"
+        :value="mValue"
+        :readonly="$attrs.readonly"
         @input="onInput"
-        @focus="isFocused = true"
-        @blur="isFocused = false">
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur">
+      <span
+        v-if="showSuffixIcon"
+        class="jds-input-text__suffix-icon"
+      >
+        <!-- 
+          @slot Used for displaying suffix icon.
+          Can be used  in conjunction with `JdsIcon`.
+        -->
+        <slot name="suffix-icon">
+        </slot>
+      </span>
       <jds-input-text-edge
         v-if="showSuffixEdge"
         v-bind="suffixConfig"
@@ -174,17 +199,38 @@ export default {
     showPrefixEdge () {
       return isStringDefined(this.mPrefixText)
     },
+    showPrefixIcon () {
+      return !!this.$slots['prefix-icon']
+    },
+    showSuffixIcon () {
+      return !!this.$slots['suffix-icon']
+    },
     showSuffixEdge () {
       return isStringDefined(this.mSuffixText)
     },
     isEmpty () {
-      return isStringDefined(this.mValue)
+      return !isStringDefined(this.mValue)
     },
   },
   methods: {
     onInput (e) {
       this.mValue = e.target.value
       this.emitInput(e.target.value)
+    },
+    onChange (e) {
+      this.mValue = e.target.value
+      this.emitChange(e.target.value)
+    },
+    forceFocus () {
+      this.$refs.inputEl?.focus?.()
+    },
+    onFocus () {
+      this.isFocused = true
+      this.emitFocus()
+    },
+    onBlur () {
+      this.isFocused = false
+      this.emitBlur()
     },
     onPrefixTextChanged (value) {
       this.mPrefixText = value
@@ -200,6 +246,25 @@ export default {
        * @param {string} value - updated bound model
        */
       this.$emit('input', value)
+    },
+    emitChange (value) {
+      /**
+       * Emitted on change
+       * @param {string} value - updated bound model
+       */
+      this.$emit('change', value)
+    },
+    emitFocus () {
+      /**
+       * Emitted on focus
+       */
+      this.$emit('focus')
+    },
+    emitBlur () {
+      /**
+       * Emitted on blur
+       */
+      this.$emit('blur')
     },
     emitChangePrefixText(value) {
       /**
