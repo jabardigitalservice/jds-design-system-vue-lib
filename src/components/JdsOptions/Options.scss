@@ -71,7 +71,8 @@
     &--selected {
       padding-left: 24px;
     }
-  
+
+    &:hover > &__text,
     &--selected > &__text {
       color: V.$green-700;
       font-weight: bolder;
