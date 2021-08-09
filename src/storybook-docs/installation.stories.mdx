@@ -4,31 +4,56 @@ import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
 
 # Selamat Datang di Jabar Digital Service Sistem Desain
 
-**Jabar Digital Service Sistem Desain** adalah _open source_ JDS yang digunakan dalam mendesain dan mengembangkan aplikasi web maupun mobile dalam lingkungan pemerintahan Jawa Barat. Sistem desain ini terdiri dari komponen siap pakai dan kumpulan kode pendukungnya serta pedoman penggunaan untuk masing-masing komponen tersebut.
+**Jabar Digital Service Sistem Desain** adalah _open source_ JDS yang digunakan dalam mendesain dan mengembangkan aplikasi *web* maupun *mobile* dalam lingkungan pemerintahan Jawa Barat. Sistem desain ini terdiri dari komponen siap pakai dan kumpulan kode pendukungnya serta pedoman penggunaan untuk masing-masing komponen tersebut.
 
 ## Catatan
-Sistem desain ini masih diperuntukan digunakan pada *framework* VueJS selain itu kami juga berharap agar bisa mendukung penggunaan di *framework* lain dengan membuat *library* ini menjadi *web component* yang sedang kami kembangkan sampat saat ini.
+Sistem desain ini masih diperuntukan digunakan pada *framework* VueJS selain itu kami juga berharap agar bisa mendukung penggunaan di *framework* lain dengan membuat *library* ini menjadi *web component* yang sedang kami kembangkan sampai saat ini.
 
 ## Instalasi
-Untuk melakukan instalasi sistem desain ini anda dapat melakukannya dengan menggunakan aplikasi *package manager* NPM, lakukan perintah dibawah ini dengan aplikasi **CLI** (**C**ommand **L**ine **I**nterface) pada root direktori project anda.
+Untuk melakukan instalasi sistem desain ini anda dapat melakukannya dengan menggunakan aplikasi *package manager* NPM, lakukan perintah di bawah ini dengan aplikasi **CLI** (**C**ommand **L**ine **I**nterface) pada *root* direktori proyek anda.
 
-```bash 
+```powershell 
 npm i @jabardigitalservice/jds-design-system
 ```
-setelah anda berhasil melakukan instalasi, buka file main.js yang berarti *entrypoint* pada project anda, lalu tambahkan kode dibawah ini.
+instalasi di atas menunjukan anda menginstal versi terbaru dari *library* sistem desain kami. Untuk menginstal versi yang spesifik, lakukan perintah seperti contoh
+```powershell
+npm i @jabardigitalservice/jds-design-system@0.0.3--beta.2
+```
+atau
+
+```powershell
+npm i @jabardigitalservice/jds-design-system@0.1.0
+```
+anda bisa melihat versi yang tersedia sistem desain kami di *package manager* [Versi](https://www.npmjs.com/package/@jabardigitalservice/jds-design-system?activeTab=versions).
+Setelah anda berhasil melakukan instalasi, buka file main.js yang berarti *entrypoint* pada proyek anda, lalu tambahkan kode dibawah ini.
 ```javascript 
 import { DesignSystem } from '@jabardigitalservice/jds-design-system'
 Vue.use(DesignSystem)
 ```
+contoh gambar pada *code editor* Visual Studio Code
+
+![Screenshot Entry Point Main.js On VueJs](https://gist.githubusercontent.com/adzharamrullah/65abb39b45bff3873b6fec31613ffaf8/raw/691e486d7fe78fb030eb809c0933dc2167ddead8/screenshot-entry-point-main-js.png)
+
 ### Desain Token
 Apabila dan ingin menggunakan desain token kami, anda dapat menambahkan kode di bawah pada *entrypoint* main.js
 ```javascript
 import '@jabardigitalservice/jds-design-system/css/jds-design-system.css'
 ```
-### Icons
-Apabila anda ingin menggunakan icons sistem kami, anda dapat menambahkan kode di bawah pada *entrypoint* main.js
+### Ikon
+Apabila anda ingin menggunakan ikon sistem kami, anda dapat meng-*import* ikon tersebut ke dalam kode anda seperti berikut ini.
+untuk penggunaan API Ikon Sistem anda dapat melihatnya disini [Ikon Sistem](https://master--60d0320b29870700395d5ad8.chromatic.com/?path=/docs/components-icon--default)
 ```javascript
-TBD
+<template>
+  <bell />
+</template>
+
+import bell from '@jabardigitalservice/jds-design-system/icons/bell'
+
+export default {
+  components: {
+    bell
+  }
+}
 ```
 ### Contoh
 Contoh *setup* pada *entrypoint* main.js VueJS
@@ -45,7 +70,6 @@ import '@jabardigitalservice/jds-design-system/css/jds-design-system.css'
 import { DesignSystem } from '@jabardigitalservice/jds-design-system'
 Vue.use(DesignSystem)
 
-
 /**
 * register component ala carte
 */
@@ -60,6 +84,9 @@ render: (h) => h(App),
 }).$mount('#app')
 ```
 ## Penggunaan
-Untuk menggunakan library sistem desain ini anda dapat melihat pada [Dokumentasi komponen](https://master--60d0320b29870700395d5ad8.chromatic.com)
+Untuk menggunakan *library* sistem desain ini anda dapat melihat pada [Dokumentasi komponen](https://master--60d0320b29870700395d5ad8.chromatic.com)
+
+## Pembaharuan
+Untuk pembaharuan sistem desain kami anda dapat melakukan *uninstall* via NPM pada *library* sebelumnya dan lakukan instalasi versi terbaru dari sistem desain kami.
 ## Kendala
 Apabila anda memiliki kendala dalam menggunakan komponen sistem desain kami anda dapat menanyakan seputar sistem desain kami di [GitHub repository](https://github.com/jabardigitalservice/jds-design-system-vue-lib/issues)
