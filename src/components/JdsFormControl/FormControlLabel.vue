@@ -5,7 +5,7 @@
 </template>
 
 <style lang="scss">
-@use ".~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 .jds-form-control-label {
   overflow: hidden;

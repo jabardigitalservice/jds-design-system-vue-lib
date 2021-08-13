@@ -97,7 +97,7 @@ export default {
         return
       }
       // dynamic import component based on provided `name` prop
-      const iconComponent = await import(`../../assets/icons/${name}.svg?vue`)
+      const iconComponent = await import(`@jabardigitalservice/jds-design-system/icons/${name}?vue`)
         .then((m) => m.default || m)
         // return null on import error
         .catch(() => null)

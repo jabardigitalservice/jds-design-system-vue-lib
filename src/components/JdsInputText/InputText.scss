@@ -1,4 +1,4 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 @mixin set-input-bg-color($color) {
   .jds-input-text__input-wrapper {
