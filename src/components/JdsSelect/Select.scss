@@ -1,6 +1,7 @@
 @use '../../../styles/scss/variables' as V;
 
 .jds-select {
+  height: 100%;
   display: inline-block;
   position: relative;
 
@@ -35,6 +36,16 @@
   &--opened & {
     &__trigger-icon {
       transform: rotate(180deg);
+    }
+  }
+
+  &--tile {
+    .jds-input-text__input-wrapper {
+      &,
+      &::after {
+        border-radius: 0;
+        border: none;
+      }
     }
   }
 }

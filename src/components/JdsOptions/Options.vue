@@ -235,6 +235,13 @@ export default {
     // END: OPTION STATE AND METHODS
 
     // START: NAVIGATION
+    initFocus () {
+      if (this.currentOptionIndex >= 0) {
+        this.focusOnOption(this.currentOptionIndex)
+      } else {
+        this.focusOnFirstFocusable()
+      }
+    },
     focusOnFirstFocusable() {
       if (this.filterable) {
         this.focusOnFilterInput()
@@ -269,6 +276,14 @@ export default {
     focusOnOption(index) {
       if (index >= 0 && index < this.availableOptions.length) {
         this.$refs.optionListItems?.[index]?.focus()
+      }
+    },
+    focusOnSelectedOption() {
+      const index = this.currentOptionIndex
+      if (index >= 0 && index < this.availableOptions.length) {
+        this.$refs.optionListItems?.[index]?.focus()
+      } else {
+        this.$refs.optionListItems?.[0]?.focus()
       }
     },
     /**

@@ -8,6 +8,8 @@
   border: 1px solid #BDBDBD;
   border-radius: 8px;
   box-shadow: 0 4px 10px 0 rgba(0,0,0,0.08);
+  overflow-x: hidden;
+  overflow-y: auto;
 
   &,
   & * {
@@ -94,6 +96,10 @@
     &__filter {
       display: none;
     }
+  }
+
+  &--filterable {
+    min-width: 150px;
   }
 
   &--filterable & {
