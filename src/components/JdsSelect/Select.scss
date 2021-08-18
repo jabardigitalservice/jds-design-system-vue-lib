@@ -1,4 +1,4 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 .jds-select {
   display: inline-block;
@@ -7,6 +7,10 @@
   &,
   & * {
     cursor: pointer;
+  }
+
+  &__options {
+    display: block;
   }
 
   &__trigger-icon {
@@ -23,48 +27,6 @@
   &__error-message {
     position: absolute;
     top: 100%;
-  }
-  
-  &__options {
-    list-style: none;
-    padding: 16px 0;
-    margin: 0;
-  
-    &--multiple {
-      padding: 12px 0;
-    }
-  }
- 
-  &__option {
-    position: relative;
-    cursor: pointer;
-    overflow: hidden;
-    padding: 0 16px;
-    height: 20px;
-    // TODO: define font-size typography class
-    font-size: 14px;
-  
-    & + & {
-      margin-top: 12px;
-    }
-  
-    &--selected {
-      padding-left: 24px;
-    }
-  
-    &--selected > &__text {
-      color: V.$green-700;
-      font-weight: bolder;
-    }
-    
-    &--highlighted,
-    &:hover,
-    &:focus,
-    &:focus-within {
-      background-color: V.$gray-50;
-      outline: none;
-      border: none;
-    }
   }
 }
 

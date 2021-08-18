@@ -1,8 +1,8 @@
-@use '~/styles/scss/variables' as V;
+@use '../../../styles/scss/variables' as V;
 
 .jds-button{
   cursor: pointer;
-  display: block;
+  display: inline-block;
   border-radius: 8px;
   padding: 9px 16px;
   font-size: 1em;
