@@ -1,0 +1,77 @@
+.jds-color-table {
+  &,
+  * {
+    border-collapse: collapse;
+  }
+
+  &td {
+    padding: 0;
+    margin: 0;
+  }
+
+  &__color-group {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    padding: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #eee;
+  }
+
+  &__color-figure {
+    padding: 0;
+    margin: 0;
+
+    > i {
+      cursor: pointer;
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 4rem;
+      height: 4rem;
+
+      transition-property: border-radius;
+      transition-timing-function: ease-in-out;
+      transition-duration: 0.3s;
+      will-change: border-radius;
+      border-radius: 0;
+
+      &::before {
+        display: inline-block;
+        content: '';
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 4rem;
+        background-color: white;
+        transition-property: opacity;
+        transition-timing-function: ease-in-out;
+        transition-duration: 0.3s;
+        opacity: 0;
+      }
+    }
+
+    > figcaption {
+      display: block;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    &:focus,
+    &:focus-within {
+      outline: none;
+      border: none;
+
+      > i {
+        border-radius: 16rem;
+      }
+
+      > i::before {
+        opacity: 1;
+      }
+    }
+  }
+}

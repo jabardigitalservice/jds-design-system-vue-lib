@@ -1,6 +1,75 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, SourceState  } from '@storybook/addon-docs/blocks';
 
-<Meta title="Desain Token" />
+<Meta title="Token Desain"/>
 
 # Desain Token
-TBD
+Token desain **Jabar Digital Service Sistem Desain** adalah cara agnostik teknologi untuk menyimpan variabel. Kami menggunakan token desain untuk memastikan konsistensi *UI* yang lebih baik di berbagai platform.
+
+## Warna
+
+### Teks
+Gunakan format `text-${colorName}-${variant}`.
+```html
+<p class="text-green-500">
+  Lorem ipsum dolor sit amet.
+</p>
+<p class="text-blue-gray-700">
+  Lorem ipsum dolor sit amet.
+</p>
+```
+<Canvas withSource={ SourceState.NONE }>
+  <p className="text-green-500">
+    Lorem ipsum dolor sit amet.
+  </p>
+  <p className="text-blue-gray-700">
+    Lorem ipsum dolor sit amet.
+  </p>
+</Canvas>
+
+### Background
+Gunakan format `bg-${colorName}-${variant}`.
+```html
+<div class="bg-blue-300 text-white">
+  Lorem ipsum dolor sit amet.
+</div>
+<div class="bg-yellow-800 text-white">
+  Lorem ipsum dolor sit amet.
+</div>
+```
+<Canvas withSource={ SourceState.NONE }>
+  <div
+    className="bg-blue-300 text-white"
+    style={{ 'padding': '2rem'}}>
+    Lorem ipsum dolor sit amet.
+  </div>
+  <div
+    className="bg-yellow-800 text-white"
+    style={{ 'padding': '2rem'}}>
+    Lorem ipsum dolor sit amet.
+  </div>
+</Canvas>
+
+### Border
+Gunakan format `border-${colorName}-${variant}`.
+```html
+<div class="border-black">
+  Lorem ipsum dolor sit amet.
+</div>
+<div class="border-pink-300">
+  Lorem ipsum dolor sit amet.
+</div>
+```
+<Canvas withSource={ SourceState.NONE }>
+  <div
+    className="border-black"
+    style={{ 'padding': '2rem', 'border': '1px solid' }}>
+    Lorem ipsum dolor sit amet.
+  </div>
+  <div
+    className="border-pink-300"
+    style={{ 'padding': '2rem', 'border': '1px solid' }}>
+    Lorem ipsum dolor sit amet.
+  </div>
+</Canvas>
+
+### Daftar Warna
