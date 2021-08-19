@@ -9,7 +9,7 @@ export default {
     {
       control: {
         type: 'select',
-        options: ['primary', 'warning','success','error']
+        options: ['info', 'warning','success','error']
       } 
     },
   }
@@ -26,11 +26,7 @@ const Template = (args, context) => {
       <jds-section-message
         v-bind="$props"
         v-on="events"
-      >
-        <button>Aksi 1</button>
-        <button>Aksi 2</button>
-        <button>Aksi 3</button>
-      </jds-section-message>
+      />
     `,
   }
 }
@@ -38,14 +34,28 @@ const Template = (args, context) => {
 //👇 Each story then reuses that template
 export const Default = Template.bind({});
 Default.args = {
-  variant: 'primary',
+  variant: 'info',
   show: true,
   message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, doloribus.',
-  dismissible: true
+  dismissible: true,
+  buttons: [
+    {
+      name: 'aksi-1',
+      label: 'Aksi 1',
+    },
+    {
+      name: 'aksi-2',
+      label: 'Aksi 2',
+    },
+    {
+      name: 'aksi-3',
+      label: 'Aksi 3',
+    },
+  ]
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Info = Template.bind({});
+Info.args = {
   ...Default.args,
 };
 

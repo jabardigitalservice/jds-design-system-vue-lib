@@ -15,15 +15,27 @@
       <div class='jds-section-message__content__actions'>
         <!-- 
           @slot Default slot. 
-          You can insert button or link to this slot.
+          You can insert button or link to this slot
         -->
-        <slot></slot>
+        <slot>
+          <template v-if="buttons.length">
+            <div v-for="(button, index) in buttons" :key="index">
+              <jds-button 
+                type="button" 
+                :label="button.label" 
+                variant="tertiary" 
+                class="jds-section-message__content__actions__button"
+                @click="$emit('click:button', button.name, index)" 
+              />
+            </div>
+          </template>
+        </slot>
       </div>
     </div>
     <template v-if="dismissible">
       <jds-icon 
         name="times" 
-        size="18px"
+        size="20px"
         class="jds-section-message__icon"
         @click="closeMessage" 
       />
@@ -33,6 +45,7 @@
 
 <script>
 import JdsIcon from '../JdsIcon'
+import JdsButton from '../JdsButton'
 import localCopy from '../../mixins/local-copy' 
 
 export default {
@@ -45,7 +58,8 @@ export default {
     event: 'click:close',
   },
   components: {
-    JdsIcon
+    JdsIcon,
+    JdsButton
   },
   props: {
     /**
@@ -60,11 +74,11 @@ export default {
     /**
      * Variant of this component.
      * <br/>
-     * You can use either the `primary`, `warning`, `error`, or `success`.
+     * You can use either the `info`, `warning`, `error`, or `success`.
      */
     variant: {
       type: String,
-      default: "primary"
+      default: "info"
     },
     /**
      * Add close button to the component.
@@ -77,6 +91,13 @@ export default {
      */
     message: {
       type: String
+    },
+    /**
+     * Add action buttons to component
+     */
+    buttons: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -87,7 +108,7 @@ export default {
   computed: {
     classVariant() {
       const variant = {
-        primary: 'jds-section-message--primary',
+        info: 'jds-section-message--info',
         warning: 'jds-section-message--warning',
         success: 'jds-section-message--success',
         error: 'jds-section-message--error',

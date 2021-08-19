@@ -1,4 +1,4 @@
-@use "../../../styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 @mixin useVariant($backgroundColor, $textColor) {
 
@@ -14,7 +14,7 @@
     &__content {
   
       &__actions {
-        * {
+        &__button {
           color: $textColor;
         }
       }
@@ -41,6 +41,7 @@
 
   &__icon {
     color: V.$blue-800;
+    cursor: pointer;
 
     &:nth-of-type(2) {
       cursor: pointer;
@@ -56,24 +57,15 @@
 
     &__actions {
       display: flex;
-      gap: 24px;
+      gap: 16px;
       margin-top: 12px;
 
       &:empty {
         margin-top: 0;
       }
-  
-      * {
-        border: none;
-        background-color: transparent;
-        color: V.$blue-800;
-        text-transform: uppercase;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 14px;
-        line-height: 18px;
+
+      &__button {
         font-weight: 700;
-        text-decoration: none;
       }
     }
   }
@@ -82,7 +74,7 @@
     display: flex;
   }
 
-  &--primary {
+  &--info {
     @include useVariant(V.$blue-50, V.$blue-800)
   }
 
