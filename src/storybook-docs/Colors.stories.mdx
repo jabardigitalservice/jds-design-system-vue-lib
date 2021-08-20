@@ -1,0 +1,17 @@
+import { Meta, Canvas, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import colors from '../colors.js'
+
+<Meta title="Colors" />
+
+# Test
+<pre>
+</pre>
+<ColorPalette>
+  {
+    Object.entries(colors).map(([name, colors], index) => {
+      return (
+        <ColorItem key={ index } title={ name } colors={colors} />
+      )
+    })
+  }
+</ColorPalette>
