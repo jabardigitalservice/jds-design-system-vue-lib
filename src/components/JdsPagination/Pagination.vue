@@ -15,6 +15,7 @@
             class="jds-pagination__page-control__select__input"
             tile
             max-height="200px"
+            :disabled="disabled"
             :options="itemsPerPageOptions"
             :value="mItemsPerPage"
             @change="onItemsPerPageChange"
@@ -48,6 +49,7 @@
             tile
             filterable
             max-height="200px"
+            :disabled="disabled"
             :options="generatedPageNumbers"
             :value="mCurrentPage"
             @change="onPageChange"

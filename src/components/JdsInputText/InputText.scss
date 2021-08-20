@@ -125,6 +125,20 @@
   &:not(&--focused) {
     @include toggle-input-inset-shadow(false);
   }
+
+
+  &--disabled {
+    @include set-input-bg-color(V.$gray-200);
+
+    &,
+    & * {
+      pointer-events: none;
+    }
+
+    input {
+      color: V.$gray-400;
+    }
+  }
   
   &--error {
     @include set-input-border-color(V.$red-700);

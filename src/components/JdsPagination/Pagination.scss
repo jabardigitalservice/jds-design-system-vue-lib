@@ -84,6 +84,10 @@
       color: V.$gray-600 !important;
     }
   }
+
+  &--disabled &__navigation-button {
+    cursor: not-allowed;
+  }
 }
 
 @media (min-width: 600px) {
