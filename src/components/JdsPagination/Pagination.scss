@@ -75,14 +75,25 @@
       background: V.$gray-100;
       outline: none;
     }
+
+    &__icon {
+      color: V.$green-800;
+    }
+
+    &:disabled,
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &:disabled &__icon,
+    &[disabled] &__icon {
+      color: V.$gray-400;
+    }
   }
 
   &--disabled {
     background-color: V.$gray-100;
-
-    * {
-      color: V.$gray-600 !important;
-    }
+    color: V.$gray-600;
   }
 
   &--disabled &__navigation-button {
@@ -90,7 +101,7 @@
   }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 650px) {
   .jds-pagination {
     
     &__wrapper {
