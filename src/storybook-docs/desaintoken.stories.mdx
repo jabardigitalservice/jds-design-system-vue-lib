@@ -1,4 +1,5 @@
-import { Meta, Story, Canvas, SourceState  } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, SourceState, ColorPalette, ColorItem  } from '@storybook/addon-docs/blocks';
+import colors from '../utils/color-tokens.js'
 
 <Meta title="Token Desain"/>
 
@@ -18,10 +19,10 @@ Gunakan format `text-${colorName}-${variant}`.
 </p>
 ```
 <Canvas withSource={ SourceState.NONE }>
-  <p className="text-green-500">
+  <p className="text-green-500 font-sans-1">
     Lorem ipsum dolor sit amet.
   </p>
-  <p className="text-blue-gray-700">
+  <p className="text-blue-gray-700 font-sans-1">
     Lorem ipsum dolor sit amet.
   </p>
 </Canvas>
@@ -38,12 +39,12 @@ Gunakan format `bg-${colorName}-${variant}`.
 ```
 <Canvas withSource={ SourceState.NONE }>
   <div
-    className="bg-blue-300 text-white"
+    className="bg-blue-300 text-white font-sans-1"
     style={{ 'padding': '2rem'}}>
     Lorem ipsum dolor sit amet.
   </div>
   <div
-    className="bg-yellow-800 text-white"
+    className="bg-yellow-800 text-white font-sans-1"
     style={{ 'padding': '2rem'}}>
     Lorem ipsum dolor sit amet.
   </div>
@@ -61,15 +62,24 @@ Gunakan format `border-${colorName}-${variant}`.
 ```
 <Canvas withSource={ SourceState.NONE }>
   <div
-    className="border-black"
+    className="border-black font-sans-1"
     style={{ 'padding': '2rem', 'border': '1px solid' }}>
     Lorem ipsum dolor sit amet.
   </div>
   <div
-    className="border-pink-300"
+    className="border-pink-300 font-sans-1"
     style={{ 'padding': '2rem', 'border': '1px solid' }}>
     Lorem ipsum dolor sit amet.
   </div>
 </Canvas>
 
 ### Daftar Warna
+<ColorPalette>
+  {
+    Object.entries(colors).map(([name, colors], index) => {
+      return (
+        <ColorItem key={ index } title={ name } colors={colors} />
+      )
+    })
+  }
+</ColorPalette>

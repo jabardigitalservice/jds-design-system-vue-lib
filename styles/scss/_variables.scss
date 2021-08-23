@@ -1,3 +1,5 @@
+@use "sass:string" as String;
+@use "sass:meta" as Meta;
 // Color system
 
 $black: #000 !default;
@@ -183,3 +185,7 @@ $font-faces-map: (
     ),
   ),
 );
+
+:export {
+  list: Meta.inspect($arrayColors);
+}
