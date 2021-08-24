@@ -199,7 +199,7 @@ export default {
       return this.mCurrentPage > 1
     },
     hasNextPage () {
-      return this.mCurrentPage < this.pages - 1
+      return this.mCurrentPage < this.pages
     },
   }
 }
