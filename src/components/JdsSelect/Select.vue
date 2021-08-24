@@ -4,17 +4,20 @@
     :value="isDropdownOpen" 
     :options="popperOptions"
     @input="toggleDropdown"
-    @keydown.native="handleKeyboardNavigation"
+    @keydown.native="handleKeydown"
   >
     <template #activator>
       <div :class="{
         'jds-select font-sans-1': true,
         'jds-select--opened': isDropdownOpen,
+        'jds-select--tile': tile,
+        'jds-select--disabled': disabled
       }">
         <jds-input-text
           ref="inputText"
-          :value="selectedOptionLabel"
+          :value="`${selectedOptionLabel}`"
           readonly
+          :disabled="disabled"
           :label="label"
           :placeholder="placeholder"
           :helper-text="helperText"
@@ -42,13 +45,16 @@
     <jds-options
       ref="optionsRef"
       class="jds-select__options"
+      :style="{
+        maxHeight, 
+      }"
       v-bind="{
         options,
         valueKey,
         labelKey,
         header: optionsHeader,
         filterable,
-        filter,
+        filter: mFilter,
         filterType,
       }"
       @click:option="onOptionClicked"
@@ -97,7 +103,7 @@ export default {
   },
   mixins: [
     localCopy('value', 'mValue'),
-    localCopy('filterValue', 'mFilterValue'),
+    localCopy('filter', 'mFilter'),
   ],
   props: {
     /**
@@ -178,6 +184,23 @@ export default {
     },
 
     /**
+     * Remove border radius from input text element
+     */
+    tile: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
+     * Set maximum height of options dropdown.
+     * Must be a valid CSS unit.
+     */
+    maxHeight: {
+      type: String,
+      default: 'unset',
+    },
+
+    /**
      * Select label.
      */
     label: {
@@ -201,6 +224,15 @@ export default {
     errorMessage: {
       type: String,
     },
+
+    /**
+     * Internal use only
+     * @private
+     * @ignore
+     */
+    disabled: {
+      type: Boolean,
+    },
   },
   data () {
     return {
@@ -210,7 +242,7 @@ export default {
       },
       isDropdownOpen: false,
       mValue: undefined,
-      mFilterValue: undefined
+      mFilter: undefined,
     }
   },
   computed: {
@@ -234,7 +266,23 @@ export default {
         return ''
       }
       return getOptionLabel(matched, this.labelKey)
-    }
+    },
+    currentOptionIndex () {
+      return this.options.findIndex((opt) => {
+        const val = this.getOptionValue(opt, this.valueKey)
+        return val === this.mValue 
+      })
+    },
+  },
+  watch: {
+    disabled: {
+      immediate: true,
+      handler (v) {
+        if (v && this.isDropdownOpen) {
+          this.closeDropdown()
+        }
+      }
+    },
   },
   methods: {
     getOptionLabel,
@@ -275,22 +323,35 @@ export default {
         if (retainFocus) {
           this.focusOnSelectInputElement()
         }
+        if (this.filterPosition === 'input') {
+          this.mFilter = null
+        }
       })
     },
     // END: DROPDOWN STATE
 
     // START: NAVIGATION
-    handleKeyboardNavigation(e) {
+    handleKeydown(e) {
       const isGoingUp = keyCode.isArrow("Up", e)
       const isGoingDown = keyCode.isArrow("Down", e)
       const isEnter = keyCode.isEnter(e)
+      const isTab = keyCode.isTab(e)
+      const isEscape = keyCode.isEscape(e)
       const isFocusOnSelect = this.isFocusingOnSelectInputElement()
+      const shouldPreventDefault = isGoingUp
+        || isGoingDown
+        || isEnter
+        || isTab
+        || isEscape
+      
+      if (shouldPreventDefault) {
+        e.preventDefault()
+      }
 
       // START: when options is closed
       if (!this.isDropdownOpen) {
         if (isEnter) {
           // open options on Enter
-          e.preventDefault()
           this.openDropdown()
         }
         if (isGoingUp) {
@@ -304,24 +365,35 @@ export default {
       }
       // END: when options is closed
 
+      // START: move focus to JdsOptions
       // when options is open and focus is on JdsSelect <input> element,
       // move focus to JdsOptions
-      if (isGoingDown && isFocusOnSelect) {
-        this.focusOnOptionsComponent()
+      const doMoveFocus = isFocusOnSelect
+        && (isGoingUp || isGoingDown)
+      if (doMoveFocus) {
+        if (this.currentOptionIndex >= 0) {
+          // move focus straight to selected option,
+          // if any were selected
+          this.focusOnSelectedOption()
+        } else {
+          // move focus to first focusable element on JdsOptions
+          // can be either filter input or first option item
+          this.focusOnOptionsComponent()
+        }
         return
       }
+      // END: move focus to JdsOptions
 
       // keys that trigger close:
       // 1. Tab
       // 2. Escape
       // 3. Enter (ignored when autoClose is false)
-      const shouldClose = keyCode.isTab(e)
-        || keyCode.isEscape(e)
+      const shouldClose = isTab
+        || isEscape
         || (isEnter && this.autoClose)
       if (shouldClose) {
         // prevent focus from moving to next focusable element,
         // retain focus on input text element
-        e.preventDefault()
         this.closeDropdown({ retainFocus: true })
       }
     },
@@ -334,7 +406,10 @@ export default {
       this.$refs.inputText?.forceFocus?.()
     },
     focusOnOptionsComponent () {
-      this.$refs.optionsRef?.focusOnFirstFocusable?.()
+      this.$refs.optionsRef?.initFocus?.()
+    },
+    focusOnSelectedOption () {
+      this.$refs.optionsRef?.focusOnSelectedOption?.()
     },
     selectPreviousOption () {
       this.$refs.optionsRef?.selectPreviousOption?.()

@@ -5,6 +5,7 @@
     'jds-input-text--error': showErrorMsg,
     'jds-input-text--focused': isFocused,
     'jds-input-text--hovered': isHovered,
+    'jds-input-text--disabled': disabled,
   }">
     <jds-form-control-label v-if="showLabel">
       {{ label }}
@@ -40,7 +41,8 @@
         v-bind="inputAttributes"
         type="text"
         :value="mValue"
-        :readonly="$attrs.readonly"
+        :readonly="readonly"
+        :disabled="disabled"
         @input="onInput"
         @change="onChange"
         @focus="onFocus"
@@ -165,7 +167,25 @@ export default {
      */
     suffixConfig: {
       type: Object,
-    }
+    },
+
+    /**
+     * Internal use only
+     * @private
+     * @ignore
+     */
+    disabled: {
+      type: Boolean,
+    },
+
+    /**
+     * Internal use only
+     * @private
+     * @ignore
+     */
+    readonly: {
+      type: Boolean,
+    },
   },
   data () {
     return {

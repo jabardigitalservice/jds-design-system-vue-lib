@@ -11,11 +11,15 @@
           <span>
             Tampilkan
           </span>
-          <select :value="mItemsPerPage" @change="onItemsPerPageChange" :disabled="disabled">
-            <option :value="item" v-for="item in itemsPerPageOptions" :key="item">
-              {{ item }}
-            </option>
-          </select>
+          <JdsSelect
+            class="jds-pagination__page-control__select__input"
+            tile
+            max-height="200px"
+            :disabled="disabled"
+            :options="itemsPerPageOptions"
+            :value="mItemsPerPage"
+            @change="onItemsPerPageChange"
+          />
           <span>
             item
           </span>
@@ -28,30 +32,40 @@
       <div class="jds-pagination__page-control--right">
         <button
           class="jds-pagination__navigation-button"
-          :disabled="disabled"
+          :disabled="disabled || !hasPreviousPage"
           @click="onPreviousPage"
         >
           <jds-icon 
             name="chevron-left" 
-            class="text-green-800"
+            class="jds-pagination__navigation-button__icon"
             size="16px" 
           />
         </button>
         <i class="jds-pagination__divider" />
         <div class="jds-pagination__page-control__select">
           <span>Halaman</span>
-          <select :value="mCurrentPage" @change="onPageChange" :disabled="disabled">
-            <option :value="page" v-for="page in generatedPageNumbers" :key="page">
-              {{ page }}
-            </option>
-          </select>
+          <JdsSelect
+            class="jds-pagination__page-control__select__input"
+            tile
+            filterable
+            max-height="200px"
+            options-header="Halaman"
+            :disabled="disabled"
+            :options="generatedPageNumbers"
+            :value="mCurrentPage"
+            @change="onPageChange"
+          />
           <span>dari <strong>{{ pages }}</strong></span>
         </div>
         <i class="jds-pagination__divider" />
-        <button class="jds-pagination__navigation-button" :disabled="disabled" @click="onNextPage">
+        <button
+          class="jds-pagination__navigation-button"
+          :disabled="disabled || !hasNextPage"
+          @click="onNextPage"
+        >
           <jds-icon 
             name="chevron-right" 
-            class="text-green-800"
+            class="jds-pagination__navigation-button__icon"
             size="16px"
           />
         </button>
@@ -62,6 +76,7 @@
 
 <script>
 import JdsIcon from '../JdsIcon'
+import JdsSelect from '../JdsSelect'
 import localCopy from '../../mixins/local-copy'
 
 export default {
@@ -71,7 +86,8 @@ export default {
   },
   name: 'jds-pagination',
   components: {
-    JdsIcon
+    JdsIcon,
+    JdsSelect,
   },
   mixins: [
     localCopy('currentPage', 'mCurrentPage'),
@@ -128,27 +144,29 @@ export default {
   },
   methods: {
     onPreviousPage() {
+      this.mCurrentPage = Math.max(1, this.mCurrentPage - 1)
       /**
        * Emitted on previous button is clicked.
        */
-      this.$emit('previous-page')
+      this.$emit('previous-page', this.mCurrentPage)
     },
     onNextPage() {
+      this.mCurrentPage = Math.min(this.pages, this.mCurrentPage + 1)
       /**
        * Emitted on next button is clicked.
        */
-      this.$emit('next-page')
+      this.$emit('next-page', this.mCurrentPage)
     },
-    onPageChange(e) {
-      this.mCurrentPage = +e.target.value
+    onPageChange(page) {
+      this.mCurrentPage = +page
       /**
        * Emitted on page is changed.
        * @param {number} currentPage
        */
       this.$emit('page-change', this.mCurrentPage)
     },
-    onItemsPerPageChange(e) {
-      this.mItemsPerPage = +e.target.value
+    onItemsPerPageChange(itemsPerPage) {
+      this.mItemsPerPage = +itemsPerPage
       /**
        * Emitted on item per page is changed.
        * @param {number} itemsPerPage
@@ -176,12 +194,17 @@ export default {
         return Math.ceil(parseInt(this.totalRows)/parseInt(this.mItemsPerPage)) 
       }
       return 1
-    }
+    },
+    hasPreviousPage () {
+      return this.mCurrentPage > 1
+    },
+    hasNextPage () {
+      return this.mCurrentPage < this.pages - 1
+    },
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use "./Pagination.scss";
 </style>
-
