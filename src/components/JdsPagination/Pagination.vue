@@ -15,6 +15,7 @@
             class="jds-pagination__page-control__select__input"
             tile
             max-height="200px"
+            :disabled="disabled"
             :options="itemsPerPageOptions"
             :value="mItemsPerPage"
             @change="onItemsPerPageChange"
@@ -31,12 +32,12 @@
       <div class="jds-pagination__page-control--right">
         <button
           class="jds-pagination__navigation-button"
-          :disabled="disabled"
+          :disabled="disabled || !hasPreviousPage"
           @click="onPreviousPage"
         >
           <jds-icon 
             name="chevron-left" 
-            class="text-green-800"
+            class="jds-pagination__navigation-button__icon"
             size="16px" 
           />
         </button>
@@ -48,6 +49,8 @@
             tile
             filterable
             max-height="200px"
+            options-header="Halaman"
+            :disabled="disabled"
             :options="generatedPageNumbers"
             :value="mCurrentPage"
             @change="onPageChange"
@@ -55,10 +58,14 @@
           <span>dari <strong>{{ pages }}</strong></span>
         </div>
         <i class="jds-pagination__divider" />
-        <button class="jds-pagination__navigation-button" :disabled="disabled" @click="onNextPage">
+        <button
+          class="jds-pagination__navigation-button"
+          :disabled="disabled || !hasNextPage"
+          @click="onNextPage"
+        >
           <jds-icon 
             name="chevron-right" 
-            class="text-green-800"
+            class="jds-pagination__navigation-button__icon"
             size="16px"
           />
         </button>
@@ -187,7 +194,13 @@ export default {
         return Math.ceil(parseInt(this.totalRows)/parseInt(this.mItemsPerPage)) 
       }
       return 1
-    }
+    },
+    hasPreviousPage () {
+      return this.mCurrentPage > 1
+    },
+    hasNextPage () {
+      return this.mCurrentPage < this.pages - 1
+    },
   }
 }
 </script>

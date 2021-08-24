@@ -48,4 +48,13 @@
       }
     }
   }
+
+  &--disabled,
+  &--disabled * {
+    cursor: not-allowed;
+  }
+
+  &--disabled &__trigger-icon {
+    color: V.$gray-400;
+  }
 }

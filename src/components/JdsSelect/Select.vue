@@ -11,11 +11,13 @@
         'jds-select font-sans-1': true,
         'jds-select--opened': isDropdownOpen,
         'jds-select--tile': tile,
+        'jds-select--disabled': disabled
       }">
         <jds-input-text
           ref="inputText"
           :value="`${selectedOptionLabel}`"
           readonly
+          :disabled="disabled"
           :label="label"
           :placeholder="placeholder"
           :helper-text="helperText"
@@ -222,6 +224,15 @@ export default {
     errorMessage: {
       type: String,
     },
+
+    /**
+     * Internal use only
+     * @private
+     * @ignore
+     */
+    disabled: {
+      type: Boolean,
+    },
   },
   data () {
     return {
@@ -261,6 +272,16 @@ export default {
         const val = this.getOptionValue(opt, this.valueKey)
         return val === this.mValue 
       })
+    },
+  },
+  watch: {
+    disabled: {
+      immediate: true,
+      handler (v) {
+        if (v && this.isDropdownOpen) {
+          this.closeDropdown()
+        }
+      }
     },
   },
   methods: {
