@@ -4,7 +4,7 @@
     'jds-section-message--show': mShow,
     }, classVariant]">
     <!-- <jds-icon 
-      name="check-mark-circle-outline" 
+      name="info-circle-outline" 
       size="18px"
       class="jds-section-message__icon"
       />   -->
@@ -23,10 +23,12 @@
               <jds-button 
                 type="button" 
                 :label="button.label" 
-                variant="tertiary" 
+                variant="tertiary-paddingless" 
                 class="jds-section-message__content__actions__button"
                 @click="$emit('click:button', button.name, index)" 
-              />
+              >
+                <jds-icon :name="button.icon" size="xs" class="jds-section-message__content__actions__button__icon" />
+              </jds-button>
             </div>
           </template>
         </slot>

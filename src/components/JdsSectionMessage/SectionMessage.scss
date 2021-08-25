@@ -32,13 +32,6 @@
   border-radius: 8px;
   gap: 20px;
 
-  * {
-    font-size: 14px;
-    line-height: 23px;
-    margin: 0;
-    padding: 0;
-  }
-
   &__icon {
     color: V.$blue-800;
     cursor: pointer;
@@ -53,6 +46,10 @@
 
     &__text {
       color: V.$gray-900;
+      font-size: 14px;
+      line-height: 23px;
+      margin: 0;
+      padding: 0;
     }
 
     &__actions {
@@ -66,6 +63,12 @@
 
       &__button {
         font-weight: 700;
+        display: flex;
+        align-items: center;
+
+        &__icon {
+          margin-left: 12px;
+        }
       }
     }
   }
