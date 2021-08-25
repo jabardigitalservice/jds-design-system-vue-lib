@@ -1,7 +1,7 @@
-name: 'Chromatic UI Test'
+name: 'Deploy Storybook (Production)'
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 jobs:
@@ -17,6 +17,7 @@ jobs:
         uses: chromaui/action@v1
         # Chromatic GitHub Action options
         with:
+          autoAcceptChanges: true
           token: ${{ secrets.GITHUB_TOKEN }}
           # 👇 Chromatic projectToken, refer to the manage page to obtain it.
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
