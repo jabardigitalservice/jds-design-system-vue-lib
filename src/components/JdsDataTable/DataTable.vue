@@ -28,10 +28,10 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
-      <tr v-for="(row, rowIndex) in mItems" :key="rowIndex">
-        <td v-for="(col, colIndex) in headers" :key="colIndex">
-          <slot :name="`item.${col.key}`" :item="item">
-            {{ row[col.key] }}
+      <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+        <td v-for="(header, colIndex) in headers" :key="colIndex">
+          <slot :name="`item.${header.key}`" :item="item">
+            {{ item[header.key] }}
           </slot>
         </td>
       </tr>
