@@ -57,6 +57,7 @@
         filter: mFilter,
         filterType,
       }"
+      :value="mValue"
       @click:option="onOptionClicked"
       @change="onOptionsValueChanged"
       @change:filter="onOptionsFilterChanged"
@@ -201,6 +202,13 @@ export default {
     },
 
     /**
+     * Reset filter each time dropdown is opened
+     */
+    resetFilterOnOpen: {
+      type: Boolean,
+    },
+
+    /**
      * Select label.
      */
     label: {
@@ -311,6 +319,9 @@ export default {
     },
     openDropdown () {
       this.isDropdownOpen = true
+      if (this.resetFilterOnOpen) {
+        this.mFilter = undefined
+      }
     },
     /**
      * @param {object} options
@@ -442,6 +453,7 @@ export default {
       this.emitChange(this.mValue)
     },
     onOptionsFilterChanged (filter) {
+      this.mFilter = filter
       /**
        * Support `.sync` modifier for `filter` prop.
        * Emitted when filter changed

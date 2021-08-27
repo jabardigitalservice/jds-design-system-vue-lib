@@ -48,6 +48,7 @@
             class="jds-pagination__page-control__select__input"
             tile
             filterable
+            reset-filter-on-open
             max-height="200px"
             options-header="Halaman"
             :disabled="disabled"
