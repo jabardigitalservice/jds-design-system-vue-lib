@@ -19,7 +19,7 @@
         -->
         <slot>
           <template v-if="buttons.length">
-            <div v-for="(button, index) in buttons" :key="index">
+            <div v-for="(button, index) in buttons.slice(0, 3)" :key="index">
               <jds-button 
                 type="button" 
                 :label="button.label" 
