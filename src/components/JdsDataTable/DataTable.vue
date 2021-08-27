@@ -48,7 +48,7 @@
 
 <script>
 import localCopy from '../../mixins/local-copy'
-import {sort} from './mixins'
+import { sort } from './mixins'
 
 export default {
   name: 'jds-data-table',

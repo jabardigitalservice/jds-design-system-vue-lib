@@ -9,10 +9,10 @@ const sort = {
   },
 
   mounted() {
-  /**
-   * Populate sorting object when the component mounted.
-   * return an Object.
-   */
+    /**
+     * Populate sorting object when the component mounted.
+     * return an Object.
+     */
     if (Array.isArray(this.headers) && this.headers.length) {
       return this.headers.map((header) => {
         this.sortObject = {
@@ -41,18 +41,18 @@ const sort = {
     onSort(key) {
 
       let sortBy = null
-      
+
       switch (this.sortObject[key]) {
         case 'asc':
           sortBy = 'desc'
           break
-        
-          case 'desc':
-            sortBy = 'no-sort'
+
+        case 'desc':
+          sortBy = 'no-sort'
           break
 
-          default:
-            sortBy = 'asc'
+        default:
+          sortBy = 'asc'
           break
       }
 
@@ -60,16 +60,16 @@ const sort = {
 
       for (const obj in this.sortObject) {
         newObj[obj] = 'no-sort'
-        newObj[key] = sortBy 
+        newObj[key] = sortBy
       }
 
-      this.sortObject = {...newObj}
+      this.sortObject = { ...newObj }
 
-      if(this.localSort) {
+      if (this.localSort) {
         this.onLocalSort(key)
       }
-      
-      this.$emit('change:sort', { [key] : this.sortObject[key] })
+
+      this.$emit('change:sort', { [key]: this.sortObject[key] })
     },
 
     onLocalSort(key) {
@@ -81,7 +81,7 @@ const sort = {
         case 'desc':
           this.sortByDescendingOrder(key)
           break
-      
+
         default:
           this.resetSort()
           break
