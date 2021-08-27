@@ -5,6 +5,14 @@ export default {
   component: JdsSectionMessage,
   title: 'Components/SectionMessage',
   argTypes: {
+    responsiveness: 
+    {
+      description: 'The class fixed size width the section message', 
+      control: {
+        type: 'inline-radio',
+        options: ['none', 'fix-3','fix-6','fix-9','fix-12','full-width']
+      } 
+    },
     variant: 
     {
       control: {
@@ -22,8 +30,15 @@ const Template = (args, context) => {
     components: { JdsSectionMessage },
     props: Object.keys(argTypes),
     mixins: [storybookMixin(args, context)],
+    computed: {
+      responsiveness(){
+        const { responsiveness } = args
+        return responsiveness !== 'none' ? responsiveness : ''
+      }
+    },
     template: `
       <jds-section-message
+        :class="responsiveness"
         v-bind="$props"
         v-on="events"
       />
@@ -75,4 +90,32 @@ export const Error = Template.bind({});
 Error.args = {
   ...Default.args,
   variant: 'error'
+};
+
+export const WithoutCloseButton = Template.bind({});
+WithoutCloseButton.args = {
+  ...Default.args,
+  dismissible: false
+};
+
+export const WithButtonIcon = Template.bind({});
+WithButtonIcon.args = {
+  ...Default.args,
+  buttons: [
+    {
+      name: 'aksi-1',
+      label: 'Aksi 1',
+      icon: 'open-new-tab'
+    },
+    {
+      name: 'aksi-2',
+      label: 'Aksi 2',
+      icon: 'open-new-tab'
+    },
+    {
+      name: 'aksi-3',
+      label: 'Aksi 3',
+      icon: 'open-new-tab'
+    },
+  ]
 };

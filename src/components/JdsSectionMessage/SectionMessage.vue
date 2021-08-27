@@ -3,11 +3,11 @@
     'jds-section-message font-sans-1': true,
     'jds-section-message--show': mShow,
     }, classVariant]">
-    <!-- <jds-icon 
-      name="info-circle-outline" 
+    <jds-icon 
+      :name="iconName" 
       size="18px"
       class="jds-section-message__icon"
-      />   -->
+      />  
     <div class="jds-section-message__content">
       <p class="jds-section-message__content__text">
         {{ message }}
@@ -114,6 +114,15 @@ export default {
         warning: 'jds-section-message--warning',
         success: 'jds-section-message--success',
         error: 'jds-section-message--error',
+      }
+      return variant[this.variant?.toLowerCase()] ?? ''
+    },
+    iconName() {
+      const variant = {
+        info: 'info-circle',
+        warning: 'warning',
+        success: 'check-mark-circle',
+        error: 'exclamation-mark-circle',
       }
       return variant[this.variant?.toLowerCase()] ?? ''
     }
