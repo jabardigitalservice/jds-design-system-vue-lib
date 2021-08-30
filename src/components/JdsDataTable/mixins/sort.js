@@ -1,15 +1,28 @@
+import orderBy from 'lodash.orderby'
+
 const sort = {
-  /**
-   * Populate sorting object when the component mounted.
-   * return an Array of Objects.
-   */
+
+  data() {
+    return {
+      sortObject: {}
+    }
+  },
+
   mounted() {
-    if (Array.isArray(this.tableHeaders) && this.tableHeaders.length) {
-      return this.sortObject = this.tableHeaders.map((header) => {
-        return { id: header.key, toggle: false, sortBy: 'asc' }
+    /**
+     * Populate sorting object when the component mounted.
+     * return an Object.
+     */
+    if (Array.isArray(this.headers) && this.headers.length) {
+      return this.headers.map((header) => {
+        this.sortObject = {
+          ...this.sortObject,
+          [header.key]: 'no-sort'
+        }
       })
     }
-    return this.sortObject = []
+
+    return this.sortObject = {}
   },
 
   methods: {
@@ -22,54 +35,73 @@ const sort = {
     },
 
     /**
-     * Check if the header with specific id currently being sorted.
-     * return a Boolean.
-     */
-    isSorted(id) {
-      return !!this.sortObject.find((obj) => (obj.id === id ? obj.toggle : false))
-    },
-
-    /**
      * Mutate `sortObject` object when sort button is clicked.
-     * Emit an event with an object {`someKey`: "asc" | "desc"}
+     * Emit an event with an object {`someKey`: "asc" | "desc" | "no-sort"}
      */
-    onSort(id) {
-      const newObject = this.sortObject.map((obj) =>
-        obj.id === id
-          ? {
-            ...obj,
-            toggle: !obj.toggle,
-            sortBy: obj.toggle ? 'asc' : 'desc',
-          }
-          : {
-            ...obj,
-            toggle: false,
-            sortBy: 'asc'
-          }
-      )
+    onSort(key) {
 
-      this.sortObject = newObject
+      let sortBy = null
 
-      const object = this.sortObject.find((obj) => obj.id === id)
-      object.sortBy === 'asc' ? this.sortByAscendingOrder(id) : this.sortByDescendingOrder(id)
+      switch (this.sortObject[key]) {
+        case 'asc':
+          sortBy = 'desc'
+          break
 
-      this.$emit('change:sort', {[object.id]: object.sortBy})
+        case 'desc':
+          sortBy = 'no-sort'
+          break
+
+        default:
+          sortBy = 'asc'
+          break
+      }
+
+      let newObj = {}
+
+      for (const obj in this.sortObject) {
+        newObj[obj] = 'no-sort'
+        newObj[key] = sortBy
+      }
+
+      this.sortObject = { ...newObj }
+
+      if (this.localSort) {
+        this.onLocalSort(key)
+      }
+
+      this.$emit('change:sort', { [key]: this.sortObject[key] })
+    },
+
+    onLocalSort(key) {
+      switch (this.sortObject[key]) {
+        case 'asc':
+          this.sortByAscendingOrder(key)
+          break
+
+        case 'desc':
+          this.sortByDescendingOrder(key)
+          break
+
+        default:
+          this.resetSort()
+          break
+      }
+    },
+
+    sortByAscendingOrder(key) {
+      this.mItems = orderBy(this.mItems, key, 'asc')
+    },
+
+    sortByDescendingOrder(key) {
+      this.mItems = orderBy(this.mItems, key, 'desc')
     },
 
     /**
-     * sort local data with ascending order.
+     * reset local data to original state.
      */
-    sortByAscendingOrder(property) {
-      this.mItems = this.items.sort((a, b) => (a[property] > b[property]) - (a[property] < b[property]))
-    },
-
-    /**
-     * sort local data with descending order.
-     */
-    sortByDescendingOrder(property) {
-      this.mItems = this.items.sort((a, b) => (b[property] > a[property]) - (b[property] < a[property]))
-    },
-
+    resetSort() {
+      this.mItems = JSON.parse(JSON.stringify(this.items))
+    }
   }
 }
 

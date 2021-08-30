@@ -60,4 +60,10 @@
       }
     }
   }
+
+  &__sort-icon {
+    &--transparent {
+      opacity: 0.5;
+    }
+  }
 }
