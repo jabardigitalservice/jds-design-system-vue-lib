@@ -21,7 +21,7 @@
             @change="onItemsPerPageChange"
           />
           <span>
-            item
+            Item
           </span>
           <i class="jds-pagination__divider" />
           <span>dari total <strong>{{ totalRows }}</strong></span>
