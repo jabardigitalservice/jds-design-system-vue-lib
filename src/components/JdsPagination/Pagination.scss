@@ -7,6 +7,7 @@
   width: 100%;
   background-color: V.$gray-50;
   border-top: 1px solid V.$green-700;
+  color: V.$gray-800;
 
   * {
     font-size: 14px;
@@ -47,6 +48,7 @@
 
         input {
           width: 45px;
+          font-weight: bold;
         }
       }
     }
