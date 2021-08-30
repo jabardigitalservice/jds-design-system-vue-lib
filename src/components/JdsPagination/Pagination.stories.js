@@ -25,3 +25,9 @@ const Template = (args, context) => {
 }
 
 export const Default = Template.bind({})
+Default.args = {
+  currentPage: 1,
+  itemsPerPage: 5,
+  itemsPerPageOptions: [5, 10, 20, 50, 100],
+  totalRows: 200
+};
