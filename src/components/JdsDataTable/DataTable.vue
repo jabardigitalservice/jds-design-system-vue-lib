@@ -51,7 +51,7 @@
         </tr>
       </template>
       <template v-if="isDataEmpty">
-        <tr>
+        <tr valign="top">
           <td :colspan="headers.length">
             <!-- 
               @slot empty
