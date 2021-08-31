@@ -28,13 +28,44 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
-      <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
-        <td v-for="(header, colIndex) in headers" :key="colIndex">
-          <slot :name="`item.${header.key}`" :item="item">
-            {{ item[header.key] }}
-          </slot>
-        </td>
-      </tr>
+      <template v-if="loading">
+        <tr>
+          <td :colspan="headers.length">
+            <div class="jds-data-table__loading">
+              <jds-spinner
+                size="56"
+                background="#E0E0E0"
+                foreground="#069550"
+              />
+            </div>
+          </td>
+        </tr>
+      </template>
+      <template v-else-if="isDataEmpty">
+        <tr valign="top">
+          <td :colspan="headers.length">
+            <!-- 
+              @slot empty
+              use this slot for any content you want
+              to show when data is not available.
+             -->
+            <slot name="empty">
+              <div class="jds-data-table__empty">
+                {{ emptyText || 'No data available' }}
+              </div>
+            </slot>
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td v-for="(header, colIndex) in headers" :key="colIndex">
+            <slot :name="`item.${header.key}`" :item="item">
+              {{ item[header.key] }}
+            </slot>
+          </td>
+        </tr>
+      </template>
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
@@ -80,12 +111,36 @@ export default {
     },
 
     /**
+     * Show loading spinner when value is `true`
+     */
+    loading: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Text shown when data is empty
+     */
+    emptyText: {
+      type: String,
+      default: ''
+    },
+
+    /**
      * Allow DataTable to sort items locally
      */
     localSort: {
       type: Boolean,
       default: false
     },
+  },
+  computed: {
+    isDataEmpty() {
+      if (Array.isArray(this.items) && this.items.length === 0) {
+        return true
+      }
+      return false
+    }
   }
 }
 </script>
