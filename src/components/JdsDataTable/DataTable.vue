@@ -28,13 +28,28 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
-      <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
-        <td v-for="(header, colIndex) in headers" :key="colIndex">
-          <slot :name="`item.${header.key}`" :item="item">
-            {{ item[header.key] }}
-          </slot>
-        </td>
-      </tr>
+      <template v-if="isLoading">
+        <tr>
+          <td :colspan="headers.length">
+            <div class="jds-data-table__loading">
+              <jds-spinner
+                size="56"
+                background="#E0E0E0"
+                foreground="#069550"
+              />
+            </div>
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td v-for="(header, colIndex) in headers" :key="colIndex">
+            <slot :name="`item.${header.key}`" :item="item">
+              {{ item[header.key] }}
+            </slot>
+          </td>
+        </tr>
+      </template>
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
@@ -77,6 +92,14 @@ export default {
     items: {
       type: Array,
       default: () => [],
+    },
+
+    /**
+     * Show loading spinner when value is `true`
+     */
+    isLoading: {
+      type: Boolean,
+      default: false
     },
 
     /**
