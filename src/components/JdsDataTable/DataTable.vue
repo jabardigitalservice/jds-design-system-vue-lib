@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
-      <template v-if="isLoading">
+      <template v-if="loading">
         <tr>
           <td :colspan="headers.length">
             <div class="jds-data-table__loading">
@@ -41,16 +41,7 @@
           </td>
         </tr>
       </template>
-      <template v-else>
-        <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
-          <td v-for="(header, colIndex) in headers" :key="colIndex">
-            <slot :name="`item.${header.key}`" :item="item">
-              {{ item[header.key] }}
-            </slot>
-          </td>
-        </tr>
-      </template>
-      <template v-if="isDataEmpty">
+      <template v-else-if="isDataEmpty">
         <tr valign="top">
           <td :colspan="headers.length">
             <!-- 
@@ -62,6 +53,15 @@
               <div class="jds-data-table__empty">
                 {{ emptyText || 'No data available' }}
               </div>
+            </slot>
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td v-for="(header, colIndex) in headers" :key="colIndex">
+            <slot :name="`item.${header.key}`" :item="item">
+              {{ item[header.key] }}
             </slot>
           </td>
         </tr>
@@ -113,7 +113,7 @@ export default {
     /**
      * Show loading spinner when value is `true`
      */
-    isLoading: {
+    loading: {
       type: Boolean,
       default: false
     },
