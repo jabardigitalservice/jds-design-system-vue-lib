@@ -45,8 +45,7 @@
         <tr valign="top">
           <td :colspan="headers.length">
             <!-- 
-              @slot empty
-              use this slot for any content you want
+              @slot use this slot for any content you want
               to show when data is not available.
              -->
             <slot name="empty">
@@ -60,6 +59,9 @@
       <template v-else>
         <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
           <td v-for="(header, colIndex) in headers" :key="colIndex">
+            <!-- 
+              @slot dynamic scoped slots 
+            -->
             <slot :name="`item.${header.key}`" :item="item">
               {{ item[header.key] }}
             </slot>
@@ -69,20 +71,24 @@
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
-          @slot footer
-          use this slot for any footer content you want.
-        -->
+        @slot use this slot for any footer content you want.
+      -->
       <slot name="footer"></slot>
     </tfoot>
   </table>
 </template>
 
 <script>
+import JdsIcon from '../JdsIcon'
+import JdsSpinner from '../JdsSpinner'
 import localCopy from '../../mixins/local-copy'
 import { sort } from './mixins'
 
 export default {
   name: 'jds-data-table',
+  components: {
+    JdsIcon, JdsSpinner
+  },
   data() {
     return {
       mItems: null,
