@@ -18,6 +18,10 @@
     justify-content: center;
   }
 
+  &__empty {
+   font-weight: 500;
+  }
+
   &__column-wrapper {
     display: flex;
     align-items: center;
@@ -60,6 +64,7 @@
       td {
         padding: 6px 8px;
         border-top: 1px solid V.$gray-200;
+        color: V.$gray-800;
       }
 
       &:nth-child(even) {
