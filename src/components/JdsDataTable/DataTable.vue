@@ -50,6 +50,22 @@
           </td>
         </tr>
       </template>
+      <template v-if="isDataEmpty">
+        <tr>
+          <td :colspan="headers.length">
+            <!-- 
+              @slot empty
+              use this slot for any content you want
+              to show when data is not available.
+             -->
+            <slot name="empty">
+              <div class="jds-data-table__empty">
+                {{ emptyText || 'No data available' }}
+              </div>
+            </slot>
+          </td>
+        </tr>
+      </template>
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
@@ -103,12 +119,28 @@ export default {
     },
 
     /**
+     * Text shown when data is empty
+     */
+    emptyText: {
+      type: String,
+      default: ''
+    },
+
+    /**
      * Allow DataTable to sort items locally
      */
     localSort: {
       type: Boolean,
       default: false
     },
+  },
+  computed: {
+    isDataEmpty() {
+      if (Array.isArray(this.items) && this.items.length === 0) {
+        return true
+      }
+      return false
+    }
   }
 }
 </script>
