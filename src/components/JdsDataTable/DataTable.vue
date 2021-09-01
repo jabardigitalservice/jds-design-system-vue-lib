@@ -2,6 +2,14 @@
   <table :class="[{ 'jds-data-table font-sans-1': true }]">
     <thead class="jds-data-table__head">
       <tr>
+        <th 
+          v-if="showSelect"
+          class="jds-data-table__select"
+        >
+          <jds-checkbox-toggle 
+            size="sm"
+          />
+        </th>
         <th v-for="(header, index) in headers" :key="index">
           <div class="jds-data-table__column-wrapper">
             <span>
@@ -28,15 +36,6 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
-<<<<<<< HEAD
-      <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
-        <td v-for="(header, colIndex) in headers" :key="colIndex">
-          <slot :name="`item.${header.key}`" :item="item">
-            {{ item[header.key] }}
-          </slot>
-        </td>
-      </tr>
-=======
       <template v-if="loading">
         <tr>
           <td :colspan="headers.length">
@@ -67,6 +66,14 @@
       </template>
       <template v-else>
         <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td 
+            v-if="showSelect"
+            class="jds-data-table__select"
+          >
+            <jds-checkbox-toggle 
+              size="sm"
+            />
+          </td>
           <td v-for="(header, colIndex) in headers" :key="colIndex">
             <!-- 
               @slot dynamic scoped slots 
@@ -77,7 +84,6 @@
           </td>
         </tr>
       </template>
->>>>>>> component/jds-data-table
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
@@ -91,13 +97,16 @@
 <script>
 import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
+import JdsCheckboxToggle from '../JdsCheckboxToggle'
 import localCopy from '../../mixins/local-copy'
-import { sort } from './mixins'
+import { sort, select } from './mixins'
 
 export default {
   name: 'jds-data-table',
   components: {
-    JdsIcon, JdsSpinner
+    JdsIcon, 
+    JdsSpinner, 
+    JdsCheckboxToggle
   },
   data() {
     return {
@@ -106,7 +115,8 @@ export default {
   },
   mixins: [
     localCopy('items', 'mItems'), 
-    sort
+    sort,
+    select
     ],
   props: {
     /**
@@ -127,8 +137,6 @@ export default {
     },
 
     /**
-<<<<<<< HEAD
-=======
      * Show loading spinner when value is `true`
      */
     loading: {
@@ -145,15 +153,29 @@ export default {
     },
 
     /**
->>>>>>> component/jds-data-table
      * Allow DataTable to sort items locally
      */
     localSort: {
       type: Boolean,
       default: false
     },
-<<<<<<< HEAD
-=======
+
+    /**
+     * Allow DataTable to do row selection
+     */
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Define what key or property used
+     * when item is being selected.
+     */
+    itemKey: {
+      type: String,
+      default: 'id'
+    }
   },
   computed: {
     isDataEmpty() {
@@ -162,7 +184,6 @@ export default {
       }
       return false
     }
->>>>>>> component/jds-data-table
   }
 }
 </script>
