@@ -28,6 +28,7 @@
       </tr>
     </thead>
     <tbody class="jds-data-table__body">
+<<<<<<< HEAD
       <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
         <td v-for="(header, colIndex) in headers" :key="colIndex">
           <slot :name="`item.${header.key}`" :item="item">
@@ -35,23 +36,69 @@
           </slot>
         </td>
       </tr>
+=======
+      <template v-if="loading">
+        <tr>
+          <td :colspan="headers.length">
+            <div class="jds-data-table__loading">
+              <jds-spinner
+                size="56"
+                background="#E0E0E0"
+                foreground="#069550"
+              />
+            </div>
+          </td>
+        </tr>
+      </template>
+      <template v-else-if="isDataEmpty">
+        <tr valign="top">
+          <td :colspan="headers.length">
+            <!-- 
+              @slot use this slot for any content you want
+              to show when data is not available.
+             -->
+            <slot name="empty">
+              <div class="jds-data-table__empty">
+                {{ emptyText || 'No data available' }}
+              </div>
+            </slot>
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td v-for="(header, colIndex) in headers" :key="colIndex">
+            <!-- 
+              @slot dynamic scoped slots 
+            -->
+            <slot :name="`item.${header.key}`" :item="item">
+              {{ item[header.key] }}
+            </slot>
+          </td>
+        </tr>
+      </template>
+>>>>>>> component/jds-data-table
     </tbody>
     <tfoot class="jds-data-table__footer">
       <!-- 
-          @slot footer
-          use this slot for any footer content you want.
-        -->
+        @slot use this slot for any footer content you want.
+      -->
       <slot name="footer"></slot>
     </tfoot>
   </table>
 </template>
 
 <script>
+import JdsIcon from '../JdsIcon'
+import JdsSpinner from '../JdsSpinner'
 import localCopy from '../../mixins/local-copy'
 import { sort } from './mixins'
 
 export default {
   name: 'jds-data-table',
+  components: {
+    JdsIcon, JdsSpinner
+  },
   data() {
     return {
       mItems: null,
@@ -80,12 +127,42 @@ export default {
     },
 
     /**
+<<<<<<< HEAD
+=======
+     * Show loading spinner when value is `true`
+     */
+    loading: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Text shown when data is empty
+     */
+    emptyText: {
+      type: String,
+      default: ''
+    },
+
+    /**
+>>>>>>> component/jds-data-table
      * Allow DataTable to sort items locally
      */
     localSort: {
       type: Boolean,
       default: false
     },
+<<<<<<< HEAD
+=======
+  },
+  computed: {
+    isDataEmpty() {
+      if (Array.isArray(this.items) && this.items.length === 0) {
+        return true
+      }
+      return false
+    }
+>>>>>>> component/jds-data-table
   }
 }
 </script>

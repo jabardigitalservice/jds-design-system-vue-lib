@@ -1,6 +1,7 @@
 @use '../../../styles/scss/variables' as V;
 
 .jds-data-table {
+  height: 100%;
   width: 100%;
   border-spacing: 0 !important;
   border: none;
@@ -9,6 +10,17 @@
     font-family: inherit;
     font-size: 14px;
     line-height: 23px;
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__empty {
+    padding: 10px 8px;
+    font-weight: 500;
   }
 
   &__column-wrapper {
@@ -53,6 +65,7 @@
       td {
         padding: 6px 8px;
         border-top: 1px solid V.$gray-200;
+        color: V.$gray-800;
       }
 
       &:nth-child(even) {
