@@ -2,6 +2,14 @@
   <table :class="[{ 'jds-data-table font-sans-1': true }]">
     <thead class="jds-data-table__head">
       <tr>
+        <th 
+          v-if="showSelect"
+          class="jds-data-table__select"
+        >
+          <jds-checkbox-toggle 
+            size="sm"
+          />
+        </th>
         <th v-for="(header, index) in headers" :key="index">
           <div class="jds-data-table__column-wrapper">
             <span>
@@ -58,6 +66,14 @@
       </template>
       <template v-else>
         <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td 
+            v-if="showSelect"
+            class="jds-data-table__select"
+          >
+            <jds-checkbox-toggle 
+              size="sm"
+            />
+          </td>
           <td v-for="(header, colIndex) in headers" :key="colIndex">
             <!-- 
               @slot dynamic scoped slots 
@@ -81,13 +97,16 @@
 <script>
 import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
+import JdsCheckboxToggle from '../JdsCheckboxToggle'
 import localCopy from '../../mixins/local-copy'
 import { sort } from './mixins'
 
 export default {
   name: 'jds-data-table',
   components: {
-    JdsIcon, JdsSpinner
+    JdsIcon, 
+    JdsSpinner, 
+    JdsCheckboxToggle
   },
   data() {
     return {
@@ -139,6 +158,23 @@ export default {
       type: Boolean,
       default: false
     },
+
+    /**
+     * Allow DataTable to do row selection
+     */
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Define what key or property used
+     * when item is being selected.
+     */
+    itemKey: {
+      type: String,
+      default: 'id'
+    }
   },
   computed: {
     isDataEmpty() {
