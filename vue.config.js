@@ -1,35 +1,26 @@
 const path = require('path')
 
+/**
+ * Insert svg-to-vue loader rule
+ * NOTE: This method mutate provided config argument
+ * @param {*} currentConfig 
+ */
+
 function mergeAppWebpackConfig(config) {
+  // TODO: refactor these two lines
+  config.resolve.alias = config.resolve.alias || {}
+  Object.assign(config.resolve.alias, {
+    '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
+  })
+}
+
+function mergeWebComponentWebpackConfig(config) {
+  // TODO: refactor these two lines
   config.resolve.alias = config.resolve.alias || {}
   Object.assign(config.resolve.alias, {
     '@jabardigitalservice/jds-design-system': path.resolve(__dirname, 'publish')
   })
 
-  const svgRule = config.module.rules.find((rule) => {
-    return rule.test.test('.svg')
-  })
-
-  if (svgRule) {
-    const defaultLoader = svgRule.use
-    delete svgRule.use
-
-    svgRule.oneOf = [
-      {
-        resourceQuery: /vue/,
-        use: [
-          // This loader compiles .svg file to .vue file
-          // So we use `vue-loader` after it
-          'vue-loader',
-          'svg-to-vue-component/loader'
-        ]
-      },
-      ...defaultLoader
-    ]
-  }
-}
-
-function mergeWebComponentWebpackConfig(config) {
   const styleRules = config.module.rules.filter((rule) => {
     return rule.test.test('.scss')
   })
