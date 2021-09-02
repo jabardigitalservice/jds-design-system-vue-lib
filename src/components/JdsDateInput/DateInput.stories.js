@@ -44,4 +44,7 @@ const Template = (args, context) => {
   }
 }
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
+Default.args = {
+  value: "01/01/1990"
+};
