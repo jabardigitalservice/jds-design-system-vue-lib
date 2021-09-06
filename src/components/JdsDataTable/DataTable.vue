@@ -8,6 +8,9 @@
         >
           <jds-checkbox-toggle 
             size="sm"
+            @click="onSelectAll"
+            :indeterminate="isIndeterminate"
+            v-model="selectAll"
           />
         </th>
         <th v-for="(header, index) in headers" :key="index">
@@ -72,6 +75,9 @@
           >
             <jds-checkbox-toggle 
               size="sm"
+              @click="onRowSelectChange(item, true)"
+              :checked="isSelected(item)"
+              @change="emitChanges"
             />
           </td>
           <td v-for="(header, colIndex) in headers" :key="colIndex">
@@ -99,7 +105,7 @@ import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
 import JdsCheckboxToggle from '../JdsCheckboxToggle'
 import localCopy from '../../mixins/local-copy'
-import { sort } from './mixins'
+import { sort, select } from './mixins'
 
 export default {
   name: 'jds-data-table',
@@ -115,7 +121,8 @@ export default {
   },
   mixins: [
     localCopy('items', 'mItems'), 
-    sort
+    sort,
+    select
     ],
   props: {
     /**
