@@ -30,7 +30,7 @@ Tuliskan harapan yang diinginkan dari proses ini.
 Tuliskan proses bug yang terjadi.
 
 **Attachment**
-Lampirkan *screentshots* atau *video* bug yang terjadi.
+Lampirkan *screenshots* atau *video* bug yang terjadi.
 
 **Additional context**
 Tuliskan jika ada hal - hal lain yang perlu ditambahkan terkait bug ini.
