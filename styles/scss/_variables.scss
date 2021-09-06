@@ -1,3 +1,5 @@
+@use "sass:string" as String;
+@use "sass:meta" as Meta;
 // Color system
 
 $black: #000 !default;
@@ -82,7 +84,7 @@ $gray-50: #FAFAFA !default;
 $gray-100: #F5F5F5 !default;
 $gray-200: #EEEEEE !default;
 $gray-300: #E0E0E0 !default;
-$gray-400: #9E9E9E !default;
+$gray-400: #BDBDBD !default;
 $gray-500: #9E9E9E !default;
 $gray-600: #757575 !default;
 $gray-700: #616161 !default;
@@ -183,3 +185,7 @@ $font-faces-map: (
     ),
   ),
 );
+
+:export {
+  list: Meta.inspect($arrayColors);
+}

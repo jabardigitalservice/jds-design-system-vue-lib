@@ -23,6 +23,7 @@
 }
 
 .jds-input-text {
+  height: 100%;
   display: inline-block;
   font-size: 1em;
   
@@ -123,6 +124,20 @@
 
   &:not(&--focused) {
     @include toggle-input-inset-shadow(false);
+  }
+
+
+  &--disabled {
+    @include set-input-bg-color(V.$gray-200);
+
+    &,
+    & * {
+      pointer-events: none;
+    }
+
+    input {
+      color: V.$gray-400;
+    }
   }
   
   &--error {
