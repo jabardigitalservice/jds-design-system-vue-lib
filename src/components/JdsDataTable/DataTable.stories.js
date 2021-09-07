@@ -7,6 +7,11 @@ import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils
 export default {
   component: JdsDataTable,
   title: 'Components/DataTable',
+  parameters: {
+    backgrounds: {
+      default: 'gray'
+    },
+  },
 }
 
 const Template = (args, context) => {
@@ -15,10 +20,12 @@ const Template = (args, context) => {
     components: { JdsDataTable, JdsSpinner, JdsIcon },
     mixins: [storybookMixin(args, context)],
     template: `
-      <jds-data-table
-        v-bind="$props" 
-        v-on="events" 
-      />
+      <div style="height: 350px">
+        <jds-data-table
+          v-bind="$props" 
+          v-on="events" 
+        />
+      </div>
     `,
   }
 }
