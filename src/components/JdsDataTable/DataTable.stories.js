@@ -20,12 +20,10 @@ const Template = (args, context) => {
     components: { JdsDataTable, JdsSpinner, JdsIcon },
     mixins: [storybookMixin(args, context)],
     template: `
-      <div style="height: 350px">
-        <jds-data-table
-          v-bind="$props" 
-          v-on="events" 
-        />
-      </div>
+      <jds-data-table
+        v-bind="$props" 
+        v-on="events" 
+      />
     `,
   }
 }
