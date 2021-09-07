@@ -3,7 +3,7 @@
   :class="[{
     'jds-button': true,
     'font-sans-1': true,
-  }, classVariant]"
+  }, classVariant, customClass]"
   @click="onButtonClick"
   >
     {{ label }}
@@ -17,6 +17,12 @@
 export default {
   name: 'jds-button',
   props: {
+    /**
+     * Class for custom style passed the component
+     */
+    classes: {
+      type: Object
+    },
     /**
      * The type for the button
      * value is `button | submit`
@@ -40,6 +46,13 @@ export default {
     }
   },
   computed:{
+    customClass(){
+      const { button } = this.classes || {}
+      if(button){
+        return button
+      }
+      return ''
+    },
     // class variant
     classVariant(){
       return {
