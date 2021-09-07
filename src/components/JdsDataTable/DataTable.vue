@@ -1,5 +1,8 @@
 <template>
-  <table :class="[{ 'jds-data-table font-sans-1': true }]">
+  <table :class="{ 
+    'jds-data-table font-sans-1': true,
+    'jds-data-table--full-height': loading,
+  }">
     <thead class="jds-data-table__head">
       <tr>
         <th v-for="(header, index) in headers" :key="index">
