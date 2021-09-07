@@ -61,6 +61,9 @@ Default.args = {
   localSort: true,
   loading: false,
   emptyText: '',
+  pagination: {
+    itemsPerPage: 3,
+  }
 }
 
 export const EmptyState = Template.bind({})
