@@ -1,7 +1,7 @@
 <template>
   <table :class="[{ 'jds-data-table font-sans-1': true }]">
     <thead class="jds-data-table__head">
-      <tr>
+      <tr ref="tableHeader">
         <th 
           v-if="showSelect"
           class="jds-data-table__select"
@@ -41,7 +41,7 @@
     <tbody class="jds-data-table__body">
       <template v-if="loading">
         <tr>
-          <td :colspan="headers.length">
+          <td :colspan="columnLength">
             <div class="jds-data-table__loading">
               <jds-spinner
                 size="56"
@@ -117,6 +117,7 @@ export default {
   data() {
     return {
       mItems: null,
+      columnLength: 0
     }
   },
   mixins: [
@@ -183,6 +184,7 @@ export default {
       default: 'id'
     }
   },
+
   computed: {
     isDataEmpty() {
       if (Array.isArray(this.items) && this.items.length === 0) {
@@ -190,10 +192,15 @@ export default {
       }
       return false
     }
-  }
+  },
+
+  mounted() {
+    this.columnLength = this.$refs.tableHeader.childElementCount
+  },
+
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use './DataTable.scss';
 </style>
