@@ -14,7 +14,6 @@ const select = {
      * @param {String, Number} property 
      * @returns {Boolean}
      */
-
     hasProperty(item, property) {
       return Object.prototype.hasOwnProperty.call(item, property)
     },
@@ -23,7 +22,6 @@ const select = {
      * Triggered when checkbox on table
      * header is clicked
      */
-    
     onSelectAll() {
 
       if (!this.isKeyExist) {
@@ -37,7 +35,9 @@ const select = {
 
         this.emitChanges()
       } else {
-        this.onRowSelectChange(null, false)
+        this.items.forEach((item) => {
+          this.onRowSelectChange(item)
+        })
 
         this.emitChanges()
       }
@@ -49,13 +49,15 @@ const select = {
      * @param {Object} item 
      * @param {Boolean} bool
      */
-    
     onRowSelectChange(item, bool) {
 
       if (!this.isKeyExist) {
         return
       }
 
+      /**
+       * Toggling insert and remove item
+       */
       if (typeof bool === 'boolean' && bool === true) {
         if (this.isSelected(item)) {
           const array = this.selectedItems.filter(value => value !== item[this.itemKey])
@@ -63,14 +65,14 @@ const select = {
         } else {
           this.selectedItems.push(item[this.itemKey])
         }
+        return
       }
 
-      else {
-        const set = new Set(this.selectedItems)
-        this.items.forEach(item => {
-          set.add(item[this.itemKey])
-        })
-        this.selectedItems = Array.from(set)
+      /**
+       * Force push unselected item
+       */
+      if (!this.isSelected(item)) {
+        this.selectedItems.push(item[this.itemKey])
       }
     },
 
@@ -78,7 +80,6 @@ const select = {
      * Emmit an event with 
      * array of selected items
      */
-
     emitChanges() {
       if (!this.isKeyExist) {
         return
@@ -87,13 +88,11 @@ const select = {
     },
 
     /**
-     * Check wether the item provided is currently
+     * Check whether the item provided is currently
      * being selected
-     * 
      * @param {Object} item 
      * @returns {Boolean}
      */
-
     isSelected(item) {
       return this.selectedItems.includes(item[this.itemKey])
     },
@@ -104,10 +103,8 @@ const select = {
     /**
      * Check whether the itemKey provided are exists
      * within the items 
-     * 
      * @returns {Boolean}
      */
-
     isKeyExist() {
       return this.items.every(item => this.hasProperty(item, this.itemKey))
     },
@@ -117,7 +114,6 @@ const select = {
      * are being selected or not.
      * @returns {Boolean}
      */
-
     isSelectingAllItemsWithinPage() {
       return this.items.every((item) => this.isSelected(item))
     },
@@ -127,7 +123,6 @@ const select = {
      * selected on the current page
      * @returns {Boolean}
      */
-
     isIndeterminate() {
       if (!Array.isArray(this.items)) {
         return false
