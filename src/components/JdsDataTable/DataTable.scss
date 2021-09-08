@@ -53,6 +53,10 @@
         color: V.$white;
         font-weight: 700;
         text-transform: capitalize;
+
+        .jds-checkbox-toggle__icon-wrapper {
+          border-color: V.$green-700 !important;
+        }
       }
     }
   }
@@ -79,13 +83,19 @@
       opacity: 0.5;
     }
   }
-  
+
   &__select {
     padding: 8px 16px !important;
     width: 1%;
-
+    
     .jds-checkbox-toggle {
       line-height: 0;
+
+      .jds-checkbox-toggle__icon-wrapper {
+        background: V.$white !important;
+      }
     }
   }
 }
+
+
