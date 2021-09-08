@@ -84,3 +84,9 @@ Danger.args = {
   ...Default.args,
   variant: 'danger'
 };
+
+export const Customization  = Template.bind({});
+Customization.args = {
+  ...Default.args,
+  classes: { 'button': 'jds-button-custom'}
+};

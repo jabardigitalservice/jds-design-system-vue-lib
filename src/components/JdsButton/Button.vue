@@ -3,7 +3,7 @@
   :class="[{
     'jds-button': true,
     'font-sans-1': true,
-  }, classVariant, customClass]"
+  }, classVariant, classCustomButton]"
   @click="onButtonClick"
   >
     {{ label }}
@@ -46,7 +46,7 @@ export default {
     }
   },
   computed:{
-    customClass(){
+    classCustomButton(){
       const { button } = this.classes || {}
       if(button){
         return button
@@ -80,4 +80,20 @@ export default {
 
 <style lang="scss">
 @import "./Button.scss";
+
+.jds-button-custom {
+  background: black;
+  color: white;
+  height: 100px;
+  width: 300px;
+
+  &:hover {
+    background: white;
+    color: black
+  }
+
+  &:focus{
+    box-shadow: inset 0px 0px 0px 1px red, inset 0px 0px 0px 2px yellow;          
+  }
+}
 </style>
