@@ -41,7 +41,7 @@
     <tbody class="jds-data-table__body">
       <template v-if="loading">
         <tr>
-          <td :colspan="columnLength">
+          <td :colspan="getColumnLength">
             <div class="jds-data-table__loading">
               <jds-spinner
                 size="56"
@@ -54,7 +54,7 @@
       </template>
       <template v-else-if="isDataEmpty">
         <tr valign="top">
-          <td :colspan="headers.length">
+          <td :colspan="getColumnLength">
             <!-- 
               @slot use this slot for any content you want
               to show when data is not available.
@@ -116,8 +116,7 @@ export default {
   },
   data() {
     return {
-      mItems: null,
-      columnLength: 0
+      mItems: null
     }
   },
   mixins: [
@@ -191,13 +190,14 @@ export default {
         return true
       }
       return false
+    },
+
+    getColumnLength() {
+      let length = this.headers?.length || 0
+      this.showSelect ? length++ : null
+      return length
     }
-  },
-
-  mounted() {
-    this.columnLength = this.$refs.tableHeader.childElementCount
-  },
-
+  }
 }
 </script>
 
