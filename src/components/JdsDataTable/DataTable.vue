@@ -110,7 +110,8 @@ import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
 import JdsCheckboxToggle from '../JdsCheckboxToggle'
 import localCopy from '../../mixins/local-copy'
-import { sort, select } from './mixins'
+import sortMixin from './mixins/sort'
+import selectMixin from './mixins/select'
 
 export default {
   name: 'jds-data-table',
@@ -126,8 +127,8 @@ export default {
   },
   mixins: [
     localCopy('items', 'mItems'), 
-    sort,
-    select
+    sortMixin,
+    selectMixin
     ],
   props: {
     /**
