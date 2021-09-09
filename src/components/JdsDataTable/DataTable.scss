@@ -1,7 +1,6 @@
 @use '../../../styles/scss/variables' as V;
 
 .jds-data-table {
-  height: 100%;
   width: 100%;
   border-spacing: 0 !important;
   border: none;
@@ -16,6 +15,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .jds-spinner {
+      line-height: 0;
+    }
   }
 
   &__empty {
@@ -67,7 +70,7 @@
       text-align: left;
 
       td {
-        padding: 6px 8px;
+        padding: 10px 8px;
         border-top: 1px solid V.$gray-200;
         color: V.$gray-800;
       }

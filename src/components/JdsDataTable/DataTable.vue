@@ -1,5 +1,7 @@
 <template>
-  <table :class="[{ 'jds-data-table font-sans-1': true }]">
+  <table :class="{ 
+    'jds-data-table font-sans-1': true
+  }">
     <thead class="jds-data-table__head">
       <tr ref="tableHeader">
         <th 
@@ -181,6 +183,18 @@ export default {
     itemKey: {
       type: String,
       default: 'id'
+    }, 
+
+     /** NOTE: 
+      * this property will be changed 
+      * and/or adjusted during implementation and 
+      * integration with JdsPagination component
+     */
+    pagination: {
+      type: Object,
+      default: () => ({
+        itemsPerPage: 10,
+      })
     }
   },
 
@@ -196,6 +210,12 @@ export default {
       let length = this.headers?.length || 0
       this.showSelect ? length++ : null
       return length
+    },
+    
+    getRowHeight() {
+       // 42px is the minimum height 
+       // of the table rows
+      return { height: `${this.pagination.itemsPerPage * 42}px`}
     }
   }
 }
