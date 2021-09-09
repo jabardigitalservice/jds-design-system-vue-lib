@@ -1,5 +1,7 @@
 <template>
-  <table :class="[{ 'jds-data-table font-sans-1': true }]">
+  <table :class="{ 
+    'jds-data-table font-sans-1': true
+  }">
     <thead class="jds-data-table__head">
       <tr>
         <th v-for="(header, index) in headers" :key="index">
@@ -31,7 +33,10 @@
       <template v-if="loading">
         <tr>
           <td :colspan="headers.length">
-            <div class="jds-data-table__loading">
+            <div 
+              class="jds-data-table__loading" 
+              :style="getRowHeight"
+            >
               <jds-spinner
                 size="56"
                 background="#E0E0E0"
@@ -139,6 +144,19 @@ export default {
       type: Boolean,
       default: false
     },
+
+    /**
+     * NOTE: 
+     * this property will be changed 
+     * and/or adjusted during implementation and 
+     * integration with JdsPagination component
+     */
+    pagination: {
+      type: Object,
+      default: () => ({
+        itemsPerPage: 10,
+      })
+    }
   },
   computed: {
     isDataEmpty() {
@@ -146,6 +164,12 @@ export default {
         return true
       }
       return false
+    },
+
+    getRowHeight() {
+       // 42px is the minimum height 
+       // of the table rows
+      return { height: `${this.pagination.itemsPerPage * 42}px`}
     }
   }
 }

@@ -7,6 +7,11 @@ import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils
 export default {
   component: JdsDataTable,
   title: 'Components/DataTable',
+  parameters: {
+    backgrounds: {
+      default: 'gray'
+    },
+  },
 }
 
 const Template = (args, context) => {
@@ -54,6 +59,9 @@ Default.args = {
   localSort: true,
   loading: false,
   emptyText: '',
+  pagination: {
+    itemsPerPage: 3,
+  }
 }
 
 export const EmptyState = Template.bind({})
