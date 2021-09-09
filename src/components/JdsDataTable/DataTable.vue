@@ -43,8 +43,11 @@
     <tbody class="jds-data-table__body">
       <template v-if="loading">
         <tr>
-          <td :colspan="getColumnLength">
-            <div class="jds-data-table__loading">
+          <td :colspan="columnLength">
+            <div 
+              class="jds-data-table__loading" 
+              :style="loadingHeight"
+            >
               <jds-spinner
                 size="56"
                 background="#E0E0E0"
@@ -56,7 +59,7 @@
       </template>
       <template v-else-if="isDataEmpty">
         <tr valign="top">
-          <td :colspan="getColumnLength">
+          <td :colspan="columnLength">
             <!-- 
               @slot use this slot for any content you want
               to show when data is not available.
@@ -211,16 +214,16 @@ export default {
       return false
     },
 
-    getColumnLength() {
+    columnLength() {
       let length = this.headers?.length || 0
       this.showSelect ? length++ : null
       return length
     },
 
-    getRowHeight() {
+    loadingHeight() {
        // 42px is the minimum height 
        // of the table rows
-      return { height: `${this.pagination.itemsPerPage * 42}px`}
+      return { height: `${this.pagination.itemsPerPage * 42}px` }
     }
   }
 }
