@@ -179,6 +179,11 @@ export default {
     /**
      * Define what key or property used
      * when item is being selected.
+     * <br><br>
+     * NOTE:
+     * For the row selection feature to work correctly, 
+     * please make sure all items have the 
+     * `itemKey` property defined.
      */
     itemKey: {
       type: String,
@@ -211,7 +216,7 @@ export default {
       this.showSelect ? length++ : null
       return length
     },
-    
+
     getRowHeight() {
        // 42px is the minimum height 
        // of the table rows
