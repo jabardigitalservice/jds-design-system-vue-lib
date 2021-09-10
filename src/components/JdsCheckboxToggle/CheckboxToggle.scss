@@ -1,6 +1,9 @@
 @use '../../../styles/scss/variables' as V;
 
 .jds-checkbox-toggle {
+  display: inline-block;
+  line-height: 0;
+
   &__icon-wrapper {
     position: relative;
     display: inline-flex;
@@ -23,6 +26,9 @@
       right: 0;
       bottom: 0;
       left: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: 0 0 2px 2px V.$yellow-500;
       border-radius: 3px;
       pointer-events: none;
       box-shadow: 0 0 0 2px V.$yellow-500;

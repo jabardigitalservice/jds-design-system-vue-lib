@@ -5,7 +5,7 @@
       'jds-options--filterable': filterable,
       'jds-options--has-header': !!header,
     }"
-    @keydown.capture="handleKeyboardNavigation"
+    @keydown="handleKeyboardNavigation"
   >
     <div tabindex="0" class="jds-options__header">
       <strong>{{ header }}</strong>
@@ -16,7 +16,6 @@
       ref="filterInputText"
       class="jds-options__filter"
       @input="onFilterInput"
-      @keydown.native.capture.passive="onKeydownFilterInput"
     >
       <template #prefix-icon>
         <jds-icon
@@ -42,8 +41,8 @@
           'jds-options__option-list-item--selected': isOptionSelected(opt),
         }"
         @click="onClickOptionItem(opt)"
-        @keydown.stop.enter="onKeydownEnterOptionItem(opt)"
-        @keydown.stop.delete="onKeydownDeleteOptionItem(opt)"
+        @keydown.enter="onKeydownEnterOptionItem(opt)"
+        @keydown.delete="onKeydownDeleteOptionItem(opt)"
       >
         <span class="jds-options__option-list-item__text">
           {{ getOptionLabel(opt, labelKey) }}
@@ -54,7 +53,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway'
 import * as keyCode from "../../utils/key-code"
 import localCopy from "../../mixins/local-copy"
 import JdsIcon from "../JdsIcon"
@@ -70,9 +68,6 @@ export default {
   model: {
     prop: "value",
     event: "change",
-  },
-  directives: {
-    clickaway
   },
   components: {
     JdsIcon,
@@ -240,6 +235,13 @@ export default {
     // END: OPTION STATE AND METHODS
 
     // START: NAVIGATION
+    initFocus () {
+      if (this.currentOptionIndex >= 0) {
+        this.focusOnOption(this.currentOptionIndex)
+      } else {
+        this.focusOnFirstFocusable()
+      }
+    },
     focusOnFirstFocusable() {
       if (this.filterable) {
         this.focusOnFilterInput()
@@ -274,6 +276,14 @@ export default {
     focusOnOption(index) {
       if (index >= 0 && index < this.availableOptions.length) {
         this.$refs.optionListItems?.[index]?.focus()
+      }
+    },
+    focusOnSelectedOption() {
+      const index = this.currentOptionIndex
+      if (index >= 0 && index < this.availableOptions.length) {
+        this.$refs.optionListItems?.[index]?.focus()
+      } else {
+        this.$refs.optionListItems?.[0]?.focus()
       }
     },
     /**
@@ -336,35 +346,45 @@ export default {
       } else {
         this.changeSelectedOption(option)
       }
+      this.emitClickOption(option)
     },
     onKeydownEnterOptionItem(option) {
       this.changeSelectedOption(option)
+      this.emitKeydownEnter(option)
     },
     onKeydownDeleteOptionItem(option) {
       if (this.isOptionSelected(option)) {
         this.resetSelectedOption()
+        this.emitKeydownDelete(option)
       }
     },
     onFilterInput(str) {
       this.mFilter = typeof str === "string" && str.length ? str : null
       this.$emit('change:filter', this.mFilter)
     },
-    onKeydownFilterInput(e) {
-      // only emit keydown within input element
-      if (e.target.tagName !== 'INPUT') {
-        return
-      }
-      // FIXME: can not emit native event on storybook
-      /**
-       * Emitted on keydown within filter input element
-       */
-      this.$emit('keydown:filter', /* e */)
-    },
     emitChange(value) {
       /**
        * Emitted when value changed
        */
       this.$emit("change", value)
+    },
+    emitClickOption(option) {
+      /**
+       * Emitted when option changed via click
+       */
+      this.$emit('click:option', option)
+    },
+    emitKeydownEnter(option) {
+      /**
+       * Emitted when option selected via keydown enter
+       */
+      this.$emit('keydown-enter:option', option)
+    },
+    emitKeydownDelete(option) {
+      /**
+       * Emitted when option unselected via keydown delete or backspace
+       */
+      this.$emit('keydown-delete:option', option)
     },
   },
 }
