@@ -252,7 +252,8 @@ export default {
      * 10 is the default value of
      * items per page
      */
-    return { height: `${(this.pagination?.itemsPerPage || 10) * 42}px` }
+      return { height: `${(this.pagination?.itemsPerPage || 10) * 42}px` }
+    }
   }
 }
 </script>
