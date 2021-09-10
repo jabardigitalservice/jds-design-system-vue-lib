@@ -60,8 +60,12 @@ Default.args = {
   itemKey: 'id',
   emptyText: '',
   pagination: {
-    itemsPerPage: 3,
-  }
+    currentPage: 1,
+    totalRows: 200,
+    itemsPerPage: 10,
+    itemsPerPageOptions: [10, 20, 30, 40, 50],
+    disabled: false
+  },
 }
 
 export const EmptyState = Template.bind({})
