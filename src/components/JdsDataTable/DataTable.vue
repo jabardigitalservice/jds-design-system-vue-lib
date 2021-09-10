@@ -100,7 +100,23 @@
       <!-- 
         @slot use this slot for any footer content you want.
       -->
-      <slot name="footer"></slot>
+      <slot name="footer">
+        <tr>
+          <td :colspan="columnLength">
+            <jds-pagination
+              :current-page="pagination.currentPage"
+              :total-rows="pagination.totalRows"
+              :items-per-page="pagination.itemsPerPage"
+              :items-per-page-options="pagination.itemsPerPageOptions"
+              :disabled="pagination.disabled"
+              @next-page="$emit('next-page', $event)"
+              @previous-page="$emit('previous-page', $event)"
+              @page-change="$emit('page-change', $event)"
+              @per-page-change="$emit('per-page-change', $event)"
+            />
+          </td>
+        </tr>
+      </slot>
     </tfoot>
   </table>
 </template>
@@ -109,6 +125,7 @@
 import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
 import JdsCheckboxToggle from '../JdsCheckboxToggle'
+import JdsPagination from '../JdsPagination'
 import localCopy from '../../mixins/local-copy'
 import sortMixin from './mixins/sort'
 import selectMixin from './mixins/select'
@@ -118,7 +135,8 @@ export default {
   components: {
     JdsIcon, 
     JdsSpinner, 
-    JdsCheckboxToggle
+    JdsCheckboxToggle,
+    JdsPagination
   },
   data() {
     return {
@@ -194,15 +212,20 @@ export default {
       default: 'id'
     }, 
 
-     /** NOTE: 
-      * this property will be changed 
-      * and/or adjusted during implementation and 
-      * integration with JdsPagination component
-     */
+   /**
+    * Pagination property
+    * <br><br>
+    * for more information, check
+    * `JdsPagination` component documentation
+    */
     pagination: {
       type: Object,
       default: () => ({
+        currentPage: 1,
+        totalRows: 0,
         itemsPerPage: 10,
+        itemsPerPageOptions: [10, 20, 30, 40, 50],
+        disabled: false
       })
     }
   },
