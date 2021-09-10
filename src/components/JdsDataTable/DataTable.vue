@@ -245,10 +245,14 @@ export default {
     },
 
     loadingHeight() {
-       // 42px is the minimum height 
-       // of the table rows
-      return { height: `${this.pagination.itemsPerPage * 42}px` }
-    }
+    /**
+     * 42px is the minimum height
+     * of the table rows
+     * 
+     * 10 is the default value of
+     * items per page
+     */
+    return { height: `${(this.pagination?.itemsPerPage || 10) * 42}px` }
   }
 }
 </script>
