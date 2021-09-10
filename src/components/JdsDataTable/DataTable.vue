@@ -3,7 +3,18 @@
     'jds-data-table font-sans-1': true
   }">
     <thead class="jds-data-table__head">
-      <tr>
+      <tr ref="tableHeader">
+        <th 
+          v-if="showSelect"
+          class="jds-data-table__select"
+        >
+          <jds-checkbox-toggle 
+            size="sm"
+            @click="onSelectAll"
+            :indeterminate="isIndeterminate"
+            v-model="selectAll"
+          />
+        </th>
         <th v-for="(header, index) in headers" :key="index">
           <div class="jds-data-table__column-wrapper">
             <span>
@@ -32,10 +43,10 @@
     <tbody class="jds-data-table__body">
       <template v-if="loading">
         <tr>
-          <td :colspan="headers.length">
+          <td :colspan="columnLength">
             <div 
               class="jds-data-table__loading" 
-              :style="getRowHeight"
+              :style="loadingHeight"
             >
               <jds-spinner
                 size="56"
@@ -48,7 +59,7 @@
       </template>
       <template v-else-if="isDataEmpty">
         <tr valign="top">
-          <td :colspan="headers.length">
+          <td :colspan="columnLength">
             <!-- 
               @slot use this slot for any content you want
               to show when data is not available.
@@ -63,6 +74,17 @@
       </template>
       <template v-else>
         <tr v-for="(item, rowIndex) in mItems" :key="rowIndex">
+          <td 
+            v-if="showSelect"
+            class="jds-data-table__select"
+          >
+            <jds-checkbox-toggle 
+              size="sm"
+              @click="onRowSelectChange(item, true)"
+              :checked="isSelected(item)"
+              @change="emitChanges"
+            />
+          </td>
           <td v-for="(header, colIndex) in headers" :key="colIndex">
             <!-- 
               @slot dynamic scoped slots 
@@ -86,23 +108,28 @@
 <script>
 import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
+import JdsCheckboxToggle from '../JdsCheckboxToggle'
 import localCopy from '../../mixins/local-copy'
-import { sort } from './mixins'
+import sortMixin from './mixins/sort'
+import selectMixin from './mixins/select'
 
 export default {
   name: 'jds-data-table',
   components: {
-    JdsIcon, JdsSpinner
+    JdsIcon, 
+    JdsSpinner, 
+    JdsCheckboxToggle
   },
   data() {
     return {
-      mItems: null,
+      mItems: null
     }
   },
   mixins: [
     localCopy('items', 'mItems'), 
-    sort
-    ],
+    sortMixin,
+    selectMixin
+  ],
   props: {
     /**
      * Define header text and key using this structure:
@@ -146,10 +173,31 @@ export default {
     },
 
     /**
-     * NOTE: 
-     * this property will be changed 
-     * and/or adjusted during implementation and 
-     * integration with JdsPagination component
+     * Allow DataTable to do row selection
+     */
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
+     * Define what key or property used
+     * when item is being selected.
+     * <br><br>
+     * NOTE:
+     * For the row selection feature to work correctly, 
+     * please make sure all items have the 
+     * `itemKey` property defined.
+     */
+    itemKey: {
+      type: String,
+      default: 'id'
+    }, 
+
+     /** NOTE: 
+      * this property will be changed 
+      * and/or adjusted during implementation and 
+      * integration with JdsPagination component
      */
     pagination: {
       type: Object,
@@ -158,6 +206,7 @@ export default {
       })
     }
   },
+
   computed: {
     isDataEmpty() {
       if (Array.isArray(this.items) && this.items.length === 0) {
@@ -166,15 +215,21 @@ export default {
       return false
     },
 
-    getRowHeight() {
+    columnLength() {
+      let length = this.headers?.length || 0
+      this.showSelect ? length++ : null
+      return length
+    },
+
+    loadingHeight() {
        // 42px is the minimum height 
        // of the table rows
-      return { height: `${this.pagination.itemsPerPage * 42}px`}
+      return { height: `${this.pagination.itemsPerPage * 42}px` }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @use './DataTable.scss';
 </style>

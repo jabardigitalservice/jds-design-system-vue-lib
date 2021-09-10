@@ -1,6 +1,4 @@
 import JdsDataTable from './DataTable.vue'
-import JdsIcon from '../JdsIcon'
-import JdsSpinner from '../JdsSpinner'
 
 import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
@@ -17,7 +15,7 @@ export default {
 const Template = (args, context) => {
   return {
     name: 'JdsDataTableStories',
-    components: { JdsDataTable, JdsSpinner, JdsIcon },
+    components: { JdsDataTable },
     mixins: [storybookMixin(args, context)],
     template: `
       <jds-data-table
@@ -58,6 +56,8 @@ Default.args = {
   ],
   localSort: true,
   loading: false,
+  showSelect: true,
+  itemKey: 'id',
   emptyText: '',
   pagination: {
     itemsPerPage: 3,
@@ -75,8 +75,11 @@ hideArgTypes(EmptyState, [
   'headers',
   'items',
   'localSort',
+  'showSelect',
+  'itemKey',
   'loading'
 ])
 hideEvents(EmptyState, [
-  'change:sort'
+  'change:sort',
+  'change:select'
 ])
