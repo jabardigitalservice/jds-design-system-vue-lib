@@ -129,7 +129,7 @@ export default {
     localCopy('items', 'mItems'), 
     sortMixin,
     selectMixin
-    ],
+  ],
   props: {
     /**
      * Define header text and key using this structure:
