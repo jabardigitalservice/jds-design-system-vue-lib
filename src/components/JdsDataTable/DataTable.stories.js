@@ -1,4 +1,5 @@
 import JdsDataTable from './DataTable.vue'
+import JdsButton from '../JdsButton/Button.vue'
 
 import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
@@ -15,13 +16,17 @@ export default {
 const Template = (args, context) => {
   return {
     name: 'JdsDataTableStories',
-    components: { JdsDataTable },
+    components: { JdsDataTable, JdsButton },
     mixins: [storybookMixin(args, context)],
     template: `
       <jds-data-table
         v-bind="$props" 
         v-on="events" 
-      />
+      >
+        <template #item.action="{ item }"> 
+          <jds-button variant="primary">Click Me</jds-button>
+        </template>
+      </jds-data-table>
     `,
   }
 }
@@ -32,7 +37,7 @@ Default.args = {
     { key: 'id', text: 'ID', sortable: true },
     { key: 'name', text: 'Name', sortable: true },
     { key: 'email', text: 'Email', sortable: true },
-    { key: 'body', text: 'Comments', sortable: true },
+    { key: 'body', text: 'Comments', sortable: true }
   ],
   items: [
     {
@@ -81,9 +86,59 @@ hideArgTypes(EmptyState, [
   'localSort',
   'showSelect',
   'itemKey',
-  'loading'
+  'loading',
+  'pagination',
+  'next-page',
+  'previous-page',
+  'page-change',
+  'per-page-change'
 ])
 hideEvents(EmptyState, [
+  'change:sort',
+  'change:select'
+])
+
+export const WithAction = Template.bind({})
+WithAction.args = {
+  ...Default.args,
+  headers: [
+    ...Default.args.headers,
+    { key: 'action', text: 'Action' },
+  ]
+}
+WithAction.storyName = 'With Action'
+
+const actionSlotDocs = `
+<template>
+  <jds-data-table>
+    <template v-slot:item.action="{ item }">
+      <jds-button variant="primary">Click Me</jds-button>
+    </template>
+  </jds-data-table>
+</template>
+`
+
+WithAction.parameters = {
+  docs: {
+    source: {
+      code: actionSlotDocs
+    }
+  }
+}
+hideArgTypes(WithAction, [
+  'items',
+  'localSort',
+  'showSelect',
+  'itemKey',
+  'loading',
+  'emptyText',
+  'pagination',
+  'next-page',
+  'previous-page',
+  'page-change',
+  'per-page-change'
+])
+hideEvents(WithAction, [
   'change:sort',
   'change:select'
 ])
