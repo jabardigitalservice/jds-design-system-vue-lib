@@ -113,7 +113,7 @@ export default {
   watch: {
     value: {
       handler: function (v) {
-        if(typeof v === 'undefined' || v === null || !this.isDateStringValid(v)){
+        if(typeof v === 'undefined' || v === null || fnDate.parseDate(v) === null){
           this.mValue = new Date()
         }else{
           this.mValue = fnDate.parseDate(v)
@@ -129,15 +129,6 @@ export default {
     }
   },
   methods: {
-    isDateStringValid(dateString){
-      let valid = true
-      const arrayOfDate = dateString.split("/")
-      const date = new Date(arrayOfDate[1]+"/"+arrayOfDate[0]+"/"+arrayOfDate[2])
-      if(date.toString() === 'Invalid Date'){
-        valid = false
-      }
-      return valid
-    },
     isSelected (date) {
       if(Array.isArray(this.selectedValue)){
         return (
