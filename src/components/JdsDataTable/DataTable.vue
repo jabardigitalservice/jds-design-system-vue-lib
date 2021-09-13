@@ -104,11 +104,7 @@
         <tr>
           <td :colspan="columnLength">
             <jds-pagination
-              :current-page="pagination.currentPage"
-              :total-rows="pagination.totalRows"
-              :items-per-page="pagination.itemsPerPage"
-              :items-per-page-options="pagination.itemsPerPageOptions"
-              :disabled="pagination.disabled"
+              v-bind="pagination"
               @next-page="$emit('next-page', $event)"
               @previous-page="$emit('previous-page', $event)"
               @page-change="$emit('page-change', $event)"
@@ -129,6 +125,12 @@ import JdsPagination from '../JdsPagination'
 import localCopy from '../../mixins/local-copy'
 import sortMixin from './mixins/sort'
 import selectMixin from './mixins/select'
+
+const paginationDefault = {
+  currentPage: 1,
+  totalRows: 0,
+  itemsPerPage: 10
+}
 
 export default {
   name: 'jds-data-table',
@@ -220,12 +222,15 @@ export default {
     */
     pagination: {
       type: Object,
+      validator: pagination => Object.keys(paginationDefault).every(key => {
+        const bool = key in pagination
+        if (!bool) {
+          console.warn(`JdsDataTable: Expected ${key} property on pagination props`)
+        }
+        return bool
+      }),
       default: () => ({
-        currentPage: 1,
-        totalRows: 0,
-        itemsPerPage: 10,
-        itemsPerPageOptions: [10, 20, 30, 40, 50],
-        disabled: false
+        ...paginationDefault
       })
     }
   },
