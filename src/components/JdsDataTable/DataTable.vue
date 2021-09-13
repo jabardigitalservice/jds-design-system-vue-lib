@@ -100,7 +100,19 @@
       <!-- 
         @slot use this slot for any footer content you want.
       -->
-      <slot name="footer"></slot>
+      <slot name="footer">
+        <tr>
+          <td :colspan="columnLength">
+            <jds-pagination
+              v-bind="pagination"
+              @next-page="$emit('next-page', $event)"
+              @previous-page="$emit('previous-page', $event)"
+              @page-change="$emit('page-change', $event)"
+              @per-page-change="$emit('per-page-change', $event)"
+            />
+          </td>
+        </tr>
+      </slot>
     </tfoot>
   </table>
 </template>
@@ -109,16 +121,24 @@
 import JdsIcon from '../JdsIcon'
 import JdsSpinner from '../JdsSpinner'
 import JdsCheckboxToggle from '../JdsCheckboxToggle'
+import JdsPagination from '../JdsPagination'
 import localCopy from '../../mixins/local-copy'
 import sortMixin from './mixins/sort'
 import selectMixin from './mixins/select'
+
+const paginationDefault = {
+  currentPage: 1,
+  totalRows: 0,
+  itemsPerPage: 10
+}
 
 export default {
   name: 'jds-data-table',
   components: {
     JdsIcon, 
     JdsSpinner, 
-    JdsCheckboxToggle
+    JdsCheckboxToggle,
+    JdsPagination
   },
   data() {
     return {
@@ -194,15 +214,23 @@ export default {
       default: 'id'
     }, 
 
-     /** NOTE: 
-      * this property will be changed 
-      * and/or adjusted during implementation and 
-      * integration with JdsPagination component
-     */
+   /**
+    * Pagination property
+    * <br><br>
+    * for more information, check
+    * `JdsPagination` component documentation
+    */
     pagination: {
       type: Object,
+      validator: pagination => Object.keys(paginationDefault).every(key => {
+        const bool = key in pagination
+        if (!bool) {
+          console.warn(`JdsDataTable: Expected ${key} property on pagination props`)
+        }
+        return bool
+      }),
       default: () => ({
-        itemsPerPage: 10,
+        ...paginationDefault
       })
     }
   },
@@ -222,9 +250,14 @@ export default {
     },
 
     loadingHeight() {
-       // 42px is the minimum height 
-       // of the table rows
-      return { height: `${this.pagination.itemsPerPage * 42}px` }
+    /**
+     * 42px is the minimum height
+     * of the table rows
+     * 
+     * 10 is the default value of
+     * items per page
+     */
+      return { height: `${(this.pagination?.itemsPerPage || 10) * 42}px` }
     }
   }
 }
