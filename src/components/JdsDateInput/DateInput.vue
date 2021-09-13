@@ -165,16 +165,19 @@ export default {
   },
   methods: {
     syncPropValue(v){
-      if(typeof v === 'undefined'){
+      if(typeof v === 'undefined' || v === null){
         this.mValue = fnDate.formatDate(new Date())
+        this.mErrorMessage = undefined
+      }else if(fnDate.parseDate(v) === null) {
+        this.mErrorMessage = 'Invalid date'
       }else{
         this.mValue = v
+        this.mErrorMessage = undefined
       }
       this.updateValue()
     },
     updateValue(){
       this.maskRef.updateValue()
-      // this.maskRef.value = this.mValue
     },
     onClick(){
       this.updateValue()
