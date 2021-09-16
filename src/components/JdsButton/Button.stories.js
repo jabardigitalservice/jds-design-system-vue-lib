@@ -2,6 +2,7 @@
 
 import JdsButton from './Button.vue';
 import storybookMixin from '../../utils/storybook'
+import './CustomStyleButton.css'
 
 export default {
   component: JdsButton,
@@ -83,4 +84,10 @@ export const Danger = Template.bind({});
 Danger.args = {
   ...Default.args,
   variant: 'danger'
+};
+
+export const Customization  = Template.bind({});
+Customization.args = {
+  ...Default.args,
+  classes: { 'button': 'jds-button-custom'}
 };
