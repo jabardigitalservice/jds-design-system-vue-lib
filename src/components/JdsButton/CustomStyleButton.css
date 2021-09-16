@@ -1,0 +1,15 @@
+.jds-button-custom {
+  background: black;
+  color: white;
+  height: 100px;
+  width: 300px;
+}
+
+.jds-button-custom:hover {
+  background: white;
+  color: black
+}
+
+.jds-button-custom:focus{
+  box-shadow: inset 0px 0px 0px 1px red, inset 0px 0px 0px 2px yellow;          
+}

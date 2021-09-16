@@ -2,6 +2,7 @@
 
 import JdsButton from './Button.vue';
 import storybookMixin from '../../utils/storybook'
+import './CustomStyleButton.css'
 
 export default {
   component: JdsButton,
