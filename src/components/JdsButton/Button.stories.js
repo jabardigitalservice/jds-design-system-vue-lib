@@ -84,3 +84,28 @@ Danger.args = {
   ...Default.args,
   variant: 'danger'
 };
+
+export const Customization = (args, context) => {
+  return {
+    name: 'JdsButtonCustomizationStories',
+    components: { JdsButton },
+    mixins: [storybookMixin(args, context)],
+    // Storybook provides all the args in a $props variable.
+    // Each arg is also available as their own name.
+    template: `
+      <jds-button
+        :style="{
+          '--border-color': 'cyan',
+          '--bg-color': 'yellow',
+          '--text-color': 'greysmoke'
+        }"
+        v-bind="$props"
+        v-on="events"
+      />
+    `,
+  }
+}
+
+Customization.args = {
+  ...Default.args,
+}
