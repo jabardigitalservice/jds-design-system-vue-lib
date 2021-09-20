@@ -3,6 +3,7 @@ import JdsButton from '../JdsButton/Button.vue'
 import JdsPopover from '../JdsPopover/Popover.vue'
 import JdsOptions from '../JdsOptions/Options.vue'
 import JdsIcon from '../JdsIcon/Icon.vue'
+import { directive as clickaway } from 'vue-clickaway'
 
 import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
@@ -26,6 +27,9 @@ const Template = (args, context) => {
       JdsOptions,
       JdsIcon
     },
+    directives: {
+      clickaway,
+    },
     mixins: [storybookMixin(args, context)],
     template: `
       <jds-data-table
@@ -38,8 +42,8 @@ const Template = (args, context) => {
 
         <template #item.action2="{ item }">
           <jds-popover>
-            <template v-slot:activator="{ on }">
-              <jds-button v-on="on" variant="secondary">
+            <template v-slot:activator="{ on, close }">
+              <jds-button v-on="on" v-clickaway="close" variant="secondary">
                 <div style="display:flex; align-item:center">
                   Action
                   <jds-icon name="chevron-down" size="sm" style="margin-left:8px"/>
@@ -182,15 +186,19 @@ ActionWithDropdown.args = {
 ActionWithDropdown.storyName = 'Action with Dropdown'
 
 const actionWithDropdownDocs = `
+// You can add vue-clickaway library to be able to close 
+// the drop-down menu when the user clicks outside the component.
+// https://www.npmjs.com/package/vue-clickaway
+
 <template>
   <jds-data-table>
     <template v-slot:item.action="{ item }">
       <jds-popover>
-        <template v-slot:activator="{ on }">
-          <jds-button v-on="on" variant="secondary">
+        <template v-slot:activator="{ on, close }">
+          <jds-button v-on="on" variant="secondary" v-clickaway="close">
             <div style="display:flex; align-item:center">
               Action
-              <jds-icon name="chevron-down" size="sm" style="margin-left:8px"/>
+              <jds-icon name="chevron-down" size="sm" style="margin-left:8px" />
             </div>
           </jds-button>
         </template>
@@ -207,6 +215,16 @@ const actionWithDropdownDocs = `
     </template>
   </jds-data-table>
 </template>
+
+<script>
+import { directive as clickaway } from 'vue-clickaway'
+
+export default {
+  directives: {
+    clickaway
+  }
+}
+</script>
 `
 
 ActionWithDropdown.parameters = {
