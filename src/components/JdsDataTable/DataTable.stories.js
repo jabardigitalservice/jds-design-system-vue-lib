@@ -1,5 +1,8 @@
 import JdsDataTable from './DataTable.vue'
 import JdsButton from '../JdsButton/Button.vue'
+import JdsPopover from '../JdsPopover/Popover.vue'
+import JdsOptions from '../JdsOptions/Options.vue'
+import JdsIcon from '../JdsIcon/Icon.vue'
 
 import { default as storybookMixin, hideArgTypes, hideEvents } from '../../utils/storybook'
 
@@ -9,14 +12,20 @@ export default {
   parameters: {
     backgrounds: {
       default: 'gray'
-    },
-  },
+    }
+  }
 }
 
 const Template = (args, context) => {
   return {
     name: 'JdsDataTableStories',
-    components: { JdsDataTable, JdsButton },
+    components: {
+      JdsDataTable,
+      JdsButton,
+      JdsPopover,
+      JdsOptions,
+      JdsIcon
+    },
     mixins: [storybookMixin(args, context)],
     template: `
       <jds-data-table
@@ -26,8 +35,30 @@ const Template = (args, context) => {
         <template #item.action="{ item }"> 
           <jds-button variant="primary">Click Me</jds-button>
         </template>
+
+        <template #item.action2="{ item }">
+          <jds-popover>
+            <template v-slot:activator="{ on }">
+              <jds-button v-on="on" variant="secondary">
+                <div style="display:flex; align-item:center">
+                  Action
+                  <jds-icon name="chevron-down" size="sm" style="margin-left:8px"/>
+                </div>
+              </jds-button>
+            </template>
+            <jds-options
+              class="font-sans-1"
+              style="width:100px"
+              :options="[
+                { value: 'action1', label: 'Action 1' },
+                { value: 'action2', label: 'Action 2' },
+                { value: 'action3', label: 'Action 3' }
+              ]"
+            />
+          </jds-popover>
+        </template>
       </jds-data-table>
-    `,
+    `
   }
 }
 
@@ -70,7 +101,7 @@ Default.args = {
     itemsPerPage: 10,
     itemsPerPageOptions: [10, 20, 30, 40, 50],
     disabled: false
-  },
+  }
 }
 
 export const EmptyState = Template.bind({})
@@ -98,17 +129,17 @@ hideEvents(EmptyState, [
   'change:select'
 ])
 
-export const WithAction = Template.bind({})
-WithAction.args = {
+export const ActionWithButton = Template.bind({})
+ActionWithButton.args = {
   ...Default.args,
   headers: [
-    ...Default.args.headers,
-    { key: 'action', text: 'Action' },
+    ...Default.args.headers, 
+    { key: 'action', text: 'Action' }
   ]
 }
-WithAction.storyName = 'With Action'
+ActionWithButton.storyName = 'Action with Button'
 
-const actionSlotDocs = `
+const actionWithButtonDocs = `
 <template>
   <jds-data-table>
     <template v-slot:item.action="{ item }">
@@ -118,14 +149,14 @@ const actionSlotDocs = `
 </template>
 `
 
-WithAction.parameters = {
+ActionWithButton.parameters = {
   docs: {
     source: {
-      code: actionSlotDocs
+      code: actionWithButtonDocs
     }
   }
 }
-hideArgTypes(WithAction, [
+hideArgTypes(ActionWithButton, [
   'items',
   'localSort',
   'showSelect',
@@ -138,8 +169,64 @@ hideArgTypes(WithAction, [
   'page-change',
   'per-page-change'
 ])
-hideEvents(WithAction, [
-  'change:sort',
-  'change:select'
-])
+hideEvents(ActionWithButton, ['change:sort', 'change:select'])
 
+export const ActionWithDropdown = Template.bind({})
+ActionWithDropdown.args = {
+  ...Default.args,
+  headers: [
+    ...Default.args.headers, 
+    { key: 'action2', text: 'Action' }
+  ]
+}
+ActionWithDropdown.storyName = 'Action with Dropdown'
+
+const actionWithDropdownDocs = `
+<template>
+  <jds-data-table>
+    <template v-slot:item.action="{ item }">
+      <jds-popover>
+        <template v-slot:activator="{ on }">
+          <jds-button v-on="on" variant="secondary">
+            <div style="display:flex; align-item:center">
+              Action
+              <jds-icon name="chevron-down" size="sm" style="margin-left:8px"/>
+            </div>
+          </jds-button>
+        </template>
+        <jds-options
+          class="font-sans-1"
+          style="width:100px"
+          :options="[
+            { value: 'action1', label: 'Action 1' },
+            { value: 'action2', label: 'Action 2' },
+            { value: 'action3', label: 'Action 3' }
+          ]"
+        />
+      </jds-popover>
+    </template>
+  </jds-data-table>
+</template>
+`
+
+ActionWithDropdown.parameters = {
+  docs: {
+    source: {
+      code: actionWithDropdownDocs
+    }
+  }
+}
+hideArgTypes(ActionWithDropdown, [
+  'items',
+  'localSort',
+  'showSelect',
+  'itemKey',
+  'loading',
+  'emptyText',
+  'pagination',
+  'next-page',
+  'previous-page',
+  'page-change',
+  'per-page-change'
+])
+hideEvents(ActionWithDropdown, ['change:sort', 'change:select'])
