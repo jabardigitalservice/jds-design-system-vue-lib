@@ -55,5 +55,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./Button.scss";
+@use "./Button.scss";
 </style>
