@@ -87,18 +87,20 @@
     }
   }
 
-  &__select {
-    padding: 8px 16px !important;
+  &__head tr th.jds-data-table__select,
+  &__body tr td.jds-data-table__select {
+    padding: 8px 16px;
     width: 1%;
-    
+
     .jds-checkbox-toggle {
       line-height: 0;
 
       .jds-checkbox-toggle__icon-wrapper {
-        background: V.$white !important;
+        background: V.$white;
       }
     }
   }
 }
+
 
 
