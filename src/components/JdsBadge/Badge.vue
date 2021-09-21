@@ -27,6 +27,8 @@
 import { isCSSUnit } from '../../utils/css-units'
 export default {
   model: {
+    // "event" is intentionally undefined,
+    // since no mutation happen locally for "show" prop
     prop: 'show',
   },
   props: {
@@ -48,21 +50,21 @@ export default {
       default: ''
     },
     /**
-     * Badge position. One of `left,right`.
+     * Indicator position. One of `left,right`.
      */
     position: {
       type: String,
       default: 'right'
     },
     /**
-     * Badge vertical alignment. One of `top,middle`.
+     * Indicator vertical alignment. One of `top,middle`.
      */
     align: {
       type: String,
       default: 'top'
     },
     /**
-     * Set badge indicator as inline element.
+     * Set indicator as inline element.
      */
     inline: {
       type: Boolean,
