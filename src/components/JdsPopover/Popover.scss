@@ -2,8 +2,10 @@
   display: inline-block;
   visibility: visible;
   pointer-events: all;
+  display: inline-block;
 
   &__activator {
+    height: 100%;
     display: inline-block;
   }
 

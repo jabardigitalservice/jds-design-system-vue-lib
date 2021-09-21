@@ -1,5 +1,3 @@
-// Button.stories.js
-
 import JdsDateInput from './DateInput.vue'
 import storybookMixin from '../../utils/storybook'
 
@@ -26,11 +24,9 @@ export default {
 }
 
 const Template = (args, context) => {
-  const { argTypes } = context
   return {
     name: 'JdsDateInputStories',
     components: { JdsDateInput },
-    props: Object.keys(argTypes),
     mixins: [storybookMixin(args, context)],
     computed: {
       responsiveness(){
@@ -48,4 +44,7 @@ const Template = (args, context) => {
   }
 }
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
+Default.args = {
+  value: "01/01/1990"
+};
