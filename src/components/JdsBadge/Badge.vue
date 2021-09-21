@@ -7,6 +7,7 @@
       <slot></slot>
     </div>
     <i
+      ref="indicator"
       class="jds-badge__indicator"
       :style="indicatorStyles"
     >
@@ -54,6 +55,13 @@ export default {
       default: 'right'
     },
     /**
+     * Badge vertical alignment. One of `top,middle`.
+     */
+    align: {
+      type: String,
+      default: 'top'
+    },
+    /**
      * Set badge indicator as inline element.
      */
     inline: {
@@ -76,7 +84,6 @@ export default {
      */
     size: {
       type: String,
-      default: null
     },
     /**
      * Set indicator color. Can be one of `red,green,blue`,
@@ -88,9 +95,6 @@ export default {
     },
   },
   computed: {
-    defaultSize () {
-      return this.dot ? 'xs' : 'md'
-    },
     isCustomSize () {
       return isCSSUnit(this.size)
     },
@@ -107,35 +111,28 @@ export default {
         'jds-badge--dot': this.dot,
         'jds-badge--hidden': !this.show,
         'jds-badge--left': this.position === 'left',
-        'jds-badge--right': this.position === 'right'
+        'jds-badge--right': this.position === 'right',
+        'jds-badge--top': this.align === 'top',
+        'jds-badge--middle': this.align === 'middle'
       }
 
       if (!this.isCustomSize) {
-        const is = (size) => {
-          return this.size
-            ? this.size === size
-            : this.defaultSize === size
-        }
+        const isSize = (size) => this.size === size
         Object.assign(classes, {
-          'jds-badge--xs': is('xs'),
-          'jds-badge--sm': is('sm'),
-          'jds-badge--md': is('md'),
-          'jds-badge--lg': is('lg'),
-          'jds-badge--xl': is('xl'),
+          'jds-badge--xs': isSize('xs'),
+          'jds-badge--sm': isSize('sm'),
+          'jds-badge--md': isSize('md'),
+          'jds-badge--lg': isSize('lg'),
+          'jds-badge--xl': isSize('xl'),
         })
       }
 
       if (!this.isCustomColor) {
-        const is = (color) => {
-          return this.color
-            ? this.color === color
-            : this.$options.props.color.default === color
-        }
+        const isColor = (color) => this.color === color
         Object.assign(classes, {
-          // default is red
-          'jds-badge--red': is('red'),
-          'jds-badge--green': is('green'),
-          'jds-badge--blue': is('blue'),
+          'jds-badge--red': isColor('red'),
+          'jds-badge--green': isColor('green'),
+          'jds-badge--blue': isColor('blue'),
         })
       }
 
@@ -155,6 +152,7 @@ export default {
           backgroundColor: this.color,
         })
       }
+
       return styles
     },
   }

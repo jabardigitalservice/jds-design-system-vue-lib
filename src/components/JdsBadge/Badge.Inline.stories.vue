@@ -1,26 +1,28 @@
 <template>
   <div>
-    <p class="font-sans-1">
+    <p class="font-sans-1 text-gray-600">
       By default, badge is set as an absolute positioned element.
       <br>
-      Which means it takes no additional space within its container.
+      It means badge takes no additional space within its container.
     </p>
     <button @click="isAbsoluteBadgeVisible = !isAbsoluteBadgeVisible">
       {{ isAbsoluteBadgeVisible ? 'Hide' : 'Show' }} badge
     </button>
     <br>
     <br>
-    <div style="display: flex; gap: 1rem;">
-      <jds-button
-        v-for="pos in ['left', 'right']"
-        :key="pos"
-        variant="secondary"
-      >
+    <div
+      v-for="pos in ['left', 'right']"
+      :key="`abs:dot:${pos}`"
+      style="margin-bottom: 1rem;"
+    >
+      <jds-button variant="secondary">
         <jds-badge
           v-model="isAbsoluteBadgeVisible"
+          v-bind="$props"
+          :position="pos"
           size="xs"
           dot
-          :position="pos"
+          style="vertical-align: middle;"
         >
           <span class="font-sans-2">
             Notification
@@ -28,30 +30,49 @@
         </jds-badge>
       </jds-button>
     </div>
-    <br>
-    <br>
-    <p class="font-sans-1">
+    <div
+      v-for="pos in ['left', 'right']"
+      :key="`abs:${pos}`"
+      style="margin-bottom: 1rem;"
+    >
+      <jds-button variant="secondary">
+        <jds-badge
+          v-model="isAbsoluteBadgeVisible"
+          v-bind="$props"
+          :position="pos"
+          :value="10"
+          size="lg"
+          style="vertical-align: middle;"
+        >
+          <span class="font-sans-2">
+            Notification
+          </span>
+        </jds-badge>
+      </jds-button>
+    </div>
+    <p class="font-sans-1 text-gray-600">
       If <u>inline</u> equals true, badge behaves like an inline element.
       <br>
-      It takes additional space within its container and vertically center-aligned
-      by default.
+      It takes additional space within its container.
     </p>
     <button @click="isInlineBadgeVisible = !isInlineBadgeVisible">
       {{ isInlineBadgeVisible ? 'Hide' : 'Show' }} badge
     </button>
     <br>
     <br>
-    <div style="display: flex; gap: 1rem;">
-      <jds-button
-        v-for="pos in ['left', 'right']"
-        :key="pos"
-        variant="secondary"
-      >
+    <div
+      v-for="pos in ['left', 'right']"
+      :key="`inline:dot:${pos}`"
+      style="margin-bottom: 1rem;"
+    >
+      <jds-button variant="secondary">
         <jds-badge
           v-model="isInlineBadgeVisible"
+          v-bind="$props"
+          :position="pos"
           inline
           dot
-          :position="pos"
+          style="vertical-align: middle;"
         >
           <span class="font-sans-2">
             Notification
@@ -59,18 +80,20 @@
         </jds-badge>
       </jds-button>
     </div>
-    <br>
-    <div style="display: flex; gap: 1rem;">
-      <jds-button
-        v-for="pos in ['left', 'right']"
-        :key="pos"
-        variant="secondary"
-      >
+    <div 
+      v-for="pos in ['left', 'right']"
+      :key="`inline:${pos}`"
+      style="margin-bottom: 1rem;"
+    >
+      <jds-button variant="secondary">
         <jds-badge
           v-model="isInlineBadgeVisible"
-          inline
+          v-bind="$props"
           :position="pos"
           :value="10"
+          inline
+          size="lg"
+          style="vertical-align: middle;"
         >
           <span class="font-sans-2">
             Notification
@@ -78,8 +101,6 @@
         </jds-badge>
       </jds-button>
     </div>
-    <br>
-    <br>
   </div>
 </template>
 
@@ -90,6 +111,14 @@ export default {
   components: {
     JdsButton,
     JdsBadge,
+  },
+  props: {
+    align: {
+      type: String,
+    },
+    color: {
+      type: String,
+    }
   },
   data () {
     return {
