@@ -4,7 +4,7 @@
     'jds-button': true,
     'font-sans-1': true,
   }, classVariant]"
-  @click="onButtonClick"
+  v-on="$listeners"
   >
     {{ label }}
     <!-- 
@@ -51,20 +51,9 @@ export default {
       }
     }
   },
-  methods: {
-    onButtonClick(e){
-      this.emitClick(e)
-    },
-    emitClick(value){
-      /**
-       * Emitted when button is click
-       */
-      this.$emit('click', value)
-    }
-  }
 }
 </script>
 
 <style lang="scss">
-@import "./Button.scss";
+@use "./Button.scss";
 </style>
