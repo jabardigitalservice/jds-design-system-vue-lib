@@ -29,6 +29,7 @@ const optionMask = {
       mask: IMask.MaskedRange,
       from: 1900,
       to: 9999,
+      maxLength: 4,
     }
   },
   format: formatDate,
@@ -50,10 +51,20 @@ function formatDate(date){
 /**
  * Parsing Date
  * @param {String} date 
- * @returns {Date} Returns Date object. Returns null what date string is invalid or doesn't match format
+ * @returns {Date} Return date object or return null if date string is invalid or doesn't match format
  */
 function parseDate(date){
-  return parse(date, 'DD/MM/YYYY')
+  const parseDate = parse(date, 'DD/MM/YYYY')
+  if(parseDate){
+    const arrayDate = date.split("/")
+    return (
+      arrayDate[0].length > 2 || 
+      arrayDate[1].length > 2 || 
+      arrayDate[2].length > 4 || 
+      parseInt(arrayDate[2]) < 1900
+    ) ? null : parseDate
+  }
+  return parseDate
 }
 
 /**
