@@ -13,6 +13,13 @@ export default {
         options: ['none', 'fix-3','fix-6','fix-9','fix-12','full-width']
       } 
     },
+    initValue: 
+    { 
+      control: {
+        type: 'select',
+        options: ['pattern', 'currentDate']
+      } 
+    },
     type: 
     { 
       control: {
