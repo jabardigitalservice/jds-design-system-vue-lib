@@ -214,7 +214,7 @@ export default {
       if(!this.mValue.startsWith('DD')){
         this.mErrorMessage = 'Invalid date'
       }else{
-        this.mErrorMessage = null
+        this.mErrorMessage = undefined
       }
     },
     onComplete (e) {
@@ -223,7 +223,7 @@ export default {
       if(this.errorMessage){
         this.mErrorMessage = this.errorMessage
       }else{
-        this.mErrorMessage = null
+        this.mErrorMessage = undefined
       }
     },
     async initialMask(){
