@@ -1,87 +1,150 @@
 @use '../../../styles/scss/variables' as V;
 @use 'sass:math' as Math;
+@use 'sass:map' as Map;
 
-$--badge-size-xs: 10px;
-$--badge-size-sm: 14px;
-$--badge-size-md: 18px;
-$--badge-size-lg: 24px;
-$--badge-size-xl: 32px;
+$--badge-size: (
+  xs: 10px,
+  sm: 14px,
+  md: 18px,
+  lg: 24px,
+  xl: 32px,
+);
 
-@mixin set-dot-color($color) {
-  .jds-badge__dot {
+@mixin set-indicator-color($color) {
+  .jds-badge__indicator {
     background-color: $color;
   }
 }
 
-@mixin set-dot-size-position($size) {
-  .jds-badge__dot {
-    bottom: calc(100% - #{Math.div($size, 2)});
-    width: $size;
-    height: $size;
-    border-radius: 9999px;
-    color: white;
-    font-weight: 500;;
-    font-size: Math.div($size, 2);
+@mixin set-indicator-size-position($name) {
+  $size: Map.get($--badge-size, $name);
+
+  &.jds-badge--#{$name} & {
+    &__indicator {
+      bottom: calc(100% - #{Math.div($size, 2)});
+      width: $size;
+      height: $size;
+      font-size: Math.div($size, 2);
+    }
+  }
+
+
+  &.jds-badge--inline {
+    &.jds-badge--left.jds-badge--#{$name} {
+      &:not(.jds-badge--hidden) {
+        margin-left: $size;
+      }
+    }
+    &.jds-badge--right.jds-badge--#{$name} {
+      &:not(.jds-badge--hidden) {
+        margin-right: $size;
+      }
+    }
+
+    .jds-badge__indicator {
+      bottom: unset;
+    }
   }
 }
 
 .jds-badge {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-flow: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  transition: margin 0.15s linear;
 
-  &__dot {
+  &__body {
+    display: inline-flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__indicator {
+    overflow: hidden;
     position: absolute;
-    bottom: 100%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
+    border-radius: 9999px;
+    
+    color: white;
+    font-weight: 500;;
     font-style: normal;
     text-decoration: none;
     text-transform: none;
-  }
-}
 
-.jds-badge {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.3s ease-out;
+    transition-property: opacity, transform;
+  }
+
   &--right & {
-    &__dot {
+    &__indicator {
       left: 100%;
     }
   }
-
   &--left & {
-    &__dot {
+    &__indicator {
       right: 100%;
     }
   }
 
-  &,
+  &--hidden & {
+    &__indicator {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  &--dot & {
+    &__indicator > * {
+      display: none;
+    }
+  }
+
+  &.jds-badge--inline {
+    &.jds-badge--left {
+      .jds-badge__body {
+        margin-left: 0.25rem;
+      }
+      &.jds-badge--hidden .jds-badge__body {
+        margin-left: 0;
+      }
+    }
+    &.jds-badge--right {
+      .jds-badge__body {
+        margin-right: 0.25rem;
+        transition: none;
+      }
+      &.jds-badge--hidden .jds-badge__body {
+        margin-right: 0;
+        transition: margin 0.3s linear;
+      }
+    }
+
+    .jds-badge__indicator {
+      bottom: unset;
+    }
+  }
+
   &--red {
-    @include set-dot-color(V.$red-600);
+    @include set-indicator-color(V.$red-600);
   }
   &--green {
-    @include set-dot-color(V.$green-600);
+    @include set-indicator-color(V.$green-600);
   }
   &--blue {
-    @include set-dot-color(V.$blue-600);
+    @include set-indicator-color(V.$blue-600);
   }
 
-  // default size
-  &,
-  &--xs {
-    @include set-dot-size-position($--badge-size-xs);
-  }
-
-  &--sm {
-    @include set-dot-size-position($--badge-size-sm);
-  }
-  &--md {
-    @include set-dot-size-position($--badge-size-md);
-  }
-  &--lg {
-    @include set-dot-size-position($--badge-size-lg);
-  }
-  &--xl {
-    @include set-dot-size-position($--badge-size-xl);
-  }
+  @include set-indicator-size-position('xs');
+  @include set-indicator-size-position('sm');
+  @include set-indicator-size-position('md');
+  @include set-indicator-size-position('lg');
+  @include set-indicator-size-position('xl');
 }
