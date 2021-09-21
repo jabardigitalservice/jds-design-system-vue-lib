@@ -159,7 +159,7 @@ $--badge-size: (
     }
 
     &:not(.jds-badge--hidden) {
-      transition-delay: 0;
+      transition-delay: 0s;
       .jds-badge__indicator {
         transition-delay: 0.15s;
       }
@@ -167,7 +167,7 @@ $--badge-size: (
     &.jds-badge--hidden {
       transition-delay: 0.15s;
       .jds-badge__indicator {
-        transition-delay: 0;
+        transition-delay: 0s;
       }
     }
   }
