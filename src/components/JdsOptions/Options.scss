@@ -74,13 +74,14 @@
       padding-left: 24px;
     }
 
-    &:hover > &__text,
+    &:hover:focus > &__text,
+    &:focus > &__text,
     &--selected > &__text {
       color: V.$green-700;
       font-weight: bolder;
     }
     
-    &:hover,
+    &:hover:focus,
     &:focus,
     &:focus-within {
       background-color: V.$gray-50;

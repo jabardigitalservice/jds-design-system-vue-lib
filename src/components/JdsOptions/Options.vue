@@ -43,6 +43,7 @@
         @click="onClickOptionItem(opt)"
         @keydown.enter="onKeydownEnterOptionItem(opt)"
         @keydown.delete="onKeydownDeleteOptionItem(opt)"
+        @mouseover="focusOnOption(index)"
       >
         <span class="jds-options__option-list-item__text">
           {{ getOptionLabel(opt, labelKey) }}
