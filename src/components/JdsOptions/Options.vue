@@ -144,6 +144,14 @@ export default {
     filter: {
       type: String,
     },
+
+    /**
+     * Enable options navigation using keyboard arrows.
+     */
+    kbdNavigation: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -320,6 +328,9 @@ export default {
       this.focusOnOption(this.availableOptions.length - 1)
     },
     handleKeyboardNavigation(e) {
+      if (!this.kbdNavigation) {
+        return
+      }
       const isGoingUp = keyCode.isArrow("Up", e)
       const isGoingDown = keyCode.isArrow("Down", e)
       const filterInputHasFocus = this.isFocusingOnFilterInput()

@@ -64,6 +64,7 @@
         filterType,
       }"
       :value="mValue"
+      :kbd-navigation="optionsKbdNavigation"
       @click:option="onOptionClicked"
       @change="onOptionsValueChanged"
       @change:filter="onOptionsFilterChanged"
@@ -248,6 +249,26 @@ export default {
     disabled: {
       type: Boolean,
     },
+
+    /**
+     * Enable options navigation using keyboard arrows.
+     * One of:
+     * 
+     * - `always`
+     * <br>
+     * Enable navigation even when dropdown is closed.
+     * Should only be used when the activator is able
+     * to show the selected value(s) within itself,
+     * e.g InputText, Textarea, etc.
+     * 
+     * - `opened`
+     * <br>
+     * Enable navigation only when dropdown is opened.
+     */
+    optionsNavigation: {
+      type: String,
+      default: 'always'
+    }
   },
   data () {
     return {
@@ -299,6 +320,12 @@ export default {
         return val === this.mValue 
       })
     },
+    optionsKbdNavigation () {
+      if(this.optionsNavigation === 'always') {
+        return true
+      }
+      return this.isDropdownOpen && this.optionsNavigation === 'opened'
+    }
   },
   watch: {
     disabled: {
@@ -382,6 +409,9 @@ export default {
         if (isEnter) {
           // open options on Enter
           this.openDropdown()
+        }
+        if (this.optionsNavigation === 'opened') {
+          return
         }
         if (isGoingUp) {
           // auto select prev option on Arrow Up
