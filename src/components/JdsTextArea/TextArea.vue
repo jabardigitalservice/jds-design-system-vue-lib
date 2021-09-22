@@ -20,8 +20,7 @@
       @mouseleave="isHovered = false"
     >
       <textarea
-        rows="7"
-        v-bind="inputAttributes"
+        v-bind="{...inputAttributes, ...$attrs}"
         :value="mValue"
         @input="onInput"
         @focus="isFocused = true"
@@ -58,6 +57,7 @@ export default {
     JdsFormControlHelperText,
   },
   name: 'jds-text-area',
+  inheritAttrs: false,
   props: {
     /**
      * Bound model.
