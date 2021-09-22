@@ -1,0 +1,157 @@
+@use '../../../styles/scss/variables' as V;
+
+.jds-pagination {
+  $--wrapper-padding: 8px;
+
+  display: inline-block;
+  width: 100%;
+  background-color: V.$gray-50;
+  border-top: 1px solid V.$green-700;
+  color: V.$gray-800;
+
+  * {
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 8px;
+  }
+
+  &__page-control {
+    &--left {
+      width: 100%;
+      display: none;
+    }
+
+    &--right {
+      width: 100%;
+      display: flex;
+    }
+
+    &--right &__select {
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      gap: 8px;
+      margin-right: 16px;
+    }
+
+    &__select__input {
+      margin-top: -8px;
+      height: calc(100% + (8px * 2));
+
+      .jds-input-text__input-wrapper {
+        height: 100%;
+
+        input {
+          width: 45px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  &__divider {
+    display: inline-block;
+    width: 1px;
+    align-self: stretch;
+    margin: ($--wrapper-padding * -1) 0;
+    background-color: V.$gray-200;
+  }
+
+  &__navigation-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    margin: ($--wrapper-padding * -1) 0;
+    border: none;
+    background: inherit;
+    cursor: pointer;
+
+    &:hover, 
+    &:focus {
+      background: V.$gray-100;
+      outline: none;
+    }
+
+    &__icon {
+      color: V.$green-800;
+    }
+
+    &:disabled,
+    &[disabled] {
+      cursor: not-allowed;
+    }
+
+    &:disabled &__icon,
+    &[disabled] &__icon {
+      color: V.$gray-400;
+    }
+  }
+
+  &--disabled {
+    background-color: V.$gray-100;
+    color: V.$gray-600;
+  }
+
+  &--disabled &__navigation-button {
+    cursor: not-allowed;
+  }
+}
+
+@media (min-width: 650px) {
+  .jds-pagination {
+    
+    &__wrapper {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__page-control {
+      &--left {
+        display: flex;
+      }
+
+      &--right {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      &--left &__select {
+        display: flex;
+        gap: 8px;
+        flex-grow: 1;
+      }
+
+      &--right &__select {
+        order: 1;
+        flex-grow: 1;
+        justify-content: flex-end;
+        padding-right: 8px;
+      }
+    }
+
+    &__page-control--right &__divider {
+      &:nth-of-type(1) {
+        order: 2;
+      }
+
+      &:nth-of-type(2) {
+        order: 4;
+      }
+    }
+
+    &__navigation-button {
+      &:nth-of-type(1) {
+        order: 3;
+      }
+
+      &:nth-of-type(2) {
+        order: 5;
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+@use '../../../styles/scss/variables' as V;
+
+@mixin useVariant($backgroundColor, $textColor) {
+
+  background-color: $backgroundColor;
+  border: 1px solid $textColor;
+
+  .jds-section-message {
+
+    &__icon {
+      color: $textColor;
+    }
+
+    &__content {
+  
+      &__actions {
+        &__button {
+          color: $textColor;
+        }
+      }
+    }
+  }
+}
+
+.jds-section-message {
+  box-sizing: border-box;
+  display: none;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: V.$blue-50;
+  padding: 16px;
+  border: 1px solid V.$blue-800;
+  border-radius: 8px;
+  gap: 20px;
+  min-width: 250px;
+
+  &__icon {
+    color: V.$blue-800;
+    cursor: pointer;
+
+    &:nth-of-type(2) {
+      cursor: pointer;
+    }
+  }
+
+  &__content {
+    flex-grow: 1;
+
+    &__text {
+      color: V.$gray-900;
+      font-size: 14px;
+      line-height: 23px;
+      margin: 0;
+      padding: 0;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 12px;
+
+      &:empty {
+        margin-top: 0;
+      }
+
+      &__button {
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+
+        &__icon {
+          margin-left: 12px;
+        }
+      }
+    }
+  }
+
+  &--show {
+    display: flex;
+  }
+
+  &--info {
+    @include useVariant(V.$blue-50, V.$blue-800)
+  }
+
+  &--warning {
+    @include useVariant(V.$yellow-50, V.$yellow-800)
+  }
+
+  &--success {
+    @include useVariant(V.$green-50, V.$green-800)
+  }
+
+  &--error {
+    @include useVariant(V.$red-50, V.$red-800)
+  }
+}

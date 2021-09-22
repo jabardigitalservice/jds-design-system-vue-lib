@@ -1,4 +1,4 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
 
 @mixin set-input-bg-color($color) {
   .jds-input-text__input-wrapper {
@@ -23,6 +23,7 @@
 }
 
 .jds-input-text {
+  height: 100%;
   display: inline-block;
   font-size: 1em;
   
@@ -88,6 +89,20 @@
       color: V.$gray-600;
     }
   }
+
+  &__prefix-icon,
+  &__suffix-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__prefix-icon {
+    padding-left: 8px;
+  }
+  &__suffix-icon {
+    padding-right: 8px;
+  }
 }
 
 .jds-input-text {
@@ -109,6 +124,20 @@
 
   &:not(&--focused) {
     @include toggle-input-inset-shadow(false);
+  }
+
+
+  &--disabled {
+    @include set-input-bg-color(V.$gray-200);
+
+    &,
+    & * {
+      pointer-events: none;
+    }
+
+    input {
+      color: V.$gray-400;
+    }
   }
   
   &--error {

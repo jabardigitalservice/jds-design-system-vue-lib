@@ -10,7 +10,8 @@ module.exports = {
           useBuiltIns: 'entry',
           corejs: '3.6',
         }]
-      ]
+      ],
+      plugins: ['@babel/plugin-proposal-nullish-coalescing-operator', '@babel/plugin-proposal-optional-chaining'],
     }
   }
 }

@@ -1,0 +1,60 @@
+@use '../../../styles/scss/variables' as V;
+
+.jds-select {
+  height: 100%;
+  display: inline-block;
+  position: relative;
+
+  &,
+  & * {
+    cursor: pointer;
+  }
+
+  &__options {
+    display: block;
+  }
+
+  &__trigger-icon {
+    color: V.$green-700;
+    height: 16px;
+    width: auto;
+    object-fit: contain;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+    transition-duration: 0.3s;
+    transform: rotate(0deg);
+  }
+  
+  &__error-message {
+    position: absolute;
+    top: 100%;
+  }
+}
+
+// STATE
+.jds-select {
+  &--opened & {
+    &__trigger-icon {
+      transform: rotate(180deg);
+    }
+  }
+
+  &--tile {
+    .jds-input-text__input-wrapper {
+      &,
+      &::after {
+        border-radius: 0;
+        border: none;
+      }
+    }
+  }
+
+  &--disabled,
+  &--disabled * {
+    cursor: not-allowed;
+  }
+
+  &--disabled &__trigger-icon {
+    color: V.$gray-400;
+  }
+}
