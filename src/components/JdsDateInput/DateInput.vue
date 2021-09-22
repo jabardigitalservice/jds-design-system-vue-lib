@@ -27,7 +27,8 @@
             autocomplete="off"
           />
           <jds-icon
-            v-on="on" 
+            v-on="on"
+            @click="onClick" 
             name="calendar-date-outline" 
             size="18px"
             :class="{
@@ -119,7 +120,6 @@ export default {
      * @name value
      * @model
      * The value of the input date format follows the pattern `DD/MM/YYYY`.
-     * if value not set the value will be current date.
      */
     value: {
       type: String,
@@ -136,6 +136,15 @@ export default {
     errorMessage: {
       type: String
     },
+    /**
+     * Options for initial value date which is `currentDate | pattern`.
+     * If this prop not set default value date will be `pattern`
+     */
+    initValue : {
+      type: String,
+      default: 'pattern',
+    }
+
   },
   data(){
     return{
@@ -165,8 +174,10 @@ export default {
   },
   methods: {
     syncPropValue(v){
-      if(typeof v === 'undefined' || v === null){
-        this.mValue = fnDate.formatDate(new Date())
+      if(typeof v === 'undefined' || v === null || !v.length){
+        if(this.initValue === 'currentDate'){
+          this.mValue = fnDate.formatDate(new Date())
+        }
         this.mErrorMessage = undefined
       }else if(fnDate.parseDate(v) === null) {
         this.mErrorMessage = 'Invalid date'
@@ -174,10 +185,10 @@ export default {
         this.mValue = v
         this.mErrorMessage = undefined
       }
-      this.updateValue()
     },
     updateValue(){
       this.maskRef.updateValue()
+      this.mValue = this.maskRef.value
     },
     onClick(){
       this.updateValue()
@@ -192,6 +203,7 @@ export default {
     },
     onDateInputChange(){
       this.$refs.popover.close()
+      this.maskRef.value = this.mValue
     },
     onClickaway(){
       this.$refs.popover.close()
@@ -199,7 +211,11 @@ export default {
     onAccept(e){
       const maskRef = e.detail;
       this.mValue = maskRef.value;
-      this.mErrorMessage = 'Invalid date'
+      if(!this.mValue.startsWith('DD')){
+        this.mErrorMessage = 'Invalid date'
+      }else{
+        this.mErrorMessage = undefined
+      }
     },
     onComplete (e) {
       const maskRef = e.detail;
@@ -223,7 +239,7 @@ export default {
     }
   },
   mounted(){
-    this.mValue = this.value
+    this.syncPropValue(this.value)
     this.initialMask()
   },
   beforeDestroy(){
