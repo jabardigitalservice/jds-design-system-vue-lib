@@ -20,7 +20,7 @@
       @mouseleave="isHovered = false"
     >
       <textarea
-        v-bind="{...$props, ...$attrs}"
+        v-bind="{...inputAttributes, ...$attrs}"
         :value="mValue"
         @input="onInput"
         @focus="isFocused = true"
@@ -119,6 +119,13 @@ export default {
     },
   },
   computed: {
+    inputAttributes() {
+      const attrs = ['name', 'placeholder']
+      return attrs.reduce((obj, key) => {
+        obj[key] = this[key]
+        return obj
+      }, {})
+    },
     showLabel() {
       return isStringDefined(this.label)
     },
