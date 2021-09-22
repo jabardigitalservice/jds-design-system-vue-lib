@@ -55,31 +55,6 @@ module.exports = {
       use: ['style-loader', 'css-loader', 'sass-loader'],
       include: path.resolve(__dirname, '../'),
     });
-    
-    const svgRule = config.module.rules.find((rule) => {
-      return rule.test.test('.svg');
-    });
-
-    const defaultLoader = {
-      loader: svgRule.loader,
-      options: svgRule.options,
-    };
-
-    svgRule.oneOf = [
-      {
-        resourceQuery: /vue/,
-        use: [
-          // This loader compiles .svg file to .vue file
-          // So we use `vue-loader` after it
-          'vue-loader',
-          'svg-to-vue-component/loader'
-        ]
-      },
-      defaultLoader
-    ];
-
-    delete svgRule.loader;
-    delete svgRule.options;
 
     return config;
   },
