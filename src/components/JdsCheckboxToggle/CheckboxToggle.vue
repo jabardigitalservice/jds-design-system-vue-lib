@@ -2,8 +2,8 @@
   <div
     :class="{
       'jds-checkbox-toggle': true,
-      'jds-checkbox-toggle--indeterminate': indeterminate,
-      'jds-checkbox-toggle--checked': !indeterminate && mChecked,
+      'jds-checkbox-toggle--indeterminate': mIndeterminate,
+      'jds-checkbox-toggle--checked': !mIndeterminate && mChecked,
       'jds-checkbox-toggle--hovered': isHovered,
       'jds-checkbox-toggle--focused': isFocused
     }"
@@ -35,7 +35,7 @@
         fill="white"
       />
       <jds-icon
-        v-show="indeterminate"
+        v-show="mIndeterminate"
         name="minus"
         alt="indeterminate"
         class="jds-checkbox-toggle__icon"
@@ -47,9 +47,13 @@
 
 <script>
 import JdsIcon from '../JdsIcon'
+import localCopy from '../../mixins/local-copy'
 
 export default {
   name: 'jds-checkbox-toggle',
+  mixins: [
+    localCopy('indeterminate', 'mIndeterminate')
+  ],
   model: {
     prop: 'checked',
     event: 'change'
@@ -100,6 +104,7 @@ export default {
       isHovered: false,
       isFocused: false,
       mChecked: false,
+      mIndeterminate: false
     }
   },
   computed: {
@@ -125,6 +130,10 @@ export default {
   },
   methods: {
     onClick () {
+      if (this.mIndeterminate) {
+        this.mIndeterminate = !this.mIndeterminate
+        this.emitIndeterminateUpdate()
+      }
       this.mChecked = !this.mChecked
       this.emitClick()
       this.emitInput(this.mChecked)
@@ -153,6 +162,14 @@ export default {
          */
         this.$emit('change', checked)
       }
+    },
+    emitIndeterminateUpdate() {
+      /**
+       * Emitted when checkbox indeterminate state is changed.
+       * Support `.sync` modifier.
+       * @param {boolean} indeterminate
+       */
+      this.$emit('update:indeterminate', this.mIndeterminate)
     },
     onFocus () {
       this.isFocused = true

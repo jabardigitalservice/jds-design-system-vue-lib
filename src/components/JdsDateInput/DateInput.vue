@@ -1,46 +1,63 @@
 <template>
-  <div :class="{
-    'jds-date-input': true,
-    'font-sans-1': true,
-  }">
-    <jds-form-control-label v-if="showLabel">
-      {{ label }}
-    </jds-form-control-label>
-    <div :class="{
-      'jds-date-input__input': true,
-      'jds-date-input__input--error': showErrorMsg,
-      'jds-date-input__input--focus': isFocused,
+  <jds-popover ref="popover" v-clickaway="onClickaway" :options="popperOptions">
+    <template #activator="{ on }">
+      <div :class="{
+        'jds-date-input': true,
+        'font-sans-1': true,
       }">
-      <input
-        type="text"
-        id="date"
-        ref="input"
-        :value="mValue"
-        @accept="onAccept"
-        @complete="onComplete"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-      />
-      <icon-calendar 
-      :class="{
-        'jds-date-input__input-suffix-icon': true,
-        'jds-date-input__input-suffix-icon--focus': isFocused,
-      }"/>
-    </div>
-    <jds-form-control-error-message v-if="showErrorMsg">
-      {{ mErrorMessage }}
-    </jds-form-control-error-message>
-  </div>
+        <jds-form-control-label v-if="showLabel">
+          {{ label }}
+        </jds-form-control-label>
+        <div :class="{
+          'jds-date-input__input': true,
+          'jds-date-input__input--error': showErrorMsg,
+          'jds-date-input__input--focus': isFocused,
+          }">
+          <input
+            type="text"
+            id="date"
+            ref="input"
+            v-on="on"
+            :value="mValue"
+            @click="onClick"
+            @accept="onAccept"
+            @complete="onComplete"
+            @focus="onFocus"
+            @blur="onBlur"
+            autocomplete="off"
+          />
+          <jds-icon
+            v-on="on"
+            @click="onClick" 
+            name="calendar-date-outline" 
+            size="18px"
+            :class="{
+              'jds-date-input__input-suffix-icon': true,
+              'jds-date-input__input-suffix-icon--focus': isFocused,
+            }
+          "/>
+        </div>
+        <jds-form-control-error-message v-if="showErrorMsg">
+          {{ mErrorMessage }}
+        </jds-form-control-error-message>
+      </div>
+    </template>
+    <template>
+      <jds-calendar v-model="mValue" @change="onDateInputChange()" />
+    </template>
+  </jds-popover>
 </template>
 <script>
 import {
   JdsFormControlLabel,
   JdsFormControlErrorMessage
 } from '../JdsFormControl'
+import popperOptions from './options'
 import localCopy from '../../mixins/local-copy'
-
-import IconCalendar from './IconCalendar'
-
+import JdsIcon from '../JdsIcon'
+import JdsCalendar from '../JdsCalendar'
+import JdsPopover from '../JdsPopover'
+import { directive as clickaway } from 'vue-clickaway'
 import { fnDate, imask } from '../../utils/date-input'
 
 // TODO: move to utils
@@ -53,31 +70,36 @@ export default {
   components: {
     JdsFormControlLabel,
     JdsFormControlErrorMessage,
-    IconCalendar
+    JdsCalendar,
+    JdsIcon,
+    JdsPopover
   },
   mixins: [localCopy('errorMessage','mErrorMessage')],
   model: {
     prop: 'value',
     event: 'input',
   },
+  directives: {
+    clickaway,
+  },
   props:{
     /**
-     * The name for date input
+     * The name for date input.
      */
     name: {
       type: String
     },
     /**
-     * Type of date input
-     * Value is `picker | range`
+     * Type of date input.
+     * Value is `picker | range`.
      */
     type: {
      type: String,
      default: 'picker'
     },
     /**
-     * You can set minimal date for
-     * the earliest acceptable date
+     * You can set minimal date for.
+     * the earliest acceptable date.
      * The value of the min date format follows the pattern `DD/MM/YYYY`.
      */
     min: {
@@ -85,8 +107,8 @@ export default {
       default: '01/01/1900'
     },
     /**
-     * You can set maximal date for
-     * the latest acceptable date
+     * You can set maximal date for.
+     * the latest acceptable date.
      * The value of the max date format follows the pattern `DD/MM/YYYY`.
      */
     max: {
@@ -98,26 +120,35 @@ export default {
      * @name value
      * @model
      * The value of the input date format follows the pattern `DD/MM/YYYY`.
-     * if value not set the value will be current date
      */
     value: {
       type: String,
     },
     /**
-     * Label for Date Input
+     * Label for Date Input.
      */
     label:{
       type: String,
     },
     /**
-     * Error Message for Date Input
+     * Error Message for Date Input.
      */
     errorMessage: {
       type: String
     },
+    /**
+     * Options for initial value date which is `currentDate | pattern`.
+     * If this prop not set default value date will be `pattern`
+     */
+    initValue : {
+      type: String,
+      default: 'pattern',
+    }
+
   },
   data(){
     return{
+      popperOptions,
       mErrorMessage: undefined,
       isFocused: null,
       maskRef: {},
@@ -143,20 +174,48 @@ export default {
   },
   methods: {
     syncPropValue(v){
-      if(typeof v === 'undefined'){
-        this.mValue = fnDate.formatDate(new Date())
+      if(typeof v === 'undefined' || v === null || !v.length){
+        if(this.initValue === 'currentDate'){
+          this.mValue = fnDate.formatDate(new Date())
+        }
+        this.mErrorMessage = undefined
+      }else if(fnDate.parseDate(v) === null) {
+        this.mErrorMessage = 'Invalid date'
       }else{
         this.mValue = v
+        this.mErrorMessage = undefined
       }
-      this.updateValue()
     },
     updateValue(){
+      this.maskRef.updateValue()
+      this.mValue = this.maskRef.value
+    },
+    onClick(){
+      this.updateValue()
+    },
+    onFocus(){
+      this.updateValue()
+      this.isFocused = true
+    },
+    onBlur(){
+      this.updateValue()
+      this.isFocused = false
+    },
+    onDateInputChange(){
+      this.$refs.popover.close()
       this.maskRef.value = this.mValue
+    },
+    onClickaway(){
+      this.$refs.popover.close()
     },
     onAccept(e){
       const maskRef = e.detail;
       this.mValue = maskRef.value;
-      this.mErrorMessage = 'Invalid date'
+      if(!this.mValue.startsWith('DD')){
+        this.mErrorMessage = 'Invalid date'
+      }else{
+        this.mErrorMessage = undefined
+      }
     },
     onComplete (e) {
       const maskRef = e.detail;
@@ -180,7 +239,7 @@ export default {
     }
   },
   mounted(){
-    this.mValue = this.value
+    this.syncPropValue(this.value)
     this.initialMask()
   },
   beforeDestroy(){

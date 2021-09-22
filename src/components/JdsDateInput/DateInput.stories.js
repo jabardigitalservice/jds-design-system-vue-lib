@@ -1,5 +1,3 @@
-// Button.stories.js
-
 import JdsDateInput from './DateInput.vue'
 import storybookMixin from '../../utils/storybook'
 
@@ -15,6 +13,13 @@ export default {
         options: ['none', 'fix-3','fix-6','fix-9','fix-12','full-width']
       } 
     },
+    initValue: 
+    { 
+      control: {
+        type: 'select',
+        options: ['pattern', 'currentDate']
+      } 
+    },
     type: 
     { 
       control: {
@@ -26,11 +31,9 @@ export default {
 }
 
 const Template = (args, context) => {
-  const { argTypes } = context
   return {
     name: 'JdsDateInputStories',
     components: { JdsDateInput },
-    props: Object.keys(argTypes),
     mixins: [storybookMixin(args, context)],
     computed: {
       responsiveness(){
@@ -48,4 +51,7 @@ const Template = (args, context) => {
   }
 }
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
+Default.args = {
+  value: "01/01/1990"
+};

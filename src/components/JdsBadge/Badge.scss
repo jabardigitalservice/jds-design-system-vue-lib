@@ -1,86 +1,197 @@
-@use "~/styles/scss/variables" as V;
+@use '../../../styles/scss/variables' as V;
+@use 'sass:math' as Math;
+@use 'sass:map' as Map;
 
-$--badge-size-xs: 10px;
-$--badge-size-sm: 14px;
-$--badge-size-md: 18px;
-$--badge-size-lg: 24px;
-$--badge-size-xl: 32px;
+$--badge-size: (
+  xs: 10px,
+  sm: 14px,
+  md: 18px,
+  lg: 24px,
+  xl: 32px,
+);
 
-@mixin set-dot-color($color) {
-  .jds-badge__dot {
+@mixin set-indicator-color($color) {
+  .jds-badge__indicator {
     background-color: $color;
   }
 }
 
-@mixin set-dot-size-position($size) {
-  .jds-badge__dot {
-    bottom: calc(100% - #{$size / 2});
-    width: $size;
-    height: $size;
-    border-radius: 9999px;
-    color: white;
-    font-weight: 500;;
-    font-size: $size / 2;
+@mixin set-indicator-styles($name, $setDefault: false) {
+  $size: Map.get($--badge-size, $name);
+  $modifier: '.jds-badge--#{$name}';
+
+  @if $setDefault {
+    $modifier: '';
+  }
+
+  // when set to default, selector is `.jds-badge`
+  // otherwise, selector is, for example, `.jds-badge.jds-badge--xs`
+  &#{$modifier} {
+    .jds-badge__indicator {
+      width: $size;
+      height: $size;
+      font-size: inherit;
+
+      > * {
+        font-size: Math.div($size, 2);
+      }
+    }
+    &.jds-badge--top {
+      .jds-badge__indicator {
+        margin-bottom: 1em;
+      }
+    }
+  }
+
+  // when set to default, selector is `.jds-badge`
+  // otherwise, selector is, for example, `.jds-badge.jds-badge--xs`
+  &#{$modifier}.jds-badge--inline {
+    &.jds-badge--hidden {
+      &.jds-badge--left {
+        margin-left: $size * -1;
+      }
+      &.jds-badge--right {
+        margin-right: $size * -1;
+      }
+    }
   }
 }
 
 .jds-badge {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-flow: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  transition: margin 0.15s linear;
 
-  &__dot {
+  &__body {
+    display: inline-flex;
+    flex-flow: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__indicator {
+    overflow: hidden;
     position: absolute;
-    bottom: 100%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-
+    border-radius: 9999px;
+    
+    color: white;
+    font-weight: 500;;
     font-style: normal;
     text-decoration: none;
     text-transform: none;
-  }
-}
+    line-height: 0;
 
-.jds-badge {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-property: opacity, transform;
+  }
+
+  &:not(&--left) &,
   &--right & {
-    &__dot {
+    &__indicator {
       left: 100%;
     }
   }
-
   &--left & {
-    &__dot {
+    &__indicator {
       right: 100%;
     }
   }
 
-  &,
+  &--hidden & {
+    &__indicator {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  &--dot & {
+    &__indicator > * {
+      display: none;
+    }
+  }
+
+  &.jds-badge--top,
+  &.jds-badge--middle {
+    &.jds-badge--left {
+      .jds-badge__indicator {
+        margin-right: 0.25rem;
+      }
+    }
+    &.jds-badge--right {
+      .jds-badge__indicator {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+
+  &.jds-badge--inline {
+    .jds-badge__indicator {
+      position: relative;
+      left: unset;
+      right: unset;
+      margin-bottom: 0;
+    }
+
+    &.jds-badge--left {
+      .jds-badge__body {
+        order: 1;
+      }
+      .jds-badge__indicator {
+        order: 0;
+      }
+    }
+    &.jds-badge--right {
+      .jds-badge__body {
+        order: 0;
+      }
+      .jds-badge__indicator {
+        order: 1;
+      }
+    }
+
+    &:not(.jds-badge--hidden) {
+      transition-delay: 0s;
+      .jds-badge__indicator {
+        transition-delay: 0.15s;
+      }
+    }
+    &.jds-badge--hidden {
+      transition-delay: 0.15s;
+      .jds-badge__indicator {
+        transition-delay: 0s;
+      }
+    }
+  }
+
   &--red {
-    @include set-dot-color(V.$red-600);
+    @include set-indicator-color(V.$red-600);
   }
   &--green {
-    @include set-dot-color(V.$green-600);
+    @include set-indicator-color(V.$green-600);
   }
   &--blue {
-    @include set-dot-color(V.$blue-600);
+    @include set-indicator-color(V.$blue-600);
   }
 
-  // default size
-  &,
-  &--xs {
-    @include set-dot-size-position($--badge-size-xs);
+  &#{&}--dot {
+    @include set-indicator-styles($name: 'xs', $setDefault: true);
   }
 
-  &--sm {
-    @include set-dot-size-position($--badge-size-sm);
-  }
-  &--md {
-    @include set-dot-size-position($--badge-size-md);
-  }
-  &--lg {
-    @include set-dot-size-position($--badge-size-lg);
-  }
-  &--xl {
-    @include set-dot-size-position($--badge-size-xl);
+  & {
+    @include set-indicator-styles($name: 'md', $setDefault: true);
+    @include set-indicator-styles('xs');
+    @include set-indicator-styles('sm');
+    @include set-indicator-styles('md');
+    @include set-indicator-styles('lg');
+    @include set-indicator-styles('xl');
   }
 }
