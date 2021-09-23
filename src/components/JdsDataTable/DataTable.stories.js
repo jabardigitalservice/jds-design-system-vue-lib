@@ -175,7 +175,8 @@ const actionWithButtonDocs = `
 ActionWithButton.parameters = {
   docs: {
     source: {
-      code: actionWithButtonDocs
+      code: actionWithButtonDocs,
+      language: 'html'
     }
   }
 }
@@ -255,7 +256,8 @@ export default {
 ActionWithDropdown.parameters = {
   docs: {
     source: {
-      code: actionWithDropdownDocs
+      code: actionWithDropdownDocs,
+      language: 'html'
     }
   }
 }
