@@ -2,7 +2,7 @@
 
 .jds-data-table {
   width: 100%;
-  border-spacing: 0 !important;
+  border-spacing: 0;
   border: none;
 
   * {
@@ -58,7 +58,7 @@
         text-transform: capitalize;
 
         .jds-checkbox-toggle__icon-wrapper {
-          border-color: V.$green-700 !important;
+          border-color: V.$green-700;
         }
       }
     }
