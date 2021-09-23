@@ -116,7 +116,7 @@ export default {
      */
     itemsPerPage: {
       type: [Number, String],
-      default: 5,
+      default: 10,
     },
 
     /**
@@ -140,7 +140,7 @@ export default {
      */
     itemsPerPageOptions: {
       type: Array,
-      default: () => [5, 10, 20, 50, 100]
+      default: () => [10, 20, 30, 40, 50]
     },
   },
   methods: {

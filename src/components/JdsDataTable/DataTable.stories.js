@@ -14,6 +14,7 @@ export default {
     backgrounds: {
       default: 'gray'
     }
+<<<<<<< HEAD
   },
   argTypes: {
     popoverOptions: {
@@ -32,6 +33,8 @@ export default {
         disable: true
       }
     }
+=======
+>>>>>>> master
   }
 }
 
@@ -49,7 +52,10 @@ const Template = (args, context) => {
       clickaway,
     },
     mixins: [storybookMixin(args, context)],
+<<<<<<< HEAD
     props: ['popoverOptions'],
+=======
+>>>>>>> master
     template: `
       <jds-data-table
         v-bind="$props" 
@@ -60,7 +66,11 @@ const Template = (args, context) => {
         </template>
 
         <template #item.action2="{ item }">
+<<<<<<< HEAD
           <jds-popover :options="popoverOptions">
+=======
+          <jds-popover>
+>>>>>>> master
             <template v-slot:activator="{ on, close }">
               <jds-button v-on="on" v-clickaway="close" variant="secondary">
                 <div style="display:flex; align-item:center">
@@ -156,7 +166,11 @@ export const ActionWithButton = Template.bind({})
 ActionWithButton.args = {
   ...Default.args,
   headers: [
+<<<<<<< HEAD
     ...Default.args.headers,
+=======
+    ...Default.args.headers, 
+>>>>>>> master
     { key: 'action', text: 'Action' }
   ]
 }
@@ -175,8 +189,12 @@ const actionWithButtonDocs = `
 ActionWithButton.parameters = {
   docs: {
     source: {
+<<<<<<< HEAD
       code: actionWithButtonDocs,
       language: 'html'
+=======
+      code: actionWithButtonDocs
+>>>>>>> master
     }
   }
 }
@@ -199,13 +217,18 @@ export const ActionWithDropdown = Template.bind({})
 ActionWithDropdown.args = {
   ...Default.args,
   headers: [
+<<<<<<< HEAD
     ...Default.args.headers,
+=======
+    ...Default.args.headers, 
+>>>>>>> master
     { key: 'action2', text: 'Action' }
   ]
 }
 ActionWithDropdown.storyName = 'Action with Dropdown'
 
 const actionWithDropdownDocs = `
+<<<<<<< HEAD
  
 <template>
   <jds-data-table>
@@ -213,6 +236,18 @@ const actionWithDropdownDocs = `
       <jds-popover :options="popoverOptions">
         <template v-slot:activator="{ on, close }">
           <jds-button v-on="on" variant="secondary">
+=======
+// You can add vue-clickaway library to be able to close 
+// the drop-down menu when the user clicks outside the component.
+// https://www.npmjs.com/package/vue-clickaway
+
+<template>
+  <jds-data-table>
+    <template v-slot:item.action="{ item }">
+      <jds-popover>
+        <template v-slot:activator="{ on, close }">
+          <jds-button v-on="on" variant="secondary" v-clickaway="close">
+>>>>>>> master
             <div style="display:flex; align-item:center">
               Action
               <jds-icon name="chevron-down" size="sm" style="margin-left:8px" />
@@ -234,6 +269,7 @@ const actionWithDropdownDocs = `
 </template>
 
 <script>
+<<<<<<< HEAD
 export default {
   data() {
     return {
@@ -248,6 +284,13 @@ export default {
         ]
       }
     }
+=======
+import { directive as clickaway } from 'vue-clickaway'
+
+export default {
+  directives: {
+    clickaway
+>>>>>>> master
   }
 }
 </script>
@@ -256,8 +299,12 @@ export default {
 ActionWithDropdown.parameters = {
   docs: {
     source: {
+<<<<<<< HEAD
       code: actionWithDropdownDocs,
       language: 'html'
+=======
+      code: actionWithDropdownDocs
+>>>>>>> master
     }
   }
 }
