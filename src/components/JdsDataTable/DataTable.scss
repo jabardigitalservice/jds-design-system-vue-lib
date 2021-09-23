@@ -1,0 +1,103 @@
+@use '../../../styles/scss/variables' as V;
+
+.jds-data-table {
+  width: 100%;
+  border-spacing: 0;
+  border: none;
+
+  * {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .jds-spinner {
+      line-height: 0;
+    }
+  }
+
+  &__empty {
+    padding: 10px 8px;
+    font-weight: 500;
+  }
+
+  &__column-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: start;
+    gap: 8px;
+
+    span {
+      flex-grow: 1;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  &__head {
+    tr {
+      th {
+        background-color: V.$green-700;
+        padding: 6px 8px;
+        color: V.$white;
+        font-weight: 700;
+        text-transform: capitalize;
+
+        .jds-checkbox-toggle__icon-wrapper {
+          border-color: V.$green-700;
+        }
+      }
+    }
+  }
+
+  &__body {
+    tr {
+      background-color: V.$white;
+      text-align: left;
+
+      td {
+        padding: 10px 8px;
+        border-top: 1px solid V.$gray-200;
+        color: V.$gray-800;
+      }
+
+      &:nth-child(even) {
+        background-color: V.$gray-50;
+      }
+    }
+  }
+
+  &__sort-icon {
+    &--transparent {
+      opacity: 0.5;
+    }
+  }
+
+  &__head tr th.jds-data-table__select,
+  &__body tr td.jds-data-table__select {
+    padding: 8px 16px;
+    width: 1%;
+
+    .jds-checkbox-toggle {
+      line-height: 0;
+
+      .jds-checkbox-toggle__icon-wrapper {
+        background: V.$white;
+      }
+    }
+  }
+}

@@ -27,6 +27,7 @@
     "core-js": "^3.6.5",
     "fecha": "^4.2.1",
     "imask": "^6.0.7",
+    "lodash.orderby": "^4.6.0",
     "vue": "^2.6.11",
     "vue-clickaway": "^2.2.2"
   },
