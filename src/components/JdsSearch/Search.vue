@@ -11,7 +11,8 @@
     <input 
       :value="value"
       type="text"
-      placeholder="Text Placeholder"
+      :placeholder="placeholder"
+      :name="name"
       @input="setInputValue"
       class="jds-search__input"
     >
@@ -45,6 +46,16 @@ export default {
     value: {
       type: String,
       required: true
+    },
+    placeholder: {
+      type: [String, Number],
+      required: false,
+      default: null
+    },
+    name: {
+      type: String,
+      required: false,
+      default: null
     },
     icon: {
       type: Boolean,
