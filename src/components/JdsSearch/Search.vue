@@ -2,24 +2,34 @@
   <form 
     @submit.prevent="submitFormData" 
     class="jds-search font-sans-1"
-    :class="{ 'jds-search--has-icon': hasIcon }"
+    :class="{ 
+      'jds-search--has-icon': hasIcon,
+      'jds-search--small': isSmall
+    }"
   >
-    <jds-icon v-if="hasIcon" name="magnifier" size="16px" class="jds-search__icon" fill="#BDBDBD" />
+    <jds-icon v-if="hasIcon" name="magnifier" size="18px" class="jds-search__icon" fill="#BDBDBD" />
     <input 
       :value="value"
       type="text"
       placeholder="Text Placeholder"
       @input="setInputValue"
       class="jds-search__input"
-      :class="{
-        'jds-search__input--has-icon': hasIcon,
-        'jds-search__input--has-button': hasButton
-      }"
     >
     <div class="jds-search__reset-wrapper" @click="clearInputValue">
       <jds-icon v-show="hasValue" name="times-circle" size="16px" class="jds-search__reset" />
     </div>
-     <jds-button v-if="hasButton" class="jds-search__button">Cari</jds-button>
+    <jds-button 
+      v-if="hasButton" 
+      class="jds-search__button"
+      :class="{'jds-search__button--small' : isSmall}"
+    >
+      <template v-if="isSmall">
+        <jds-icon name="magnifier" size="16px" fill="#FFFFFF" />
+      </template>
+      <template v-else>
+        Cari
+      </template>
+    </jds-button>
   </form>
 </template>
 
@@ -45,6 +55,11 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    },
+    small: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
@@ -56,6 +71,9 @@ export default {
     },
     hasButton () {
       return this.button
+    },
+    isSmall () {
+      return this.small
     }
   },
   methods: {
