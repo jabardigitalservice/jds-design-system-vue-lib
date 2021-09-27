@@ -11,11 +11,16 @@
   background-color: V.$white;
 
   &--has-icon {
-    padding: 6px 8px 6px 8px;
+    padding: 6px 8px;
+  }
+
+  &--small {
+    padding: 0 0 0 12px;
   }
 
   &__icon {
     color: V.$gray-400;
+    margin-right: 8px;
   }
 
   &__input {
@@ -24,16 +29,10 @@
     font-family: 'Lato';
     font-size: 16px;
     line-height: 16px;
+    font-weight: 400;
+    color: V.$gray-800;
     background-color: transparent;
-    padding: 9px 8px 9px 0;
-
-    &--has-icon {
-      padding: 9px 8px;
-    }
-
-    &--has-button {
-      padding: 9px 8px 9px 8px;
-    }
+    padding: 9px 0;
 
     &::placeholder{
       color: V.$gray-600;
@@ -52,21 +51,21 @@
     align-self: stretch;
     display: flex;
     align-items: center;
-    margin: -6px 0;
     cursor: pointer;
+
+    &:hover .jds-search__reset {
+      color: V.$gray-600;
+    }
   }
 
   &__reset {
     color: V.$gray-500;
     padding: 0 10px;
     cursor: pointer;
-
-    &:hover {
-      color: V.$gray-600;
-    }
   }
 
   &__button {
+    position: relative;
     padding: 10px 16px;
     font-size: 14px;
     line-height: 18px;
@@ -74,6 +73,19 @@
 
     :focus {
       outline: none;
+    }
+
+    &:active {
+      padding: 9px 15px;
+    }
+
+    &--small {
+      padding: 10px 11px;
+      font-size: 16px;
+
+      &:active {
+        padding: 9px 10px;
+      }
     }
   }
 
