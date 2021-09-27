@@ -60,7 +60,7 @@ export default {
     icon: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     },
     button: {
       type: Boolean,
