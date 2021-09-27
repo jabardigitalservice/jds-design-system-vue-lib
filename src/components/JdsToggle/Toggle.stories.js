@@ -20,10 +20,33 @@ const Template = (args, context) => {
   }
 }
 
-export const Default = Template.bind({})
-
-Default.args = {
+const defaultArgs = {
   label: '',
   helperText: '',
   inline: false
 };
+
+export const Default = Template.bind({})
+Default.args = {
+  ...defaultArgs
+}
+
+export const WithLabel = Template.bind({})
+WithLabel.args = {
+  ...defaultArgs,
+  label: 'Label'
+}
+
+export const WithHelperText = Template.bind({})
+WithHelperText.args = {
+  ...defaultArgs,
+  label: 'Label',
+  helperText: 'Helper Text'
+}
+
+export const InlineDisplay = Template.bind({})
+InlineDisplay.args = {
+  ...defaultArgs,
+  label: 'Label',
+  inline: true
+}
