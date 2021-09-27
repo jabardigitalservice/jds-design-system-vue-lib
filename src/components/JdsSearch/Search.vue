@@ -38,35 +38,67 @@
 import JdsIcon from '../JdsIcon'
 
 export default {
+  model: {
+    prop: 'value',
+    event: 'input',
+  },
   name: 'jds-search',
   components: {
     JdsIcon
   },
   props: {
+    /**
+     * Bound model.
+     * @name value
+     * @model
+     */
     value: {
       type: String,
       required: true
     },
+
+    /**
+     * Placeholder Attribute
+     */
     placeholder: {
       type: [String, Number],
       required: false,
       default: null
     },
+
+    /**
+     * Name Attribute
+     */
     name: {
       type: String,
       required: false,
       default: null
     },
+
+    /**
+     * Allow JdsSearch to show 
+     * prefix icon
+     */
     icon: {
       type: Boolean,
       required: false,
       default: false
     },
+
+    /**
+     * Allow JdsSearch to show
+     * search button
+     */
     button: {
       type: Boolean,
       required: false,
       default: true
     },
+
+    /**
+     * Show small variant of
+     * JdsSearch
+     */
     small: {
       type: Boolean,
       required: false,
@@ -88,15 +120,29 @@ export default {
     }
   },
   methods: {
+    /**
+     * Emmited on button click and/or
+     * keyboard enter.
+     * @param {string} value - updated bound model
+     */
     submitFormData () {
       if (this.hasValue) {
         this.$emit('submit', this.value)
         this.clearInputValue()
       }
     },
+
+    /**
+     * Emmited on input.
+     * @param {string} value - updated bound model
+     */
     setInputValue (event) {
       this.$emit('input', event.target.value)
     },
+
+    /**
+     * Emmited on reset button clicked.
+     */
     clearInputValue () {
       this.$emit('input', '')
     }
