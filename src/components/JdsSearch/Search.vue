@@ -31,10 +31,12 @@
         Cari
       </template>
     </jds-button>
+    <jds-options v-if="hasSuggestions" class="jds-search__suggestions" :options="suggestionsItems" :header="suggestionsHeader" />
   </form>
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
 import JdsIcon from '../JdsIcon'
 
 export default {
@@ -103,6 +105,35 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+
+    /**
+     * Allow Jds Search to show
+     * suggestions based on this data
+     */
+    suggestionsItems: {
+      type: Array,
+      required: false,
+      default: () => []
+    },
+
+    /**
+     * Suggestions header label
+     */
+    suggestionsHeader: {
+      type: String,
+      required: false,
+      default: null
+    },
+
+    /**
+     * The number in millisecond to 
+     * debounce the value update
+     */
+    debounce: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
   computed: {
@@ -117,7 +148,13 @@ export default {
     },
     isSmall () {
       return this.small
+    },
+    hasSuggestions () {
+      return !!this.suggestionsItems.length
     }
+  },
+  created() {
+    this.setInputValue = debounce(this.setInputValue, this.debounce);
   },
   methods: {
     /**

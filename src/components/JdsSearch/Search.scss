@@ -9,6 +9,7 @@
   border-radius: 8px;
   border: 1px solid V.$gray-500;
   background-color: V.$white;
+  position: relative;
 
   &--has-icon {
     padding: 6px 8px;
@@ -91,6 +92,13 @@
         padding: 9px 10px;
       }
     }
+  }
+
+  &__suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
   }
 
   &:focus-within {
