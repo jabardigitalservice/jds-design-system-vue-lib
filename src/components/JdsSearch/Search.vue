@@ -31,7 +31,12 @@
         Cari
       </template>
     </jds-button>
-    <jds-options v-if="hasSuggestions" class="jds-search__suggestions" :options="suggestionsItems" :header="suggestionsHeader" />
+    <jds-options 
+      v-if="hasSuggestions" class="jds-search__suggestions" 
+      :options="suggestionsItems" 
+      :header="suggestionsHeader"
+      @click:option="setSelectedSuggestion"
+    />
   </form>
 </template>
 
@@ -182,6 +187,13 @@ export default {
      */
     clearInputValue () {
       this.$emit('input', '')
+    },
+
+    /**
+     * Emmited on suggestion option clicked.
+     */
+    setSelectedSuggestion (data) {
+      this.$emit('click:suggestions', data)
     }
   }
 }
