@@ -1,0 +1,46 @@
+@use '../../../styles/scss/variables' as V;
+
+
+.jds-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  &__path {
+    display: inline-block;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    color:V.$blue-600;
+    font-size: 14px;
+    border-bottom: 1px solid V.$blue-600;
+    cursor: pointer;
+    user-select: none;
+
+    &:last-child {
+      font-family: Roboto;
+      border-bottom: none;
+      color: V.$gray-800;
+    }
+  }
+
+  &__dot {
+    display: inline-block;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    color:V.$blue-600;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 1.5px;
+  }
+
+}

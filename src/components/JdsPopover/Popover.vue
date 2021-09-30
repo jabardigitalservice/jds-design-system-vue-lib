@@ -1,5 +1,5 @@
 <template>
-  <div class="jds-popover font-sans-1">
+  <div class="jds-popover font-sans-1" v-clickaway="onClickaway">
     <div
       ref="activator"
       class="jds-popover__activator"
@@ -25,12 +25,16 @@
 <script>
 import { createPopper } from '@popperjs/core'
 import localCopy from '../../mixins/local-copy'
+import { directive as clickaway } from 'vue-clickaway'
 
 export default {
   mixins: [localCopy('value', 'mValue')],
   model: {
     prop: 'value',
     event: 'input'
+  },
+  directives: {
+    clickaway,
   },
   props: {
     /**
@@ -90,6 +94,9 @@ export default {
     this.destroy()
   },
   methods: {
+    onClickaway(){
+      this.close()
+    },
     /**
      * Construct `popper.js` instance.
      * @param {import("@popperjs/core/index").OptionsGeneric} options - `popper.js` constructor options
