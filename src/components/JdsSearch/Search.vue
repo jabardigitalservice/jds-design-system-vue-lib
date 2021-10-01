@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce'
+import debounce from 'lodash.debounce'
 import JdsIcon from '../JdsIcon'
 
 export default {
