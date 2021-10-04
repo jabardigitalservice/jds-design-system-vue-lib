@@ -24,18 +24,17 @@ const Template = (args, context) => {
 const defaultArgs = {
   icon: true,
   button: true,
-  placeholder: 'My Placeholder'
+  placeholder: 'My Placeholder',
+  value: ''
 };
 
 export const Default = Template.bind({})
 Default.args = {
-  value: '',
   ...defaultArgs,
 }
 
 export const WithSmallButton = Template.bind({})
 WithSmallButton.args = {
-  value: '',
   ...defaultArgs,
   button: true,
   small: true
@@ -43,21 +42,18 @@ WithSmallButton.args = {
 
 export const WithoutIcon = Template.bind({})
 WithoutIcon.args = {
-  value: '',
   ...defaultArgs,
   icon: false
 }
 
 export const WithoutButton = Template.bind({})
 WithoutButton.args = {
-  value: '',
   ...defaultArgs,
   button: false
 }
 
 export const WithoutButtonAndIcon = Template.bind({})
 WithoutButtonAndIcon.args = {
-  value: '',
   ...defaultArgs,
   button: false,
   icon: false
