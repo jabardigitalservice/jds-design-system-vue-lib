@@ -9,7 +9,7 @@
   >
     <jds-icon v-if="hasIcon" name="magnifier" size="18px" class="jds-search__icon" fill="#BDBDBD" />
     <input 
-      :value="value"
+      :value="mValue"
       type="text"
       :placeholder="placeholder"
       :name="name"
@@ -36,6 +36,8 @@
 
 <script>
 import JdsIcon from '../JdsIcon'
+import JdsButton from '../JdsButton'
+import localCopy from '../../mixins/local-copy'
 
 export default {
   model: {
@@ -43,8 +45,17 @@ export default {
     event: 'input',
   },
   name: 'jds-search',
+  mixins: [
+    localCopy('value', 'mValue')
+  ],
+  data () {
+    return {
+      mValue: null
+    }
+  },
   components: {
-    JdsIcon
+    JdsIcon,
+    JdsButton
   },
   props: {
     /**
@@ -107,7 +118,7 @@ export default {
   },
   computed: {
     hasValue () {
-      return this.value !== ''
+      return this.mValue !== ''
     },
     hasIcon () {
       return this.icon
@@ -127,7 +138,7 @@ export default {
      */
     submitFormData () {
       if (this.hasValue) {
-        this.$emit('submit', this.value)
+        this.$emit('submit', this.mValue)
         this.clearInputValue()
       }
     },
@@ -137,13 +148,15 @@ export default {
      * @param {string} value - updated bound model
      */
     setInputValue (event) {
-      this.$emit('input', event.target.value)
+      this.mValue = event.target.value
+      this.$emit('input', this.mValue)
     },
 
     /**
      * Emmited on reset button clicked.
      */
     clearInputValue () {
+      this.mValue = ''
       this.$emit('input', '')
     }
   }
