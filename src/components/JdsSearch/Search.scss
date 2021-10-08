@@ -1,0 +1,100 @@
+@use '../../../styles/scss/variables' as V;
+
+.jds-search {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid V.$gray-500;
+  background-color: V.$white;
+
+  &--has-icon {
+    padding: 6px 8px;
+  }
+
+  &--small {
+    padding: 0 0 0 12px;
+
+    .jds-search__input {
+      font-size: 14px;
+    }
+  }
+
+  &__icon {
+    color: V.$gray-400;
+    margin-right: 8px;
+  }
+
+  &__input {
+    flex: 1;
+    border: none;
+    font-family: 'Lato';
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 400;
+    color: V.$gray-800;
+    background-color: transparent;
+    padding: 9px 0;
+
+    &::placeholder{
+      color: V.$gray-600;
+    }
+
+    &:focus {
+      outline: none;
+
+      &::placeholder {
+        color: V.$gray-500;
+      }
+    }
+  }
+
+  &__reset-wrapper {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover .jds-search__reset {
+      color: V.$gray-600;
+    }
+  }
+
+  &__reset {
+    color: V.$gray-500;
+    padding: 0 10px;
+    cursor: pointer;
+  }
+
+  &__button {
+    position: relative;
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+
+    :focus {
+      outline: none;
+    }
+
+    &:active {
+      padding: 9px 15px;
+    }
+
+    &--small {
+      padding: 10px 11px;
+      font-size: 16px;
+
+      &:active {
+        padding: 9px 10px;
+      }
+    }
+  }
+
+  &:focus-within {
+    border: 1px solid V.$green-700;
+    box-shadow: inset 0px 0px 0px 1px V.$yellow-500;
+  }
+}
