@@ -131,32 +131,32 @@ export default {
     }
   },
   methods: {
-    /**
-     * Emmited on button click and/or
-     * keyboard enter.
-     * @param {string} value - updated bound model
-     */
     submitFormData () {
       if (this.hasValue) {
+        /**
+         * Emmited on button click and/or
+         * keyboard enter.
+         * @param {string} value - updated bound model
+         */
         this.$emit('submit', this.mValue)
         this.clearInputValue()
       }
     },
 
-    /**
-     * Emmited on input.
-     * @param {string} value - updated bound model
-     */
     setInputValue (event) {
       this.mValue = event.target.value
+      /**
+      * Emmited on input.
+      * @param {string} value - updated bound model
+      */
       this.$emit('input', this.mValue)
     },
 
-    /**
-     * Emmited on reset button clicked.
-     */
     clearInputValue () {
       this.mValue = ''
+      /**
+       * Emmited on reset button clicked.
+       */
       this.$emit('input', '')
     }
   }
