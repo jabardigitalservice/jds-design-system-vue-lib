@@ -10,6 +10,18 @@
     cursor: pointer;
   }
 
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    
+    &--inline {
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
   &__options {
     display: block;
   }

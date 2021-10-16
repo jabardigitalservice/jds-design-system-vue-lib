@@ -36,6 +36,19 @@ Default.args = {
   ...defaultArgs
 }
 
+export const WithLabel = Template.bind({})
+WithLabel.args = {
+  ...defaultArgs,
+  label: 'My Label'
+}
+
+export const WithInlineLabel = Template.bind({})
+WithInlineLabel.args = {
+  ...defaultArgs,
+  label: 'My Label',
+  inline: true
+}
+
 export const WithOptionsHeader = Template.bind({})
 WithOptionsHeader.args = {
   ...defaultArgs,

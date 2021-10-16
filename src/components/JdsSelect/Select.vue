@@ -1,68 +1,77 @@
 <template>
-  <jds-popover
-    v-clickaway="onClickaway"
-    :value="isDropdownOpen" 
-    :options="popperOptions"
-    @input="toggleDropdown"
-    @keydown.native="handleKeydown"
+  <div 
+    :class="{
+      'jds-select__wrapper font-sans-1': true,
+      'jds-select__wrapper--inline': isInline
+    }"
   >
-    <template #activator>
-      <div :class="{
-        'jds-select font-sans-1': true,
-        'jds-select--opened': isDropdownOpen,
-        'jds-select--tile': tile,
-        'jds-select--disabled': disabled
-      }">
-        <jds-input-text
-          ref="inputText"
-          :value="`${selectedOptionLabel}`"
-          readonly
-          :disabled="disabled"
-          :label="label"
-          :placeholder="placeholder"
-          :helper-text="helperText"
-          :class="{
-            'jds-input-text--error': showErrorMsg
-          }"
-          @click.native="onInputClicked"
-        >
-          <template #suffix-icon>
-            <jds-icon
-              class="jds-select__trigger-icon"
-              name="chevron-down"
-              size="1em"
-              @click="onTriggerClicked"
-            />
-          </template>
-        </jds-input-text>
-        <jds-form-control-error-message
-          v-if="showErrorMsg && !isDropdownOpen"
-          class="jds-select__error-message">
-          {{ errorMessage }}
-        </jds-form-control-error-message>
-      </div>
-    </template>
-    <jds-options
-      ref="optionsRef"
-      class="jds-select__options"
-      :style="{
-        maxHeight, 
-      }"
-      v-bind="{
-        options,
-        valueKey,
-        labelKey,
-        header: optionsHeader,
-        filterable,
-        filter: mFilter,
-        filterType,
-      }"
-      :value="mValue"
-      @click:option="onOptionClicked"
-      @change="onOptionsValueChanged"
-      @change:filter="onOptionsFilterChanged"
-    />
-  </jds-popover>
+    <jds-form-control-label v-if="showLabel">
+      {{ label }}
+    </jds-form-control-label>
+    <jds-popover
+      v-clickaway="onClickaway"
+      :value="isDropdownOpen" 
+      :options="popperOptions"
+      @input="toggleDropdown"
+      @keydown.native="handleKeydown"
+    >
+      <template #activator>
+        <div :class="{
+          'jds-select': true,
+          'jds-select--opened': isDropdownOpen,
+          'jds-select--tile': tile,
+          'jds-select--disabled': disabled
+        }">
+          <jds-input-text
+            ref="inputText"
+            :value="`${selectedOptionLabel}`"
+            readonly
+            :disabled="disabled"
+            :placeholder="placeholder"
+            :helper-text="helperText"
+            :class="{
+              'jds-input-text--error': showErrorMsg
+            }"
+            @click.native="onInputClicked"
+          >
+            <template #suffix-icon>
+              <jds-icon
+                class="jds-select__trigger-icon"
+                name="chevron-down"
+                size="1em"
+                @click="onTriggerClicked"
+              />
+            </template>
+          </jds-input-text>
+          <jds-form-control-error-message
+            v-if="showErrorMsg && !isDropdownOpen"
+            class="jds-select__error-message">
+            {{ errorMessage }}
+          </jds-form-control-error-message>
+        </div>
+      </template>
+      <jds-options
+        ref="optionsRef"
+        class="jds-select__options"
+        :style="{
+          maxHeight, 
+        }"
+        v-bind="{
+          options,
+          valueKey,
+          labelKey,
+          header: optionsHeader,
+          filterable,
+          filter: mFilter,
+          filterType,
+        }"
+        :value="mValue"
+        @click:option="onOptionClicked"
+        @change="onOptionsValueChanged"
+        @change:filter="onOptionsFilterChanged"
+      />
+    </jds-popover>
+  </div>
 </template>
 
 <script>
@@ -70,7 +79,7 @@ import { directive as clickaway } from 'vue-clickaway'
 import * as keyCode from '../../utils/key-code'
 import localCopy from '../../mixins/local-copy'
 import JdsIcon from '../JdsIcon'
-import JdsFormControlErrorMessage from '../JdsFormControl/FormControlErrorMessage'
+import { JdsFormControlErrorMessage, JdsFormControlLabel } from '../JdsFormControl'
 import JdsInputText from '../JdsInputText'
 import JdsPopover from '../JdsPopover'
 import JdsOptions from '../JdsOptions'
@@ -100,6 +109,7 @@ export default {
     JdsPopover,
     JdsInputText,
     JdsFormControlErrorMessage,
+    JdsFormControlLabel,
     JdsOptions
   },
   mixins: [
@@ -241,6 +251,13 @@ export default {
     disabled: {
       type: Boolean,
     },
+
+    /**
+     * Display inline style.
+     */
+    inline: {
+      type: Boolean,
+    },
   },
   data () {
     return {
@@ -263,6 +280,9 @@ export default {
     showErrorMsg () {
       return isStringDefined(this.errorMessage)
     },
+    isInline () {
+      return this.inline
+    },
     selectedOptionLabel () {
       if (!Array.isArray(this.options)) {
         return ''
@@ -280,7 +300,7 @@ export default {
         const val = this.getOptionValue(opt, this.valueKey)
         return val === this.mValue 
       })
-    },
+    }
   },
   watch: {
     disabled: {
