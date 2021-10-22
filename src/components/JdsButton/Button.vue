@@ -1,5 +1,6 @@
 <template>
   <button 
+  :type="type"
   :class="[{
     'jds-button': true,
     'font-sans-1': true,
