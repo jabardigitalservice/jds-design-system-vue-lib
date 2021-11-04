@@ -35,7 +35,6 @@
     "vue": "^2.6.11",
     "fecha": "^4.2.1",
     "imask": "^6.0.7",
-    "lodash.orderby": "^4.6.0",
     "vue-clickaway": "^2.2.2",
     "sass": "^1.35.0",
     "sass-loader": "^10.1.1",
