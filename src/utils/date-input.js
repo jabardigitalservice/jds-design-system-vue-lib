@@ -1,6 +1,4 @@
-import IMask from 'imask/esm/imask' 
-import 'imask/esm/masked/regexp'
-import 'imask/esm/masked/date'
+import IMask from 'imask'
 
 import { format, parse } from 'fecha';
 
