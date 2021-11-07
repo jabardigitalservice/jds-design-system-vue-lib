@@ -1,11 +1,11 @@
 <template>
   <button 
-  :type="type"
   :class="[{
     'jds-button': true,
     'font-sans-1': true,
   }, classVariant]"
   v-on="$listeners"
+  v-bind="$attrs"
   >
     {{ label }}
     <!-- 
@@ -18,14 +18,6 @@
 export default {
   name: 'jds-button',
   props: {
-    /**
-     * The type for the button
-     * value is `button | submit`
-     */
-    type: {
-      type: String,
-      default: 'button'
-    },
     /**
      * The label for the button
      */
