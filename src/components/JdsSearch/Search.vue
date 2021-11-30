@@ -114,6 +114,13 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    /**
+     * clear value when submit / enter
+     */
+    autoClear:{
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -139,7 +146,9 @@ export default {
          * @param {string} value - updated bound model
          */
         this.$emit('submit', this.mValue)
-        this.clearInputValue()
+        if(this.autoClear){
+          this.clearInputValue()
+        }
       }
     },
 
