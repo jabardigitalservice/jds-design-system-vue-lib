@@ -37,6 +37,7 @@
         </slot>
       </span>
       <input
+        main-focus-element
         ref="inputEl"
         v-bind="inputAttributes"
         type="text"

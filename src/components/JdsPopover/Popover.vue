@@ -124,6 +124,18 @@ export default {
     getPopper() {
       return this.popperInstance
     },
+    isFocusingOnActivator () {
+      if (!document?.hasFocus()) {
+        return false
+      }
+      return this.$refs.activator.contains(document.activeElement)
+    },
+    focusOnActivator () {
+      const focusableElement = this.$refs.activator.querySelector('[main-focus-element]')
+      if (focusableElement instanceof HTMLElement) {
+        focusableElement.focus()
+      }
+    },
     /**
      * Open popper.
      * @public

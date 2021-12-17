@@ -1,5 +1,6 @@
 <template>
   <jds-popover
+    ref="popover"
     v-clickaway="onClickaway"
     :value="isDropdownOpen" 
     :options="popperOptions"
@@ -7,40 +8,45 @@
     @keydown.native="handleKeydown"
   >
     <template #activator>
-      <div :class="{
-        'jds-select font-sans-1': true,
-        'jds-select--opened': isDropdownOpen,
-        'jds-select--tile': tile,
-        'jds-select--disabled': disabled
-      }">
-        <jds-input-text
-          ref="inputText"
-          :value="`${selectedOptionLabel}`"
-          readonly
-          :disabled="disabled"
-          :label="label"
-          :placeholder="placeholder"
-          :helper-text="helperText"
-          :class="{
-            'jds-input-text--error': showErrorMsg
-          }"
-          @click.native="onInputClicked"
-        >
-          <template #suffix-icon>
-            <jds-icon
-              class="jds-select__trigger-icon"
-              name="chevron-down"
-              size="1em"
-              @click="onTriggerClicked"
-            />
-          </template>
-        </jds-input-text>
-        <jds-form-control-error-message
-          v-if="showErrorMsg && !isDropdownOpen"
-          class="jds-select__error-message">
-          {{ errorMessage }}
-        </jds-form-control-error-message>
-      </div>
+      <!--
+        @slot internal use only
+        @ignore
+      -->
+      <slot name="activator" v-bind="activatorSlotProps">
+        <div :class="{
+          'jds-select font-sans-1': true,
+          'jds-select--opened': isDropdownOpen,
+          'jds-select--tile': tile,
+          'jds-select--disabled': disabled
+        }">
+          <jds-input-text
+            :value="`${selectedOptionLabel}`"
+            readonly
+            :disabled="disabled"
+            :label="label"
+            :placeholder="placeholder"
+            :helper-text="helperText"
+            :class="{
+              'jds-input-text--error': showErrorMsg
+            }"
+            @click.native="onInputClicked"
+          >
+            <template #suffix-icon>
+              <jds-icon
+                class="jds-select__trigger-icon"
+                name="chevron-down"
+                size="1em"
+                @click="onTriggerClicked"
+              />
+            </template>
+          </jds-input-text>
+          <jds-form-control-error-message
+            v-if="showErrorMsg && !isDropdownOpen"
+            class="jds-select__error-message">
+            {{ errorMessage }}
+          </jds-form-control-error-message>
+        </div>
+      </slot>
     </template>
     <jds-options
       ref="optionsRef"
@@ -58,6 +64,7 @@
         filterType,
       }"
       :value="mValue"
+      :kbd-navigation="optionsKbdNavigation"
       @click:option="onOptionClicked"
       @change="onOptionsValueChanged"
       @change:filter="onOptionsFilterChanged"
@@ -142,6 +149,7 @@ export default {
       type: String,
       default: "label",
     },
+    // END: JdsOptions related props ========================================
 
     /**
      * Set header text
@@ -241,6 +249,26 @@ export default {
     disabled: {
       type: Boolean,
     },
+
+    /**
+     * Enable options navigation using keyboard arrows.
+     * One of:
+     * 
+     * - `always`
+     * <br>
+     * Enable navigation even when dropdown is closed.
+     * Should only be used when the activator is able
+     * to show the selected value(s) within itself,
+     * e.g InputText, Textarea, etc.
+     * 
+     * - `opened`
+     * <br>
+     * Enable navigation only when dropdown is opened.
+     */
+    optionsNavigation: {
+      type: String,
+      default: 'always'
+    }
   },
   data () {
     return {
@@ -254,6 +282,17 @@ export default {
     }
   },
   computed: {
+    activatorSlotProps () {
+      return {
+        on: {
+          click: this.toggleDropdown,
+        },
+        isOpened: this.isDropdownOpen,
+        open: this.openDropdown,
+        close: this.closeDropdown,
+        toggle: this.toggleDropdown,
+      }
+    },
     showLabel () {
       return isStringDefined(this.label)
     },
@@ -281,6 +320,12 @@ export default {
         return val === this.mValue 
       })
     },
+    optionsKbdNavigation () {
+      if(this.optionsNavigation === 'always') {
+        return true
+      }
+      return this.isDropdownOpen && this.optionsNavigation === 'opened'
+    }
   },
   watch: {
     disabled: {
@@ -332,7 +377,7 @@ export default {
       this.isDropdownOpen = false
       this.$nextTick(() => {
         if (retainFocus) {
-          this.focusOnSelectInputElement()
+          this.focusOnActivator()
         }
         if (this.filterPosition === 'input') {
           this.mFilter = null
@@ -348,7 +393,7 @@ export default {
       const isEnter = keyCode.isEnter(e)
       const isTab = keyCode.isTab(e)
       const isEscape = keyCode.isEscape(e)
-      const isFocusOnSelect = this.isFocusingOnSelectInputElement()
+      const isFocusOnActivator = this.isFocusingOnActivator()
       const shouldPreventDefault = isGoingUp
         || isGoingDown
         || isEnter
@@ -365,6 +410,9 @@ export default {
           // open options on Enter
           this.openDropdown()
         }
+        if (this.optionsNavigation === 'opened') {
+          return
+        }
         if (isGoingUp) {
           // auto select prev option on Arrow Up
           this.selectPreviousOption()
@@ -379,7 +427,7 @@ export default {
       // START: move focus to JdsOptions
       // when options is open and focus is on JdsSelect <input> element,
       // move focus to JdsOptions
-      const doMoveFocus = isFocusOnSelect
+      const doMoveFocus = isFocusOnActivator
         && (isGoingUp || isGoingDown)
       if (doMoveFocus) {
         if (this.currentOptionIndex >= 0) {
@@ -408,13 +456,11 @@ export default {
         this.closeDropdown({ retainFocus: true })
       }
     },
-    isFocusingOnSelectInputElement () {
-      // FIXME: find better way to check focus state
-      return document?.hasFocus()
-        && document.activeElement === this.$refs.inputText?.$refs.inputEl
+    isFocusingOnActivator () {
+      return this.$refs.popover.isFocusingOnActivator()
     },
-    focusOnSelectInputElement () {
-      this.$refs.inputText?.forceFocus?.()
+    focusOnActivator () {
+      return this.$refs.popover.focusOnActivator()
     },
     focusOnOptionsComponent () {
       this.$refs.optionsRef?.initFocus?.()
@@ -431,7 +477,7 @@ export default {
     // END: NAVIGATION
 
     onTriggerClicked () {
-      this.focusOnSelectInputElement()
+      this.focusOnActivator()
     },
 
     onInputClicked () {
