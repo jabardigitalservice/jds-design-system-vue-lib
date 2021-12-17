@@ -142,6 +142,7 @@ export default {
       type: String,
       default: "label",
     },
+    // END: JdsOptions related props ========================================
 
     /**
      * Set header text
