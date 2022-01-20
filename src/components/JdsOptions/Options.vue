@@ -340,9 +340,14 @@ export default {
     },
     // END: NAVIGATION
 
+
+    /**
+     * this is a bug when component jds option clicked same selected option then it emitting undefined value.
+     * it not the common behaviour of component option in general and make that problem.
+     */
     onClickOptionItem(option) {
       if (this.isOptionSelected(option)) {
-        this.resetSelectedOption()
+        this.resetSelectedOption() // this the problem
       } else {
         this.changeSelectedOption(option)
       }
